@@ -1,0 +1,1370 @@
+/* --- 1. Global Branding & Typography --- */
+.cursive-sub {
+    font-family: 'Brush Script MT', cursive;
+    color: #f37021;
+    font-size: 2.8rem;
+    margin-bottom: 0;
+}
+
+.section-main-title,
+.main-intro-title {
+    color: #001f3f;
+    font-weight: 800;
+    font-size: 3rem;
+    margin-top: -10px;
+}
+
+/* --- 2. Fixed & Floating Elements --- */
+.fixed-left-social {
+    position: fixed;
+    top: 70%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.float-icon {
+    width: 45px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    text-decoration: none !important;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.whatsapp {
+    background-color: #128c7e;
+}
+
+.call {
+    background-color: #3498db;
+}
+
+.float-icon:hover {
+    width: 55px;
+    padding-left: 10px;
+}
+
+/* --- 3. Header, Navigation & Top Bar --- */
+.top-bar {
+    background-color: #333 !important;
+    color: white !important;
+    height: 45px !important;
+    min-height: 45px !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    width: 100% !important;
+    z-index: 1060 !important;
+    overflow: hidden;
+}
+
+.notif-label {
+    background-color: #dc3545 !important;
+    color: white !important;
+    padding: 0 25px !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    font-weight: bold !important;
+    position: absolute !important;
+    left: 10% !important;
+    z-index: 10000 !important;
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+}
+
+.marquee-container {
+    width: 100% !important;
+    padding-left: 160px !important;
+}
+
+.navbar-sticky {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1020;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: navSlideDown 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes navSlideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.hamburger-icon span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: #003366;
+    border-radius: 9px;
+    transition: .25s ease-in-out;
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-icon span:nth-child(1) {
+    top: 10px;
+    transform: rotate(135deg);
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+    left: -40px;
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-icon span:nth-child(3) {
+    top: 10px;
+    transform: rotate(-135deg);
+}
+
+/* --- 4. Hero Slider & Bird Animation --- */
+.hero-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    z-index: 1;
+}
+
+.carousel-item img {
+    height: 700px;
+    /* Default Desktop Height */
+    object-fit: cover !important;
+    width: 100% !important;
+    display: block;
+}
+
+/* --- Control Buttons --- */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    display: none !important;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease-in-out !important;
+}
+
+.hero-wrapper:hover .carousel-control-next,
+.hero-wrapper:hover .carousel-control-prev {
+    opacity: 1 !important;
+}
+
+.control-round {
+    background-color: rgba(220, 53, 69, 0.85);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Bird Animation --- */
+.bird-container {
+    position: absolute;
+    top: 75%;
+    left: 40px;
+    width: 150px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+    animation: bird-float 4s ease-in-out infinite;
+}
+
+@keyframes bird-float {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-20px);
+    }
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+/* Tablets (iPad, etc.) */
+@media (max-width: 992px) {
+    .carousel-item img {
+        height: 500px;
+        /* Reduce height for tablets */
+    }
+
+    .bird-container {
+        width: 80px;
+        /* Make bird smaller */
+        height: 70px;
+        top: 70%;
+    }
+}
+
+/* Mobile Phones (Standard) */
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 400px;
+        /* Reduce height further for mobile */
+    }
+
+    .control-round {
+        width: 40px;
+        /* Smaller controls */
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .carousel-control-next,
+    .carousel-control-prev {
+        opacity: 0.8 !important;
+        /* Always show controls on touch screens */
+    }
+
+    .bird-container {
+        width: 60px;
+        height: 50px;
+        left: 20px;
+        top: 75%;
+    }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+    .carousel-item img {
+        height: 300px;
+        /* Compact height for small screens */
+    }
+
+    .bird-container {
+        display: none;
+        /* Optional: Hide bird on very small screens to reduce clutter */
+    }
+}
+
+/* --- 5. Who We Are: Liquid Animation --- */
+.who-we-are-section {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 80px 0;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.blob-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+/* Typography Overrides for Right Side Section */
+.cursive-sub {
+    font-family: 'Brush Script MT', cursive;
+    color: #dc3545 !important;
+    font-size: 3rem;
+    margin-bottom: 5px;
+}
+
+.main-intro-title1 {
+    color: #001f3f !important;
+    font-weight: 700;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.description-text {
+    color: #666666;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 600px;
+    text-align: justify;
+    font-weight: 500;
+}
+
+.hostel-note {
+    color: #888888;
+    font-size: 1rem;
+    display: block;
+    margin-top: 15px;
+}
+
+/* Feature Items: Numbered Circles */
+.feature-item {
+    margin-bottom: 10px;
+}
+
+.feature-num {
+    background-color: #dc3545 !important;
+    /* Red circle as per UI */
+    color: #ffffff !important;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.feature-label {
+    margin-bottom: 0;
+    font-weight: 700;
+    /* Bold labels in UI */
+    color: #333333;
+    font-size: 1rem;
+}
+
+/* Button: Solid Red to Match UI */
+.btn-read-more {
+    background-color: #dc3545 !important;
+    /* Solid Red from screenshot */
+    color: #ffffff !important;
+    padding: 14px 40px !important;
+    border-radius: 8px !important;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: none;
+    border: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-read-more:hover {
+    background-color: #001f3f !important;
+    /* Transitions to Navy on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+
+.liquid-shape {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    filter: url(#goo);
+}
+
+.liquid-1 {
+    background: #dc3545;
+    animation: liquidMove1 9s ease-in-out infinite;
+}
+
+.liquid-2 {
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    background: #fd7e14;
+    animation: liquidMove2 9s ease-in-out infinite;
+    opacity: 0.95;
+}
+
+.blob-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 95%;
+    height: 95%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.blob-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+@keyframes liquidMove1 {
+
+    0%,
+    100% {
+        border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+        transform: translate(0, 0);
+    }
+
+    25% {
+        border-radius: 60% 40% 30% 70% / 55% 60% 40% 45%;
+        transform: translate(15px, -20px);
+    }
+
+    50% {
+        border-radius: 30% 70% 55% 45% / 30% 30% 70% 70%;
+        transform: translate(-10px, 15px);
+    }
+
+    75% {
+        border-radius: 55% 45% 60% 40% / 70% 30% 70% 30%;
+        transform: translate(10px, 20px);
+    }
+}
+
+@keyframes liquidMove2 {
+
+    0%,
+    100% {
+        border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+        transform: translate(0, 0);
+    }
+
+    25% {
+        border-radius: 30% 70% 60% 40% / 40% 60% 40% 60%;
+        transform: translate(-20px, 15px);
+    }
+
+    50% {
+        border-radius: 60% 40% 30% 70% / 60% 40% 70% 30%;
+        transform: translate(15px, -15px);
+    }
+
+    75% {
+        border-radius: 40% 60% 70% 30% / 30% 70% 30% 70%;
+        transform: translate(-15px, -20px);
+    }
+}
+
+@media (max-width: 991px) {
+    .who-we-are-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .blob-wrapper {
+        max-width: 400px;
+        margin-bottom: 40px;
+    }
+
+    /* Responsive Scaling */
+    .main-intro-title {
+        font-size: 2.5rem;
+    }
+
+    .blob-wrapper {
+        max-width: 400px;
+        margin-bottom: 50px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .blob-wrapper {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 576px) {
+    .blob-wrapper {
+        max-width: 300px;
+    }
+
+    .who-we-are-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .feature-num {
+        margin-right: 8px;
+    }
+
+    .feature-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* --- 6. Stats Counter Section (Parallax) --- */
+
+.stats-counter-section {
+    position: relative;
+    padding: 100px 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/banner5.jpeg');
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.stat-card {
+    padding: 60px 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+}
+
+.stat-number {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.stat-blue {
+    background-color: rgba(91, 192, 222, 0.8);
+}
+
+.stat-yellow {
+    background-color: rgba(240, 173, 78, 0.8);
+}
+
+.stat-purple {
+    background-color: rgba(144, 103, 167, 0.8);
+}
+
+.stat-orange {
+    background-color: rgba(243, 112, 33, 0.8);
+}
+
+.stat-label1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 991px) {
+    .stat-number {
+        font-size: 2.9rem;
+    }
+}
+
+/* Security section Start Here */
+/* --- Security Section Base Styling --- */
+.security-section {
+    background-color: #ffffff;
+    padding: 80px 0;
+    overflow: hidden;
+}
+
+.security-section .cursive-sub {
+    font-family: 'Brush Script MT', cursive;
+    color: #f37021 !important;
+    font-size: 2.8rem;
+    margin-bottom: 5px;
+}
+
+.security-section .section-main-title {
+    color: #001f3f !important;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1.2;
+}
+
+.facilities-image-wrapper {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.facilities-image-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.facilities-full-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 600px;
+}
+
+@media (max-width: 991px) {
+    .security-section {
+        padding: 60px 0;
+    }
+
+    .security-section .section-main-title {
+        font-size: 2.5rem;
+    }
+
+    .facilities-image-wrapper {
+        max-width: 95%;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .security-section {
+        padding: 40px 0;
+    }
+
+    .security-section .cursive-sub {
+        font-size: 2.2rem;
+    }
+
+    .security-section .section-main-title {
+        font-size: 2rem;
+    }
+
+    .facilities-image-wrapper {
+        border-radius: 12px;
+        margin-top: 25px;
+    }
+}
+
+
+/* --- Latest Updates Section Styling --- */
+.updates-section {
+    background-color: #fffaf5;
+    padding: 80px 0;
+}
+
+/* Typography */
+.updates-section .cursive-sub {
+    font-family: 'Brush Script MT', cursive;
+    color: #f37021 !important;
+    font-size: 2.8rem;
+    margin-bottom: 5px;
+}
+
+.updates-section .section-main-title {
+    color: #001f3f !important;
+    font-weight: 800;
+    font-size: 3rem;
+}
+
+/* Card UI */
+.update-card {
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+/* IMAGE ZOOM EFFECT LOGIC */
+.update-img-box {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.update-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.update-card:hover .update-img-box img {
+    transform: scale(1.15);
+}
+
+/* Content Styling */
+.update-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.update-meta {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.update-meta .admin {
+    color: #f37021;
+    font-weight: 700;
+}
+
+.update-meta .date {
+    color: #f37021;/
+}
+
+.update-title {
+    color: #001f3f;
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    min-height: 60px;
+}
+
+.update-excerpt {
+    color: #777777;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* Button */
+.btn-read-more {
+    display: inline-block;
+    background-color: #f37021 !important;
+    color: #ffffff !important;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.btn-read-more:hover {
+    background-color: #001f3f !important;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(243, 112, 33, 0.3);
+}
+
+@media (max-width: 768px) {
+    .update-title {
+        min-height: auto;
+    }
+}
+
+/* --- 7. Facilities & Activities Section --- */
+/* Section Base */
+.facilities-activities-section {
+    position: relative;
+    overflow: hidden;
+    background-color: #fffaf5;
+    padding: 100px 0;
+    z-index: 1;
+}
+
+/* Facility Items */
+.facility-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.facility-item:hover {
+    transform: translateX(10px);
+}
+
+.facility-num {
+    min-width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-right: 25px;
+    border: 1px solid;
+    padding: 5px;
+    background-clip: content-box;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Color Coding */
+.num-01 { background-color: #f37021; }
+.num-02 { background-color: #ffccbc; color: #f37021; }
+.num-03 { background-color: #e0f2f1; color: #4db6ac; }
+.num-04 { background-color: #fce4ec; color: #f06292; }
+.num-05 { background-color: #fff9c4; color: #fbc02d; }
+.num-06 { background-color: #f3e5f5; color: #ba68c8; }
+
+.facility-num:hover {
+    background-color: #fff !important;
+    color: inherit !important;
+    border-color: currentColor !important;
+}
+
+/* Liquid Morph Animation */
+.morph-img-container {
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    border-radius: 62% 38% 52% 48% / 48% 60% 40% 52%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 0 0 6px #ffffff;
+    animation: liquidMorph 12s ease-in-out infinite alternate;
+}
+
+@keyframes liquidMorph {
+    0% { border-radius: 62% 38% 52% 48% / 48% 60% 40% 52%; }
+    33% { border-radius: 40% 60% 35% 65% / 55% 45% 55% 45%; }
+    66% { border-radius: 55% 45% 65% 35% / 40% 60% 35% 65%; }
+    100% { border-radius: 62% 38% 52% 48% / 48% 60% 40% 52%; }
+}
+
+/* Image Zoom (Ken Burns) */
+#carou img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border: 2px solid #001f3f;
+}
+
+/* .carousel-item.active img {
+    transform: scale(1);
+} */
+
+.morph-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 31, 63, 0.4), transparent 50%);
+    z-index: 1;
+}
+
+/* Pagination Dots */
+.custom-pagination {
+    bottom: 20px !important;
+    z-index: 10;
+}
+
+.custom-pagination button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background-color: #ffffff99 !important;
+    margin: 0 6px !important;
+    border: none !important;
+}
+
+.custom-pagination .active {
+    background-color: #f37021 !important;
+    transform: scale(1.3);
+}
+
+/* Responsive Handling */
+@media (max-width: 991px) {
+    .morph-img-container {
+        max-width: 400px;
+        margin: 40px auto;
+    }
+    .facility-item { justify-content: center; text-align: center; flex-direction: column; }
+    .facility-num { margin: 0 0 15px 0; }
+}
+
+
+/* --- Testimonials: Liquid Morphing UI --- */
+.testimonials-section {
+    background-color: #fffaf5;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+/* The Morphing Container */
+.testimonial-blob-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+}
+
+/* THE LIQUID ANIMATION */
+.testimonial-liquid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f37021;
+    /* Brand Orange */
+    z-index: 1;
+    animation: testimonialMorph 10s ease-in-out infinite;
+    opacity: 0.9;
+    /* This creates the liquid "blob" shape seen in the UI */
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+.testimonial-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 3;
+    border: 8px solid #ffffff;
+    /* White border from UI */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.car img {
+    width: 100%;
+    height: auto !important;
+    object-fit: cover;
+}
+
+/* Typography */
+.quote-text {
+    font-size: 1.6rem;
+    font-style: italic;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.personality-name {
+    color: #001f3f;
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.personality-title {
+    color: #001f3f;
+    font-weight: 600;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-right: 10%;
+}
+
+.control-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #f37021;
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background-color: #001f3f;
+    transform: scale(1.1);
+}
+
+/* LIQUID MORPH KEYFRAMES */
+@keyframes testimonialMorph {
+
+    0%,
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+}
+
+/* Responsive Scaling */
+@media (max-width: 991px) {
+    .testimonial-content {
+        text-align: center !important;
+        margin-top: 50px;
+    }
+
+    .carousel-controls {
+        justify-content: center;
+        padding-right: 0;
+    }
+}
+
+/* --- 8. Cards & Interactive Effects --- */
+.gallery-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-img-box {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.gallery-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gallery-card:hover img {
+    transform: scale(1.15);
+}
+
+
+/* --- Upcoming Events Section Logic --- */
+.events-parallax-section {
+    padding: 100px 0;
+    position: relative;
+    background-image: url('/img/banner5.jpeg');
+    background-attachment: fixed;
+    /* Maintains parallax effect */
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.events-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 31 63 / 42%);
+    z-index: -1;
+}
+
+/* Event Card UI --- */
+.event-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    /* Lift effect on hover */
+}
+
+/* Elements Scaling --- */
+.event-thumb {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+}
+
+.event-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.event-info {
+    flex-grow: 1;
+    padding-right: 15px;
+}
+
+.event-name {
+    color: #001f3f !important;
+    /* Brand Navy */
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.event-detail {
+    color: #666666 !important;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.event-detail i {
+    color: #f37021 !important;
+    /* Brand Orange Icons */
+    width: 20px;
+}
+
+/* Floating Date Components --- */
+.event-date {
+    text-align: center;
+    min-width: 80px;
+}
+
+.event-date .day {
+    color: #f37021 !important;
+    /* Large Orange Date */
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.event-date .month {
+    color: #f37021 !important;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    margin-top: -5px;
+}
+
+/* "More Events" Button --- */
+.btn-more-events {
+    display: inline-block;
+    background-color: #f37021;
+    /* Solid Orange */
+    color: #ffffff !important;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-more-events:hover {
+    background-color: #001f3f;
+    /* Transitions to Navy on hover */
+    transform: scale(1.05);
+}
+
+/* --- Responsive Fixes --- */
+@media (max-width: 768px) {
+    .event-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .event-info {
+        padding-right: 0;
+    }
+}
+
+
+
+/* --- Footer Section: Professional UI Logic --- */
+.footer-section {
+    color: #ffffff;
+    position: relative;
+    padding: 80px 0;
+    /* BACKGROUND IMAGE: Specific blueprint sketch from your screenshot */
+    background-image: url('/img/photoD.png');
+    background-attachment: fixed;
+    /* Keeps the background static while scrolling */
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* NAVY BLUE OVERLAY: Matches the deep tone in your screenshot */
+.footer-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 48, 86, 0.92);
+    z-index: -1;
+}
+
+.footer-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* TITLES: Bold White with Orange Underline */
+.footer-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 35px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 45px;
+    height: 3px;
+    background-color: #f37021;
+}
+
+/* CONTACT ITEMS: Icon + Label + Value */
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.contact-item i {
+    color: #f37021;
+    font-size: 1.2rem;
+    padding-top: 4px;
+}
+
+.contact-item .label {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.contact-item .val {
+    color: #cbd5e0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* SOCIAL LINKS: Orange circles */
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.social-links a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #f37021;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #ffffff;
+    color: #f37021;
+    transform: translateY(-5px);
+}
+
+/* MAP & THUMBNAIL LOGIC */
+.map-container {
+    position: relative;
+    width: 100%;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 320px;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.map-thumbnail {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    background: #ffffff;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    transition: all 0.4s ease;
+}
+
+.map-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.map-thumbnail:hover {
+    transform: scale(1.15) rotate(2deg);
+    cursor: pointer;
+}
+
+
+/* Modal */
+/* --- Admission Modal Styling & Jump Animation --- */
+.bg-orange {
+    background-color: #f37021 !important;
+}
+
+#admissionModal .modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* THE JUMP ANIMATION LOGIC */
+.modal.fade.jump-in .modal-dialog {
+    transform: scale(0.1);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+}
+
+.modal.show.jump-in .modal-dialog {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Extra bounce effect for the image */
+@keyframes modalBounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.jump-trigger {
+    animation: modalBounce 1s ease;
+}
+
+#imgf img {
+    padding-bottom: 30px;
+}

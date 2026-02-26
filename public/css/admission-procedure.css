@@ -1,0 +1,78 @@
+p{
+        margin-bottom: 15px;
+    line-height: 1.8;
+    color: #6b6b84;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    text-align: justify;
+}
+
+table {
+    width: 100% !important;
+    border: none !important;
+    caption-side: bottom;
+    border-collapse: collapse;
+}
+
+
+
+/* Admission Form  */
+/* --- Admission Form UI --- */
+
+.admission-form-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.form-card {
+    background: #ffffff;
+    border-radius: 20px; /* Consistent with Member cards */
+    border: none;
+    overflow: hidden;
+}
+
+.form-header {
+    background-color: #001f3f; /* Brand Navy */
+    padding: 30px;
+    color: white;
+}
+
+.school-navy { color: #ffffff !important; font-weight: 800; }
+.school-orange { color: #f37021 !important; font-weight: 600; font-size: 1.2rem; }
+
+/* Focus Effects */
+.form-control:focus, .form-select:focus {
+    border-color: #f37021;
+    box-shadow: 0 0 0 0.25rem rgba(243, 112, 33, 0.25);
+}
+
+/* Submit Button */
+.btn-submit-school {
+    background-color: #f37021; /* Brand Orange */
+    color: white;
+    padding: 12px 0;
+    font-weight: 700;
+    border-radius: 50px;
+    border: 2px solid #f37021;
+    transition: all 0.3s ease;
+}
+
+.btn-submit-school:hover {
+    background-color: #001f3f; /* Hover to Navy */
+    border-color: #001f3f;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 31, 63, 0.3);
+}
+
+/* Admission Type Selection */
+.btn-outline-primary {
+    color: #001f3f;
+    border-color: #001f3f;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    background-color: #001f3f;
+    border-color: #001f3f;
+}

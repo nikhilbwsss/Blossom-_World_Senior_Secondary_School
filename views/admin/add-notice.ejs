@@ -1,0 +1,121 @@
+<% layout("layouts/admin-layout") %>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-navy-gradient text-white p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="bi bi-megaphone-fill me-2"></i> Post New Notice</h4>
+                        <span class="badge bg-white text-navy px-3 py-2 rounded-pill">Admin Portal</span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form action="/admin/notices/add" method="POST" enctype="multipart/form-data" id="noticeForm">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-navy">Notice Title <span class="text-danger">*</span></label>
+                            <input type="text" name="title" class="form-control form-control-lg border-2 shadow-sm" 
+                                   placeholder="e.g., Final Term Exam Schedule 2026" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-navy">Category</label>
+                                <select name="category" class="form-select border-2 shadow-sm">
+                                    <option value="General" selected>General Notice</option>
+                                    <option value="Urgent">Urgent Circular</option>
+                                    <option value="Exam">Examination</option>
+                                    <option value="Holiday">Holiday/Break</option>
+                                    <option value="Event">School Event</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-navy">Upload PDF Circular</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-2"><i class="bi bi-file-pdf text-danger"></i></span>
+                                    <input type="file" id="noticePdf" name="noticePdf" class="form-control border-2 shadow-sm" accept=".pdf">
+                                </div>
+                                <div class="form-text mt-2">
+                                    <i class="bi bi-info-circle-fill text-orange me-1"></i> Max size: <strong>10MB</strong>. Only PDF files are permitted.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 p-3 rounded-4 border-2 bg-light-orange d-flex align-items-center justify-content-between">
+                            <div class="me-3">
+                                <h6 class="mb-1 fw-bold text-navy"><i class="bi bi-pin-angle-fill me-1"></i> Pin to Top</h6>
+                                <p class="small text-muted mb-0">Feature this notice at the very top of the list for all parents.</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input custom-switch" type="checkbox" name="isPinned" id="pinSwitch">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-navy">Short Description</label>
+                            <textarea name="description" class="form-control border-2 shadow-sm" rows="4" 
+                                      placeholder="Briefly explain the notice content for parents..."></textarea>
+                        </div>
+
+                        <div class="border-top pt-4 mt-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                            <div class="text-muted small">
+                                <i class="bi bi-calendar-check me-1"></i> Automatic Timestamp: <strong><%= new Date().toLocaleDateString() %></strong>
+                            </div>
+                            <div class="d-flex gap-2 w-100 w-md-auto">
+                                <a href="/admin/dashboard" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                                <button type="submit" class="btn btn-primary-tuis rounded-pill px-5 flex-grow-1">
+                                    <i class="bi bi-cloud-upload me-2"></i> Publish Notice
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy-gradient { background: linear-gradient(45deg, #001f3f, #003366); }
+    .text-navy { color: #001f3f; }
+    .text-orange { color: #f37021; }
+    .border-2 { border-width: 2px !important; }
+    .bg-light-orange { background-color: #fff9f5; border: 1px dashed #f37021; }
+    
+    .btn-primary-tuis { 
+        background-color: #f37021; 
+        color: white; 
+        border: none; 
+        font-weight: 600; 
+        transition: 0.3s; 
+    }
+    .btn-primary-tuis:hover { 
+        background-color: #d65d1a; 
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(243, 112, 33, 0.4);
+        color: white;
+    }
+
+    .custom-switch { width: 3em !important; height: 1.5em !important; cursor: pointer; }
+    .custom-switch:checked { background-color: #f37021; border-color: #f37021; }
+</style>
+
+<script>
+    const pdfInput = document.getElementById('noticePdf');
+    pdfInput.addEventListener('change', function() {
+        if (this.files[0]) {
+            const size = this.files[0].size / 1024 / 1024; // Convert to MB
+            if (size > 10) {
+                alert("File too large! Please upload a PDF smaller than 10MB.");
+                this.value = "";
+            }
+            if (this.files[0].type !== "application/pdf") {
+                alert("Invalid format! Only PDF files are allowed.");
+                this.value = "";
+            }
+        }
+    });
+</script>

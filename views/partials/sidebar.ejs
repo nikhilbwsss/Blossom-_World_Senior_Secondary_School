@@ -1,0 +1,63 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark h-100">
+    <a href="/admin/dashboard"
+        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <i class="bi bi-shield-check-fill me-2 fs-4"></i>
+        <span class="fs-5 fw-bold">BWSSS Admin</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/admin/dashboard"
+                class="nav-link text-white d-flex justify-content-between align-items-center <%= currentPage === 'dashboard' ? 'active bg-primary' : '' %>">
+                <span>
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Admission Overview
+                </span>
+
+                <% if (typeof pendingCount !=='undefined' && pendingCount> 0) { %>
+                    <span class="badge rounded-pill bg-danger" title="<%= pendingCount %> Pending Applications">
+                        <%= pendingCount %>
+            </a>
+            <% } %>
+                </a>
+        </li>
+        <li class="nav-item">
+            <a href="/admin/readmissions"
+                class="nav-link text-white <%= currentPage === 'readmissions' ? 'active bg-primary' : '' %>">
+                <i class="bi bi-arrow-repeat me-2"></i> Re-Admissions
+            </a>
+        </li>
+        <li>
+            <a href="/admin/fee-settings"
+                class="nav-link text-white <%= currentPage === 'fee-settings' ? 'active bg-primary' : '' %>">
+                <i class="bi bi-cash-stack me-2"></i> Fee Settings
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/admin/notices" class="nav-link text-white <%= currentPage === 'notices' ? 'active bg-primary' : '' %>">
+                <i class="bi bi-card-list me-2"></i> Manage Notices
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/notices/new">
+                <i class="bi bi-plus-circle me-2"></i> Add New Notice
+            </a>
+        </li>
+        <li>
+            <a href="/admin/students" class="nav-link text-white">
+                <i class="bi bi-people me-2"></i> All Students
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
+            data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle me-2"></i>
+            <strong>Principal</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+            <li><a class="dropdown-item" href="/admin/logout">Sign out</a></li>
+        </ul>
+    </div>
+</div>

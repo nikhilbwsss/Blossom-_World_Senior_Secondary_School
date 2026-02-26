@@ -1,0 +1,437 @@
+/* --- Dual Sea Wave Logic --- */
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-banner {
+    position: relative;
+    width: 100%;
+    /* Responsive Height: Minimum 250px, scales with screen, Max 450px */
+    height: clamp(250px, 50vh, 450px); 
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cfe6fb;
+}
+
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(190, 220, 245, 0.6); /* Slightly reduced for better mobile clarity */
+    z-index: 1;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 20; /* High z-index to stay above all waves */
+    text-align: center;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.banner-title {
+    font-size: clamp(1.8rem, 5vw, 3.5rem); /* Fluid font size */
+    font-weight: 800;
+    color: #001f3f;
+    margin-bottom: 10px;
+}
+
+/* --- Waves System --- */
+.banner-wave {
+    position: absolute;
+    bottom: -5px; 
+    width: 200%; 
+    height: clamp(60px, 15vh, 120px); 
+    z-index: 5;
+    will-change: transform;
+    pointer-events: none; 
+}
+
+/* Front wave */
+.wave-front {
+    fill: #ffffff;
+    z-index: 15;
+    animation: seaFlow 10s linear infinite;
+}
+
+.wave-mid {
+    fill: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    animation: seaFlow 15s linear infinite reverse;
+    opacity: 0.6;
+}
+
+.wave-back {
+    fill: rgba(255, 255, 255, 0.3);
+    z-index: 8;
+    animation: seaFlow 20s linear infinite;
+    opacity: 0.3;
+    filter: blur(1px);
+}
+
+/* Optimized Animation for all devices */
+@keyframes seaFlow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.banner-motion {
+    position: absolute;
+    inset: 0;
+    background-image: url("/img/background_banner.jpeg");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+
+/* --- MOBILE SPECIFIC OVERRIDES --- */
+@media (max-width: 768px) {
+    .page-banner {
+        height: 300px; /* Specific height for tablets/large phones */
+    }
+    .banner-wave {
+        height: 70px; /* Thinner waves on small screens to avoid covering text */
+    }
+    .breadcrumb {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-banner {
+        height: 250px;
+    }
+    .banner-title {
+        margin-top: -30px; /* Nudges title up away from the waves */
+    }
+}
+
+
+/* --- Liquid Sea-Water Image UI --- */
+/* --- Desktop Styles (Original) --- */
+.who-we-are-section {
+    padding: 100px 0;
+    overflow-x: hidden; /* Prevents horizontal scroll from blob animation */
+}
+
+.blob-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1/1;
+    margin: 0 auto;
+}
+
+.liquid-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: waterMorph 8s ease-in-out infinite;
+    z-index: 1;
+}
+
+.layer-1 { background: #ea512e }
+.layer-2 { background: #f37021; opacity: 0.4; animation-delay: -4s; }
+
+.blob-img {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 90%; height: 90%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 3;
+    border: 10px solid #ffffff;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    /* animation: buoyancy 5s ease-in-out infinite;  */
+}
+
+.blob-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.cursive-sub {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.1rem; 
+}
+
+.main-intro-title1 {
+    color: #001f3f !important;
+    font-weight: 500;
+    font-size: 2.8rem;
+    line-height: 1.2;
+}
+
+.description-text {
+    color: #555555;
+    line-height: 1.7;
+    text-align: justify;
+    font-weight: 400;
+}
+
+.full-width-text {
+    max-width: 100% !important;
+    width: 100%;
+    margin-top: 20px;
+    text-align: justify; 
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Tablets (max-width: 991px) */
+@media (max-width: 991px) {
+    .who-we-are-section {
+        padding: 60px 0;
+    }
+    
+    .blob-wrapper {
+        max-width: 400px; /* Shrink blob for tablet view */
+        margin-top: 40px;
+    }
+    
+    .cursive-sub {
+        font-size: 2.1rem;
+    }
+    
+    .main-intro-title1 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Mobile Phones (max-width: 767px) */
+@media (max-width: 767px) {
+    .who-we-are-section {
+        text-align: center; /* Center text for easier mobile reading */
+        padding: 40px 0;
+    }
+    
+    .blob-wrapper {
+        max-width: 320px; /* Small blob for small screens */
+        margin-bottom: 30px;
+    }
+    
+    .cursive-sub {
+        font-size: 2.2rem;
+    }
+    
+    .main-intro-title1 {
+        font-size: 1.8rem;
+    }
+    
+    .description-text {
+        text-align: center; /* Justified text can look messy on very narrow screens */
+        font-size: 1rem;
+    }
+
+    .full-width-text {
+        text-align: center;
+    }
+}
+
+/* ANIMATIONS */
+@keyframes waterMorph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+@keyframes buoyancy {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-20px); }
+}
+
+
+/* --- Founding Members UI --- */
+
+.sub-text-orange {
+    color: #f37021; /* Brand Orange */
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.main-title-navy {
+    color: #001f3f; /* Brand Navy */
+    font-weight: 800;
+    font-size: 2.8rem;
+}
+
+/* Member Card Styling */
+.member-card {
+    position: relative;
+    border-radius: 25px; /* Large rounded corners */
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #f8f9fa;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.member-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* The Ps Badge */
+.member-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #001f3f;
+    color: #00a8ff; /* Light blue Ps color */
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    z-index: 5;
+}
+
+/* Hover Overlay Logic */
+.member-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 40%, rgba(0, 31, 63, 0.85)); /* Gradient reveal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.4s ease;
+    padding: 20px;
+    z-index: 2;
+}
+
+.member-info h3 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.member-info p {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 400;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.1s;
+}
+
+/* HOVER EFFECTS */
+.member-card:hover .member-overlay {
+    opacity: 1;
+}
+
+.member-card:hover .member-info h3,
+.member-card:hover .member-info p {
+    transform: translateY(0);
+}
+
+.member-card:hover img {
+    transform: scale(1.1); /* Subtle zoom on hover */
+}
+
+
+
+/* --- Partner Logo Slider Logic --- */
+
+.partner-section {
+    background-color: #ffffff;
+    padding: 60px 0;
+    overflow: hidden; /* Critical: Hides logos outside the container */
+}
+
+.logo-slider-wrapper {
+    width: 100%;
+    position: relative;
+    padding: 20px 0;
+}
+
+.logo-track {
+    display: flex;
+    width: calc(250px * 10); /* Total width of all logos (original + duplicates) */
+    animation: logoScroll 30s linear infinite; /* Adjust '30s' to change speed */
+}
+
+.logo-item {
+    width: 250px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo-item img {
+    max-width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.logo-item img:hover {
+    filter: grayscale(0%); /* Colors on hover */
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* INFINITE SCROLL ANIMATION */
+@keyframes logoScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-250px * 5)); /* Moves exactly by the original set width */
+    }
+}
+
+/* Pause on hover for better user experience */
+.logo-slider-wrapper:hover .logo-track {
+    animation-play-state: paused;
+}
+
+
+/* --- Video Section Styling --- */
+/* --- Full Width Video Fix (Original) --- */
+.video-section-full {
+    width: 100%;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    overflow: hidden; 
+}
+
+.video-container-full {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-bottom: 35%; /* Cinematic slim height for Desktop */
+    height: 0;
+}
+
+.video-container-full iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- RESPONSIVE FIX FOR MOBILE --- */
+@media (max-width: 767px) {
+    .video-section-full {
+        margin-top: 40px; /* Reduce spacing on mobile */
+        margin-bottom: 30px;
+    }
+
+    .video-container-full {
+        /* On mobile, increase height to 16:9 so it's easier to watch */
+        padding-bottom: 56.25%; 
+    }
+}

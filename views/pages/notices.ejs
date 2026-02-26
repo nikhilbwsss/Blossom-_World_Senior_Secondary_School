@@ -1,0 +1,288 @@
+<% layout("layouts/boilerplate") %>
+
+<section class="notices-section py-5 bg-white">
+    <div class="notice-header-gradient mb-5">
+        <div class="container">
+            <div class="row align-items-center" data-aos="fade-up">
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="badge bg-orange-soft text-orange px-3 py-2 rounded-pill fw-bold">
+                            <i class="bi bi-megaphone-fill me-2"></i>LATEST UPDATES
+                        </span>
+                    </div>
+                    <h2 class="display-5 fw-bold text-navy mb-3">Notices & <span class="text-orange">Circulars</span></h2>
+                    <p class="lead text-muted">Stay informed with real-time academic announcements and official school updates.</p>
+                </div>
+                
+                <div class="col-lg-5">
+                    <div class="search-wrapper">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" id="noticeSearch" class="form-control premium-search" 
+                               placeholder="Search for exam, holidays, events...">
+                        <div class="search-shimmer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row g-4" id="noticeContainer">
+            <% if (notices && notices.length > 0) { %>
+                <% notices.forEach(notice => { %>
+                    <div class="col-12 notice-item" data-title="<%= notice.title.toLowerCase() %>" data-aos="fade-up">
+                        <div class="premium-notice-card <%= notice.isPinned ? 'is-pinned' : '' %> <%= notice.category === 'Urgent' ? 'is-urgent' : '' %>">
+                            
+                            <% if (notice.isPinned) { %>
+                                <div class="premium-pin">
+                                    <i class="bi bi-pin-angle-fill"></i> PINNED
+                                </div>
+                            <% } %>
+
+                            <div class="card-layout">
+                                <div class="date-side">
+                                    <div class="date-box-modern">
+                                        <span class="day"><%= notice.createdAt.getDate() %></span>
+                                        <span class="month"><%= notice.createdAt.toLocaleString('en-us', { month: 'short' }) %></span>
+                                        <div class="date-year"><%= notice.createdAt.getFullYear() %></div>
+                                    </div>
+                                </div>
+
+                                <div class="content-side">
+                                    <div class="meta-tags mb-2">
+                                        <% 
+                                            let catClass = 'cat-general';
+                                            if(notice.category === 'Urgent') catClass = 'cat-urgent';
+                                            if(notice.category === 'Holiday') catClass = 'cat-holiday';
+                                            if(notice.category === 'Exam') catClass = 'cat-exam';
+                                            if(notice.category === 'Event') catClass = 'cat-event';
+                                        %>
+                                        <span class="category-tag <%= catClass %>"><%= notice.category %></span>
+                                        <span class="time-tag"><i class="bi bi-clock me-1"></i> <%= notice.createdAt.toLocaleDateString('en-GB') %></span>
+                                    </div>
+                                    
+                                    <h3 class="notice-title text-navy"><%= notice.title %></h3>
+                                    <p class="notice-desc"><%= notice.description %></p>
+                                </div>
+
+                                <div class="action-side">
+                                    <% if (notice.pdfUrl) { %>
+                                        <a href="/updates/notices/<%= notice._id %>/view" target="_blank" class="btn-download">
+                                            <div class="icon-circle"><i class="bi bi-file-earmark-pdf"></i></div>
+                                            <span class="btn-text">View PDF</span>
+                                        </a>
+                                    <% } else { %>
+                                        <div class="text-only-badge">
+                                            <i class="bi bi-info-circle"></i>
+                                            <span>Text Only</span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="col-12 text-center py-5">
+                    <div class="empty-state-card">
+                        <div class="empty-icon-wrapper">
+                            <i class="bi bi-clipboard2-x"></i>
+                        </div>
+                        <h3>No Notices Found</h3>
+                        <p>We're all caught up! Check back later for new updates.</p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="text-center mt-5 py-4">
+            <a href="/about/notices/archive" class="btn-archive">
+                <span>Access Archive Records</span>
+                <i class="bi bi-arrow-right-short"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    :root {
+        --navy: #001f3f;
+        --orange: #f37021;
+        --orange-soft: rgba(243, 112, 33, 0.1);
+        --urgent: #ef4444;
+        --shadow: 0 10px 30px rgba(0, 31, 63, 0.05);
+    }
+
+    .notices-section { background-color: #fbfcfd; }
+    .text-orange { color: var(--orange); }
+    .text-navy { color: var(--navy); }
+
+    /* Search UI */
+    .search-wrapper { position: relative; z-index: 1; }
+    .premium-search {
+        border: 2px solid #edf2f7 !important;
+        border-radius: 16px !important;
+        padding: 1.2rem 1.2rem 1.2rem 3.5rem !important;
+        font-size: 1rem;
+        transition: all 0.3s border-box;
+        box-shadow: var(--shadow);
+    }
+    .premium-search:focus {
+        border-color: var(--orange) !important;
+        box-shadow: 0 0 0 4px var(--orange-soft);
+    }
+    .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--orange);
+        font-size: 1.2rem;
+    }
+
+    /* Notice Card UI */
+    .premium-notice-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #f1f4f8;
+        padding: 1.5rem;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: var(--shadow);
+    }
+    .premium-notice-card:hover {
+        transform: translateY(-5px) scale(1.005);
+        box-shadow: 0 20px 40px rgba(0, 31, 63, 0.08);
+        border-color: var(--orange-soft);
+    }
+
+    /* Card States */
+    .is-urgent { border-left: 6px solid var(--urgent) !important; }
+    .is-pinned { background: linear-gradient(to right, #fff9f5, #ffffff); border: 1.5px solid var(--orange-soft); }
+    
+    .premium-pin {
+        position: absolute;
+        top: -12px;
+        right: 30px;
+        background: var(--orange);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 8px;
+        letter-spacing: 1px;
+    }
+
+    .card-layout {
+        display: grid;
+        grid-template-columns: 80px 1fr 180px;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    /* Date Box */
+    .date-box-modern {
+        text-align: center;
+        background: var(--navy);
+        color: white;
+        padding: 12px 10px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+    .date-box-modern .day { font-size: 1.8rem; font-weight: 800; }
+    .date-box-modern .month { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--orange); }
+    .date-box-modern .date-year { font-size: 0.65rem; opacity: 0.6; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px; }
+
+    /* Category Tags */
+    .category-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 6px;
+        text-transform: uppercase;
+    }
+    .cat-urgent { background: #fee2e2; color: #dc2626; }
+    .cat-holiday { background: #fef3c7; color: #92400e; }
+    .cat-exam { background: #e0f2fe; color: #0369a1; }
+    .cat-event { background: #dcfce7; color: #15803d; }
+    .cat-general { background: #f1f5f9; color: #475569; }
+
+    .time-tag { font-size: 0.8rem; color: #94a3b8; margin-left: 10px; }
+
+    .notice-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .notice-desc { font-size: 0.95rem; color: #64748b; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    /* Action Button */
+    .btn-download {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        padding: 10px 15px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--navy);
+        font-weight: 700;
+        transition: 0.3s;
+        border: 1px solid #e2e8f0;
+    }
+    .btn-download:hover {
+        background: var(--navy);
+        color: white;
+        border-color: var(--navy);
+    }
+    .icon-circle {
+        width: 32px;
+        height: 32px;
+        background: var(--orange-soft);
+        color: var(--orange);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+
+    .text-only-badge {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    /* Archive Link */
+    .btn-archive {
+        text-decoration: none;
+        color: var(--navy);
+        font-weight: 800;
+        font-size: 1rem;
+        border-bottom: 2px solid var(--orange);
+        padding-bottom: 5px;
+        transition: 0.3s;
+    }
+    .btn-archive:hover { color: var(--orange); letter-spacing: 0.5px; }
+
+    @media (max-width: 992px) {
+        .card-layout { grid-template-columns: 70px 1fr; gap: 1.5rem; }
+        .action-side { grid-column: 1 / -1; border-top: 1px solid #f1f5f9; pt: 1rem; display: flex; justify-content: flex-start; }
+    }
+</style>
+
+<script>
+    document.getElementById('noticeSearch').addEventListener('input', function(e) {
+        const term = e.target.value.toLowerCase();
+        const items = document.querySelectorAll('.notice-item');
+        
+        items.forEach(item => {
+            const title = item.getAttribute('data-title');
+            if (title.includes(term)) {
+                item.style.display = 'block'; // Cleaner than d-none
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>

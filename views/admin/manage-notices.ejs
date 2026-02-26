@@ -1,0 +1,103 @@
+<% layout("layouts/admin-layout") %>
+
+<div class="container-fluid py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold text-navy mb-1">Manage Notices</h2>
+            <p class="text-muted mb-0">Total Notices Published: <span class="badge bg-navy"><%= allNotices.length %></span></p>
+        </div>
+        <a href="/admin/notices/new" class="btn btn-primary-tuis rounded-pill px-4">
+            <i class="bi bi-plus-lg me-2"></i> Post New Notice
+        </a>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 bg-light-orange">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-orange text-white rounded-3 p-3 me-3">
+                        <i class="bi bi-pin-angle-fill"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-muted">Pinned</h6>
+                        <h4 class="mb-0 fw-bold"><%= allNotices.filter(n => n.isPinned).length %></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3">Notice Detail</th>
+                        <th class="py-3">Category</th>
+                        <th class="py-3 text-center">Pin Status</th>
+                        <th class="py-3 text-center">Attachment</th>
+                        <th class="py-3 text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (allNotices && allNotices.length > 0) { %>
+                        <% allNotices.forEach(notice => { %>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-navy"><%= notice.title %></div>
+                                    <div class="small text-muted">
+                                        <i class="bi bi-calendar3 me-1"></i> <%= notice.createdAt.toLocaleDateString() %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark border rounded-pill px-3">
+                                        <%= notice.category %>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <form action="/admin/notices/<%= notice._id %>/toggle-pin" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm <%= notice.isPinned ? 'btn-orange' : 'btn-outline-secondary' %> rounded-pill px-3">
+                                            <i class="bi <%= notice.isPinned ? 'bi-pin-angle-fill' : 'bi-pin-angle' %> me-1"></i>
+                                            <%= notice.isPinned ? 'Pinned' : 'Pin' %>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="text-center">
+                                    <% if(notice.pdfUrl) { %>
+                                        <a href="<%= notice.pdfUrl %>" target="_blank" class="text-danger fs-5">
+                                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                                        </a>
+                                    <% } else { %>
+                                        <span class="text-muted small">None</span>
+                                    <% } %>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <form action="/admin/notices/<%= notice._id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this notice and its file?');">
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                            <i class="bi bi-trash me-1"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">No notices found. Start by posting one!</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-navy { color: #001f3f; }
+    .bg-navy { background-color: #001f3f; color: #fff; }
+    .btn-orange { background-color: #f37021; color: white; border: none; }
+    .btn-orange:hover { background-color: #d65d1a; color: white; }
+    .btn-outline-navy { border-color: #001f3f; color: #001f3f; }
+    .btn-primary-tuis { background-color: #f37021; color: white; border: none; font-weight: 600; }
+    .bg-light-orange { background-color: #fff9f5; }
+    .bg-orange { background-color: #f37021; }
+</style>

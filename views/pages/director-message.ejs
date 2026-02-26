@@ -1,0 +1,119 @@
+<% layout("layouts/boilerplate") %>
+    <section class="page-banner">
+        <div class="banner-motion"></div>
+        <div class="banner-overlay"></div>
+
+        <div class="container text-center banner-content">
+            <h2 class="banner-title" data-aos="fade-down">Secretary Message</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">message/secretary</li>
+                </ol>
+            </nav>
+        </div>
+
+        <svg class="banner-wave wave-back" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-mid" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-front" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+    </section>
+
+<section class="director-message-section py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7 order-2 order-lg-1" data-aos="fade-up">
+                <div class="director-content">
+                    <h4 class="cursive-sub text-navy">Foundation & Vision</h4>
+                    <h2 class="section-main-title mb-4 text-orange">A Vision for Future Leaders</h2>
+
+                    <p class="director-lead mb-4">
+                        "At Blossom World Senior Secondary School, our vision goes beyond building an institution; it is about nurturing values, knowledge, and confidence that guide students throughout their lives."
+                    </p>
+
+                    <div class="director-text">
+                        <p>
+                           Blossom World Senior Secondary School is opened with this ideology to nourish and nurture the potential of individuals to the extent of perfection. Here we Endeavour to spread the light of education all around. It is our earnest effort to make Blossom World Senior Secondary School (BWSSS), a school with a difference and a school missioned to impart excellence in individuals and prepare world class citizens, professionals, leader, bureaucrats and intellectuals.
+                        </p>
+
+                        <div id="moreTextDirector" style="display: none;">
+                            <p>
+                                We lay focus on all around development of a child where he will be physically strong and mentally healthy. Instead of making him contended with what he has learnt, we intensify their desire to learn more and more. This process of giving and taking education should never stop. British Prime minister Tony Blair, when asked about his three priorities of the government, said “Education, Education and Education.” This statement reveals a statesman’s worry for the present and the future. It is aphoristic rather figurative. He knows very well how important a role education plays in building an individual’s as well as a nation.
+                            </p>
+                            <p>
+                                We at BWSSS aim at fostering that type of education which can develop our students capability to enhance maximize our composite culture, strengthen integrated India and peaceful world. The Management, Parents, Students and the Teaching Faternity of our school are a Team and complement each other’s efforts. We understand that Education is not just a process of giving knowledge for a high profiled job but a lifelong process which creates an understanding of moral and ethical values to guide and make our students morally upright citizens of the country.
+                            </p>
+                            <p>
+                                Therefore, we try to create an atmosphere of reverence for education and a healthy environment where academics, sports and co-curricular Facilities mould our students and motivate them to be the brightest and the best. In order to do this, the school works towards inculcating certain values in the students in order to enrich their mind and spirit and also to develop essential mortal attributes like truthfulness, courtesy, generosity, compassion, justice, love and trustworthiness in them.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button onclick="toggleDirectorMore()" id="directorBtn" class="btn btn-link text-orange fw-bold p-0 text-decoration-none">
+                            Read More <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="director-footer d-flex align-items-center mt-5">
+                        <div class="director-sign-box me-4">
+                            <h5 class="fw-bold mb-0">Secretary</h5>
+                            <p class="text-muted small">Blossom World Sr. Sec. School</p>
+                        </div>
+                        <div class="divider-vertical"></div>
+                        <div class="director-contact ms-4">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 order-1 order-lg-2" data-aos="zoom-in">
+                <div class="director-img-frame">
+                    <div class="director-blob-background"></div>
+                    <img src="https://plus.unsplash.com/premium_photo-1690395794791-e85944b25c0f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Director of BWSSS" class="img-fluid director-photo">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleDirectorMore() {
+        const moreText = document.getElementById("moreTextDirector");
+        const btnText = document.getElementById("directorBtn");
+
+        if (moreText.style.display === "none") {
+            moreText.style.display = "block";
+            btnText.innerHTML = 'Read Less <i class="bi bi-chevron-up ms-1"></i>';
+        } else {
+            moreText.style.display = "none";
+            btnText.innerHTML = 'Read More <i class="bi bi-chevron-down ms-1"></i>';
+        }
+    }
+</script>
+
+<style>
+    .text-navy { color: #001f3f; }
+    .text-orange { color: #f37021; }
+    .divider-vertical {
+        width: 1px;
+        height: 40px;
+        background-color: #dee2e6;
+    }
+    #directorBtn:hover { color: #d65a12; }
+    .director-text p { line-height: 1.7; margin-bottom: 1rem; }
+</style>

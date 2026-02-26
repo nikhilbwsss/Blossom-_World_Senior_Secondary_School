@@ -1,0 +1,117 @@
+<% layout("layouts/boilerplate") %>
+    <section class="page-banner">
+        <div class="banner-motion"></div>
+        <div class="banner-overlay"></div>
+
+        <div class="container text-center banner-content">
+            <h2 class="banner-title" data-aos="fade-down">Chairman Message</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">/message/chairman</li>
+                </ol>
+            </nav>
+        </div>
+
+        <svg class="banner-wave wave-back" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-mid" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-front" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+    </section>
+    
+    <section class="chairman-section py-5 position-relative overflow-hidden">
+    <div class="chairman-bg-accent"></div>
+    
+    <div class="container py-lg-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5" data-aos="fade-up">
+                <div class="chairman-img-wrapper">
+                    <img src="https://plus.unsplash.com/premium_photo-169070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chairman of DET" class="img-fluid chairman-photo">
+                    <div class="founder-seal">
+                        <i class="bi bi-award-fill"></i>
+                        <span>Founder</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="chairman-content card border-0 shadow-lg p-4 p-md-5">
+                    <h4 class="cursive-sub text-orange">Foundation & Legacy</h4>
+                    <h2 class="section-main-title mb-4">Message From Our Chairman</h2>
+                    
+
+                    <div class="chairman-body-text">
+                        <p>
+                           Take our greetings. Success is when you know you have worked with a smile towards achieving your potential and the end of it all you stand apart from the crowd breaking the monotony of life, with all eyes set on you. I am happy to announce that we will grow year by year in strength and quality because we sincerely believe that success is not what you have in bank, it is what you have in heart.
+                        </p>
+
+                        <div id="moreText" style="display: none;">
+                            <p>
+                                Focussing on the outlook for 21st century, we see that education needs to respond to the changing needs of the student community. We need to foster and develop usage of cross disciplinary resources and encourage going beyond “one-box” solutions. High standards of respectful and ethical conduct should be cultivated. Nurturing these different “minds” will ensure the coming generations are educated and well equipped to face challenges.
+                            </p>
+                            <p>
+                                It is important to develop fresh and vibrant skills in daily life, regardless of a demanding schedule if the students are to thrive in the challenging world during the years to come. The accelerating world of change call for new ways of learning and thinking for each one of us. The atmosphere at Blossom is highly conducive enabling each child to develop his/her talent to achieve perfection in the knowledge based world so that, they emerge out as useful and successful citizens, making their own mark of distinction around the globe.
+                            </p>
+                            <p>
+                                Scoring excellent in any Board level Examinations and cracking any top learning ability, managing time and stress and zeal to model the path of success drawn by the connoisseur. To ensure your success in any examinations, we have designed our day to day teaching learning programme in a scientific manner that develops both your knowledge and your problem solving acumen. Our faculty members are dedicated and devoted individuals of highest caliber with a genuine concern for building your future.
+                            </p>
+                            <p>
+                                Let success be the avowed motto of our institution and for the same I look for the parents and the teachers to be on the same plot to help children combat the hard times ahead in this highly competitive world. In our efforts to deliver quality education, we emphasize more on the need to establish one to one contact with every student and be attentive to their needs so that the teachers can monitor individual progress and guide them accordingly on the way to success.
+                            </p>
+                            <p>Winston Churchill very intuitively said, “The empires of the future will be the empires of the mind”.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button onclick="toggleReadMore()" id="readMoreBtn" class="btn btn-link text-orange fw-bold p-0 text-decoration-none">
+                            Read More <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="chairman-signature-area mt-4 d-flex align-items-center">
+                        <div class="signature-text">
+                            <h4 class="fw-bold text-navy mb-0">Hon'ble Chairman & President</h4>
+                            <p class="text-orange fw-900">Nikhil Das B Tech and M Tech IIT Guwahati</p>
+                            <p class="text-orange fw-600">Blossom World Senior Secondary School</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleReadMore() {
+        const moreText = document.getElementById("moreText");
+        const btnText = document.getElementById("readMoreBtn");
+
+        if (moreText.style.display === "none") {
+            moreText.style.display = "block";
+            btnText.innerHTML = 'Read Less <i class="bi bi-chevron-up ms-1"></i>';
+        } else {
+            moreText.style.display = "none";
+            btnText.innerHTML = 'Read More <i class="bi bi-chevron-down ms-1"></i>';
+        }
+    }
+</script>
+
+<style>
+    .text-orange { color: #f37021; }
+    .text-navy { color: #001f3f; }
+    .italic { font-style: italic; }
+    #readMoreBtn:hover { color: #d65a12; }
+</style>

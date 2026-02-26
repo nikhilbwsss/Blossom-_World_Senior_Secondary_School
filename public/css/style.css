@@ -1,0 +1,933 @@
+.shape-top-right-bg1 {
+    position: absolute;
+    top: 13%;
+    right: 0;
+    left: 69%;
+    width: 100%;
+    height: 70%;
+    background-image: url(https://www.theummedinternationalschool.com/assets/front/img/value/value-shape-3.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1 !important;
+    pointer-events: none;
+}
+
+.facility-text h3{
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.shape-top-left1 {
+    top: 14%;
+    left: 10%;
+    width: 100px;
+}
+
+.shape-bottom-left1 {
+    bottom: 1%;
+    left: 10%;
+    width: 80px;
+}
+
+
+/* Pages Gallary UI */
+/* --- Gallery UI --- */
+
+.gallery-section {
+    background-color: #ffffff;
+}
+
+.gallery-link {
+    text-decoration: none !important;
+    display: block;
+}
+
+.gallery-card {
+    background: #fff;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0; /* Subtle border */
+}
+
+/* Image Container with fixed Aspect Ratio */
+.gallery-img-container {
+    width: 100%;
+    height: 250px; /* Fixed height for uniformity */
+    overflow: hidden;
+}
+
+.gallery-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Caption Block */
+.gallery-caption {
+    background-color: #f8f9fa; /* Very light gray footer */
+    padding: 15px;
+    text-align: center;
+}
+
+/* Branded Title */
+.gallery-title {
+    color: #dc3545; /* School Orange/Red color */
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+/* Hover Effects */
+.gallery-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+
+.gallery-card:hover .gallery-img-container img {
+    transform: scale(1.05);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .gallery-img-container {
+        height: 200px;
+    }
+}
+
+
+/* E-magazine */
+/* --- E-Magazine Styling --- */
+
+.magazine-heading {
+    color: #001f3f; /* School Navy */
+    font-weight: bold;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+.magazine-table {
+    border: 1px solid #dee2e6;
+}
+
+.magazine-table thead th {
+    color: #333;
+    font-weight: 600;
+    padding: 15px;
+    background-color: #f8f9fa; /* Matches standard school table styles */
+}
+
+.magazine-table tbody td {
+    padding: 15px;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+/* Download Icon Style */
+.download-link {
+    color: #001f3f; /* Navy Icon */
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.download-link:hover {
+    color: #f37021; /* Switches to Orange on hover */
+}
+
+/* Table Hover Effect */
+.magazine-table tbody tr:hover {
+    background-color: #fff9f5; /* Subtle orange tint on hover */
+}
+
+/* Contact Form  */
+/* --- Contact UI Branding --- */
+
+.school-navy {
+    color: #001f3f; /* School Navy */
+}
+
+/* Form Styling */
+.custom-input {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+    background-color: #fff;
+    border-color: #f37021; /* School Orange Focus */
+    box-shadow: none;
+}
+
+/* The "Send Message" Button */
+.btn-send-message {
+    background-color: #f37021; /* Specific Orange from Image */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.btn-send-message:hover {
+    background-color: #d85d10;
+    color: white;
+}
+
+/* Contact Icons */
+.contact-icon {
+    color: #f37021; /* School Orange icons */
+    font-size: 1.2rem;
+    width: 25px;
+}
+
+
+
+
+/* Admin part start here  */
+/* Admin Dashboard */
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.8);
+    transition: 0.3s;
+}
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: #001f3f;
+    color: white;
+}
+.card {
+    border-radius: 12px;
+}
+
+/* --- Staff Section Main Styles --- */
+.staff-section {
+    background-color: #ffffff;
+    padding: 80px 0;
+}
+
+.staff-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.4s ease;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+    height: 100%;
+}
+
+.staff-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 31, 63, 0.1);
+    border-color: #f37021; /* Brand Orange */
+}
+
+.staff-img-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 70%; 
+    background: #f37021;
+    transition: all 0.5s ease;
+    border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.staff-card:hover .staff-img-wrapper {
+    border-radius: 50%;
+}
+
+.staff-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+/* --- Navigation Arrow Styles --- */
+#staff_Carouser .custom-ctrl {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: #f37021; /* Brand Orange */
+    border-radius: 50%;
+    opacity: 1;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+#nextt, #prevv{
+    opacity: 1 !important;
+}
+
+#staff_Carouser .carousel-control-next, .carousel-control-prev {
+    opacity: 1 !important;
+    transition: opacity 0.4s ease-in-out !important;
+}
+.custom-ctrl i {
+    color: #f37021;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+
+/* Positioning the arrows outside the carousel cards */
+.carousel-control-prev.custom-ctrl {
+    left: -70px;
+}
+
+.carousel-control-next.custom-ctrl {
+    right: -70px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1250px) {
+    .carousel-control-prev.custom-ctrl { left: -10px; }
+    .carousel-control-next.custom-ctrl { right: -10px; }
+    .custom-ctrl { width: 40px; height: 40px; }
+}
+
+@media (max-width: 768px) {
+    .custom-ctrl {
+        top: auto;
+        bottom: -60px;
+        transform: none;
+    }
+    .carousel-control-prev.custom-ctrl { left: 35%; }
+    .carousel-control-next.custom-ctrl { right: 35%; }
+    .staff-img-wrapper { width: 150px; height: 150px; }
+}
+
+/* Principal Message Section  */
+
+/* Principal Message Styling */
+.principal-message-section {
+    background-color: #fff;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+.text-orange {
+    color: #f37021 !important; /* Brand Orange */
+}
+
+/* Portrait Styling */
+.principal-img-container {
+    position: relative;
+    padding: 20px;
+    z-index: 1;
+}
+
+.principal-portrait {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Unique Morph Shape */
+    box-shadow: 20px 20px 0px #f37021; /* Offset Brand Color */
+    transition: all 0.5s ease;
+    object-fit: cover;
+    width: 100%;
+    max-height: 550px;
+}
+
+.principal-img-container:hover .principal-portrait {
+    border-radius: 20px;
+    transform: scale(1.02);
+}
+
+/* Experience Badge */
+.experience-badge {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    background: #001f3f; /* Brand Dark Blue */
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.experience-badge .years {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.experience-badge .text {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Typography */
+.quote-box {
+    border-left: 4px solid #f37021;
+    padding-left: 25px;
+    margin-bottom: 30px;
+}
+
+.lead-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #001f3f;
+    line-height: 1.6;
+}
+
+.message-paragraph {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+
+
+/* Director Message Styling */
+.director-message-section {
+    background-color: #fdfdfd;
+    padding: 100px 0;
+    position: relative;
+}
+
+.text-navy { color: #001f3f !important; }
+.text-orange { color: #f37021 !important; }
+
+/* Executive Image Frame */
+.director-img-frame {
+    position: relative;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.director-photo {
+    border-radius: 24px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    border: 8px solid #fff;
+    transition: all 0.4s ease;
+}
+
+.director-blob-background {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 100%;
+    height: 100%;
+    background: #f37021; /* Brand Orange */
+    border-radius: 30% 70% 30% 70% / 50% 30% 70% 50%;
+    z-index: 1;
+    opacity: 0.1;
+    animation: slowSpin 15s linear infinite;
+}
+
+@keyframes slowSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Typography */
+.director-lead {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #001f3f;
+    line-height: 1.4;
+    border-left: 5px solid #f37021;
+    padding-left: 20px;
+}
+
+.director-text p {
+    color: #444;
+    line-height: 1.9;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+}
+
+/* Signature & Contact */
+.divider-vertical {
+    height: 50px;
+    width: 1px;
+    background-color: #ddd;
+}
+
+.director-contact a {
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.director-contact a:hover {
+    color: #f37021 !important;
+}
+
+
+/* Chairman Section Styling */
+.chairman-section {
+    background-color: #f8f9fa;
+    padding: 100px 0;
+    z-index: 1;
+}
+
+.chairman-bg-accent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: #001f3f; /* Brand Navy */
+    opacity: 0.03;
+    z-index: -1;
+    border-radius: 100% 0 0 100% / 50% 0 0 50%;
+}
+
+/* Image Wrapper with Founder Seal */
+.chairman-img-wrapper {
+    position: relative;
+    padding-right: 30px;
+}
+
+.chairman-photo {
+    border-radius: 50px 5px 50px 5px; /* Formal but unique */
+    border: 10px solid #fff;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+}
+
+.founder-seal {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    background: #f37021; /* Brand Orange */
+    color: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 20px rgba(243, 112, 33, 0.3);
+    z-index: 5;
+}
+
+.founder-seal i { font-size: 1.5rem; line-height: 1; }
+.founder-seal span { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; }
+
+/* Content Card */
+.chairman-content {
+    background: #ffffff !important;
+    border-radius: 30px;
+    position: relative;
+}
+
+.chairman-statement {
+    position: relative;
+    z-index: 1;
+}
+
+.chairman-body-text p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.italic { font-style: italic; }
+.text-navy { color: #001f3f; }
+.text-orange { color: #f37021; }
+
+/* Mobile Handling */
+@media (max-width: 991px) {
+    .chairman-bg-accent { display: none; }
+    .chairman-img-wrapper { padding-right: 0; margin-bottom: 50px; }
+    .founder-seal { top: 0; left: 0; }
+}
+
+
+/* Founder Section Styling */
+.founder-section {
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    padding: 100px 0;
+}
+
+.founder-card {
+    background: #ffffff;
+    border-radius: 40px;
+    position: relative;
+    /* Subtle texture to feel like premium paper */
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+}
+
+/* Image Frame with Name Plate */
+.founder-img-frame {
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 31, 63, 0.2);
+}
+
+.founder-photo {
+    width: 100%;
+    filter: sepia(20%) contrast(1.1); /* Gives a warm, timeless feel */
+    transition: transform 0.5s ease;
+}
+
+.founder-img-frame:hover .founder-photo {
+    transform: scale(1.05);
+}
+
+.founder-name-plate {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, #001f3f); /* Navy blend */
+    padding: 30px 20px 20px;
+    color: #fff;
+    text-align: center;
+}
+
+/* Values & Story Text */
+.text-navy { color: #001f3f; }
+.text-orange { color: #f37021; }
+
+.story-text p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.value-dot {
+    background: #fff5ee;
+    color: #f37021;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px dashed #f37021;
+}
+
+.value-dot i { margin-right: 5px; }
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .founder-card { border-radius: 20px; }
+    .founder-values { flex-wrap: wrap; justify-content: center; }
+}
+
+
+
+/* School Info Section */
+.school-info-section {
+    background-color: #fcfcfc;
+}
+
+.text-orange { color: #f37021; }
+.text-navy { color: #001f3f; }
+
+/* Custom Tab Styling */
+.custom-info-tabs .nav-link {
+    background: #fff;
+    color: #001f3f;
+    border: 1px solid #eee;
+    margin: 0 10px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.custom-info-tabs .nav-link.active {
+    background: #f37021 !important;
+    color: white !important;
+    border-color: #f37021;
+    box-shadow: 0 8px 20px rgba(243, 112, 33, 0.3);
+}
+
+/* Content Box */
+.info-content-box {
+    background: #fff;
+    border-radius: 30px;
+    border: 1px solid #f0f0f0;
+    min-height: 300px;
+}
+
+.bg-light-orange {
+    background-color: #fff8f4;
+}
+
+/* House System Cards */
+.house-card {
+    padding: 30px 10px;
+    border-radius: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+    .custom-info-tabs .nav-item {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .custom-info-tabs .nav-link { margin: 0; }
+}
+
+/* Committee Page Styling */
+.committee-section {
+    background-color: #fff;
+}
+
+.text-navy { color: #001f3f; }
+.text-orange { color: #f37021; }
+
+/* Lead Member Styling */
+.committee-lead-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    transition: 0.3s;
+}
+
+.lead-img-wrapper {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #f37021; /* Brand Orange */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.lead-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Grid Member Items */
+.committee-member-item {
+    background: #fdfdfd;
+    padding: 25px 20px;
+    border-radius: 15px;
+    border-left: 4px solid #001f3f; /* Brand Navy */
+    height: 100%;
+    transition: 0.3s;
+}
+
+.committee-member-item:hover {
+    transform: translateY(-5px);
+    border-left-color: #f37021;
+    background: #fff;
+}
+
+.committee-member-item h5 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #001f3f;
+    margin-bottom: 5px;
+}
+
+.committee-member-item .role {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+/* Special Note Background */
+.bg-light-navy {
+    background-color: #f0f4f8;
+    color: #001f3f;
+}
+
+.italic { font-style: italic; }
+
+
+/* Rules Section Base */
+.rules-section {
+    background-color: #f8f9fa;
+}
+
+.text-orange { color: #f37021; }
+.text-navy { color: #001f3f; }
+
+/* Sidebar Navigation */
+.custom-rules-nav .list-group-item {
+    padding: 15px 20px;
+    border: none;
+    font-weight: 600;
+    color: #001f3f;
+    transition: 0.3s;
+}
+
+.custom-rules-nav .list-group-item.active {
+    background-color: #f37021 !important;
+    color: #fff;
+}
+
+/* Rule Cards */
+.rule-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.rule-header {
+    background: #001f3f;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+.rule-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-right: 20px;
+    opacity: 0.5;
+}
+
+.rule-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.rule-body {
+    padding: 30px;
+}
+
+.rule-body ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.rule-body ul li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.rule-body ul li::before {
+    content: "\F272"; /* Bootstrap Check-Circle */
+    font-family: "bootstrap-icons";
+    position: absolute;
+    left: 0;
+    color: #f37021;
+    font-weight: bold;
+}
+
+/* Accent Box */
+.bg-orange-light {
+    background-color: #fff5ee;
+    border-left: 4px solid #f37021;
+}
+#stickyy #sti{
+    z-index: unset !important;
+}
+
+
+/* Notices Section Styling */
+.notices-section { background-color: #fff; }
+
+.btn-navy { background-color: #001f3f; color: white; }
+.btn-outline-navy { border-color: #001f3f; color: #001f3f; }
+.btn-outline-orange { border-color: #f37021; color: #f37021; }
+
+/* Notice Card */
+.notice-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 20px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.notice-card:hover {
+    transform: translateX(10px);
+    border-color: #f37021;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+}
+
+.urgent-notice {
+    border-left: 6px solid #dc3545; /* Red indicator for urgency */
+}
+
+/* Date Box */
+.notice-date-box {
+    min-width: 90px;
+    height: 90px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+    border: 1px solid #eee;
+}
+
+.notice-date-box .day {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #001f3f;
+    line-height: 1;
+}
+
+.notice-date-box .month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #f37021;
+}
+
+/* Info & Text */
+.notice-info {
+    flex-grow: 1;
+}
+
+.notice-info h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #001f3f;
+    margin-bottom: 10px;
+}
+
+.notice-info p {
+    color: #666;
+    font-size: 0.95rem;
+    max-width: 800px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .notice-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .notice-date-box {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .notice-action {
+        margin-top: 20px;
+        width: 100%;
+    }
+    .notice-card:hover {
+        transform: translateY(-5px);
+    }
+}

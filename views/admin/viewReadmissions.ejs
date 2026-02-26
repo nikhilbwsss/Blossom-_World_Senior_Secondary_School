@@ -1,0 +1,84 @@
+<%- layout("layouts/admin-layout") %>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-navy"><i class="bi bi-person-check-fill me-2"></i>Re-Admission Records</h2>
+        <span class="badge bg-navy px-3 py-2">Total: <%= allRecords.length %></span>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-3">Student & ID</th>
+                        <th>Photo</th>
+                        <th>Signature</th>
+                        <th>Class Info</th>
+                        <th>Contact</th>
+                        <th>Applied</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% allRecords.forEach(record => { %>
+                        <% const photoUrl = (record.studentPhoto && typeof record.studentPhoto === 'object') ? record.studentPhoto.url : record.studentPhoto; %>
+                        <% const signatureUrl = (record.studentSignature && typeof record.studentSignature === 'object') ? record.studentSignature.url : record.studentSignature; %>
+                        <tr>
+                            <td class="ps-3">
+                                <div class="fw-bold text-dark"><%= record.studentName %></div>
+                                <small class="text-muted"><%= record.readmissionId %></small>
+                            </td>
+                            <td>
+                                <img src="<%= photoUrl || '/img/default-avatar.png' %>" class="rounded border shadow-sm" style="width: 50px; height: 60px; object-fit: cover;">
+                            </td>
+                            <td>
+                                <div class="p-1 bg-white border rounded" style="width: 80px; height: 40px;">
+                                    <img src="<%= signatureUrl || '/img/default-avatar.png' %>" class="img-fluid h-100 w-100" style="object-fit: contain;">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="small">Current: <b><%= record.className %></b></div>
+                                <div class="small text-navy">Admitting: <b><%= record.classToBeAdmitted %></b></div>
+                            </td>
+                            <td>
+                                <a href="https://wa.me/<%= record.parentWhatsapp %>" target="_blank" class="btn btn-sm btn-outline-success border-0">
+                                    <i class="bi bi-whatsapp me-1"></i> <%= record.parentWhatsapp %>
+                                </a>
+                            </td>
+                            <td class="small text-muted">
+                                <%= record.createdAt ? new Date(record.createdAt).toLocaleDateString('en-GB') : '—' %>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group shadow-sm" role="group" aria-label="Readmission actions">
+                                    <a href="/admin/readmissions/<%= record._id %>/view" class="btn btn-sm btn-outline-info" title="View">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a href="/admin/readmissions/<%= record._id %>/edit" class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
+                                    <form action="/admin/readmissions/<%= record._id %>?_method=DELETE" method="POST" class="d-inline">
+                                        <button class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Delete this re-admission record?')">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    <% if(allRecords.length === 0) { %>
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted italic">No re-admission applications found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-navy { color: #001f3f; }
+    .bg-navy { background-color: #001f3f; color: white; }
+    .italic { font-style: italic; }
+</style>

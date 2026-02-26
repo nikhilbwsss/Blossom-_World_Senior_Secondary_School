@@ -1,0 +1,233 @@
+/* --- Footer Section: Professional UI Logic --- */
+.footer-section {
+    color: #ffffff;
+    position: relative;
+    padding: 80px 0;
+    /* BACKGROUND IMAGE: Specific blueprint sketch from your screenshot */
+    background-image: url('/img/photoD.png'); 
+    background-attachment: fixed; /* Keeps the background static while scrolling */
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* NAVY BLUE OVERLAY: Matches the deep tone in your screenshot */
+.footer-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 48, 86, 0.92); 
+    z-index: -1;
+}
+
+.footer-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* TITLES: Bold White with Orange Underline */
+.footer-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 35px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 45px;
+    height: 3px;
+    background-color: #f37021; 
+}
+
+/* CONTACT ITEMS: Icon + Label + Value */
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.contact-item i {
+    color: #f37021; 
+    font-size: 1.2rem;
+    padding-top: 4px;
+}
+
+.contact-item .label {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.contact-item .val {
+    color: #cbd5e0; 
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* SOCIAL LINKS: Orange circles */
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.social-links a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #f37021;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #ffffff;
+    color: #f37021;
+    transform: translateY(-5px);
+}
+
+/* MAP & THUMBNAIL LOGIC */
+.map-container {
+    position: relative;
+    width: 100%;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 320px; 
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.map-thumbnail {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    background: #ffffff;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    z-index: 10;
+    transition: all 0.4s ease;
+}
+
+.map-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.map-thumbnail:hover {
+    transform: scale(1.15) rotate(2deg);
+    cursor: pointer;
+}
+
+/* --- Animated Footer Links --- */
+.footer-links li a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links li a::after {
+    content: '';
+    position: absolute;
+    left: 0; 
+    bottom: 0;
+    width: 100%; 
+    height: 2px;
+    background-color: #f37021;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-links li a:hover { 
+    color: #f37021 !important; 
+}
+
+.footer-links li a:hover::after { 
+    transform: scaleX(1); 
+}
+
+/* --- Footer Wrapper --- */
+.footer-wrapper {
+    margin-top: auto;
+}
+
+
+
+/* 
+.footer-section {
+    position: relative;
+    background-image: url('https://www.theummedinternationalschool.com/assets/front/img/footer-background.png');
+    background-attachment: fixed; 
+    background-size: cover;
+    color: white;
+    z-index: 1;
+}
+
+.footer-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 48, 86, 0.92); 
+    z-index: -1;
+}
+
+.footer-links li a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links li a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background-color: #f37021;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-links li a:hover { color: #f37021 !important; }
+.footer-links li a:hover::after { transform: scaleX(1); }
+
+.footer-title {
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 50px; height: 3px;
+    background-color: #f37021;
+} */

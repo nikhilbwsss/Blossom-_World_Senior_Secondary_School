@@ -1,0 +1,250 @@
+<%- layout("layouts/admin-layout") %>
+
+<div class="container-fluid py-4 no-print">
+    <div class="d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
+        <div>
+            <h2 class="h5 fw-bold mb-0 text-navy">RE-ADMISSION DETAILS</h2>
+            <div class="text-muted small">Application ID: <strong><%= student.readmissionId %></strong></div>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/admin/readmissions" class="btn btn-sm btn-outline-secondary px-3">
+                <i class="bi bi-arrow-left me-1"></i> Back
+            </a>
+            <button class="btn btn-sm btn-primary px-3 shadow-sm" onclick="triggerPrint()">
+                <i class="bi bi-printer me-1"></i> Print Official Form
+            </button>
+        </div>
+    </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body text-center p-4">
+                        <label class="small fw-bold text-muted text-uppercase d-block mb-3">Student Photo</label>
+                    <img src="<%= (student.studentPhoto && typeof student.studentPhoto === 'object' && student.studentPhoto.url) ? student.studentPhoto.url : (student.studentPhoto || '/img/default-avatar.png') %>" 
+                         class="img-thumbnail rounded-3 shadow-sm mb-3" 
+                         style="width: 100%; max-width: 160px; height: 190px; object-fit: cover;">
+                    
+                    <hr class="my-4">
+                    
+                    <label class="small fw-bold text-muted text-uppercase d-block mb-3">Digital Signature</label>
+                    <div class="p-2 bg-white border rounded-3">
+                        <img src="<%= (student.studentSignature && typeof student.studentSignature === 'object' && student.studentSignature.url) ? student.studentSignature.url : (student.studentSignature || '/img/default-avatar.png') %>" class="img-fluid" style="max-height: 80px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-navy border-bottom pb-2 mb-3">1. REGISTRATION INFO</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Admission Date</label>
+                            <b><%= student.admissionDate ? new Date(student.admissionDate).toLocaleDateString('en-GB') : 'N/A' %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Current Class</label>
+                            <b><%= student.className %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Admitting To</label>
+                            <b class="text-primary">Class <%= student.classToBeAdmitted %></b>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-navy border-bottom pb-2 mb-3">2. PERSONAL PARTICULARS</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-12">
+                            <label class="text-muted small d-block">Full Student Name (Aadhaar)</label>
+                            <b class="fs-5 text-uppercase"><%= student.studentName %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Father's Name</label>
+                            <b><%= student.fatherName %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Mother's Name</label>
+                            <b><%= student.motherName %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Parent WhatsApp No</label>
+                            <b class="text-success"><%= student.parentWhatsapp %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Student Aadhaar No</label>
+                            <b><%= student.studentAadhaar %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Parent Aadhaar No</label>
+                            <b><%= student.parentAadhaar %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">PEN Number</label>
+                            <b><%= student.panNo || 'N/A' %></b>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="text-muted small d-block">Permanent Address</label>
+                            <b><%= student.permanentAddress %></b>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-navy border-bottom pb-2 mb-3">3. ACADEMIC & HEALTH STATS</h6>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Prev. Marks (%)</label>
+                            <b class="text-navy"><%= student.previousMarksPercentage %> %</b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Prev. Attendance (%)</label>
+                            <b class="text-navy"><%= student.previousAttendancePercentage %> %</b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Height / Weight</label>
+                            <b><%= student.height || '--' %> CM / <%= student.weight || '--' %> KG</b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Parent Qualification</label>
+                            <b><%= student.parentQualification || 'N/A' %></b>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small d-block">Dist. from School</label>
+                            <b><%= student.distanceFromSchool || 'N/A' %></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Exact data mapping for functions
+    const data = {
+        readmissionId: `<%= student.readmissionId %>`,
+        studentName: `<%= student.studentName %>`,
+        fatherName: `<%= student.fatherName %>`,
+        motherName: `<%= student.motherName %>`,
+        className: `<%= student.className %>`,
+        classToBeAdmitted: `<%= student.classToBeAdmitted %>`,
+        parentWhatsapp: `<%= student.parentWhatsapp %>`,
+        studentAadhaar: `<%= student.studentAadhaar %>`,
+        parentAadhaar: `<%= student.parentAadhaar %>`,
+        permanentAddress: `<%= student.permanentAddress %>`,
+        previousMarksPercentage: `<%= student.previousMarksPercentage %>`,
+        previousAttendancePercentage: `<%= student.previousAttendancePercentage %>`,
+        height: `<%= student.height %>`,
+        weight: `<%= student.weight %>`,
+        panNo: `<%= student.panNo %>`,
+        parentQualification: `<%= student.parentQualification %>`,
+        distanceFromSchool: `<%= student.distanceFromSchool %>`,
+        admissionDate: `<%= student.admissionDate ? new Date(student.admissionDate).toLocaleDateString('en-GB') : '' %>`,
+        studentPhotoDataUrl: `<%= (student.studentPhoto && typeof student.studentPhoto === 'object' && student.studentPhoto.url) ? student.studentPhoto.url : (student.studentPhoto || '') %>`,
+        studentSignatureDataUrl: `<%= (student.studentSignature && typeof student.studentSignature === 'object' && student.studentSignature.url) ? student.studentSignature.url : (student.studentSignature || '') %>`
+    };
+
+    function triggerPrint() { printConfirmation(data, `<%= student._id %>`); }
+
+    // Official Print Logic
+    function waitForImages(targetDoc, timeoutMs = 2500) {
+        const images = Array.from(targetDoc.images || []);
+        if (images.length === 0) return Promise.resolve();
+
+        return new Promise((resolve) => {
+            let done = false;
+            const finish = () => {
+                if (done) return;
+                done = true;
+                resolve();
+            };
+
+            let remaining = 0;
+            images.forEach((img) => {
+                if (img.complete) return;
+                remaining += 1;
+                const onDone = () => {
+                    remaining -= 1;
+                    if (remaining <= 0) finish();
+                };
+                img.addEventListener('load', onDone, { once: true });
+                img.addEventListener('error', onDone, { once: true });
+            });
+
+            if (remaining === 0) return finish();
+            setTimeout(finish, timeoutMs);
+        });
+    }
+
+    async function printConfirmation(data, appId) {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) return alert('Popup blocked. Please allow popups and try again.');
+
+        const logoUrl = `${window.location.origin}/img/logo.jpg`;
+        printWindow.document.write(`
+        <html>
+            <head>
+                <style>
+                    body { font-family: 'Times New Roman', serif; padding: 20px; line-height: 1.4; color: #000; }
+                    .outer-border { border: 3px double #000; padding: 25px; min-height: 95vh; position: relative; }
+                    .photo-box { position: absolute; top: 30px; right: 30px; width: 120px; height: 150px; border: 1px solid #000; overflow: hidden; }
+                    .header-table { text-align: center; border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
+                    .logo { height: 70px; margin-bottom: 8px; }
+                    .school-name { font-size: 24px; font-weight: bold; color: #001f3f; margin: 0; }
+                    .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                    .data-table td { padding: 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+                    .label { font-weight: bold; width: 35%; }
+                    .sig-container { margin-top: 50px; display: flex; justify-content: space-between; text-align: center; }
+                    .sig-item { width: 30%; position: relative; }
+                    .student-sig-img { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); max-height: 55px; }
+                    .sig-line { border-top: 1px solid #000; padding-top: 5px; font-weight: bold; }
+                    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(0,0,0,0.05); z-index: -1; white-space: nowrap; }
+                </style>
+            </head>
+            <body>
+                <div class="outer-border">
+                    <div class="watermark">BLOSSOM WORLD</div>
+                    <div class="photo-box"><img src="${data.studentPhotoDataUrl}" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="header-table">
+                        <img class="logo" src="${logoUrl}" alt="School Logo">
+                        <div class="school-name">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</div>
+                        <div style="font-size:12px;">Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006</div>
+                        <div style="font-weight:bold; margin-top:10px; background:#001f3f; color:#fff; display:inline-block; padding:3px 20px; border-radius:20px;">RE-ADMISSION FORM (2026-27)</div>
+                    </div>
+                    <table class="data-table">
+                        <tr><td class="label">Registration ID:</td><td>${data.readmissionId}</td></tr>
+                        <tr><td class="label">Student Name:</td><td style="text-transform:uppercase; font-weight:bold;">${data.studentName}</td></tr>
+                        <tr><td class="label">Father's Name:</td><td>${data.fatherName}</td></tr>
+                        <tr><td class="label">Mother's Name:</td><td>${data.motherName}</td></tr>
+                        <tr><td class="label">WhatsApp / Contact:</td><td>${data.parentWhatsapp}</td></tr>
+                        <tr><td class="label">Current / New Class:</td><td>Class ${data.className || ''} → Admitting to Class ${data.classToBeAdmitted || ''}</td></tr>
+                        <tr><td class="label">Student Aadhaar:</td><td>${data.studentAadhaar}</td></tr>
+                        <tr><td class="label">Parent Aadhaar:</td><td>${data.parentAadhaar}</td></tr>
+                        <tr><td class="label">Academic Stats:</td><td>Marks: ${data.previousMarksPercentage}% | Attendance: ${data.previousAttendancePercentage}%</td></tr>
+                        <tr><td class="label">Physical Profile:</td><td>Height: ${data.height} CM | Weight: ${data.weight} KG</td></tr>
+                        <tr><td class="label">Permanent Address:</td><td>${data.permanentAddress}</td></tr>
+                        <tr><td class="label">Submission Date:</td><td>${data.admissionDate}</td></tr>
+                    </table>
+                    <div class="sig-container">
+                        <div class="sig-item">
+                            <img src="${data.studentSignatureDataUrl}" class="student-sig-img">
+                            <div class="sig-line">Student Signature</div>
+                        </div>
+                        <div class="sig-item"><div class="sig-line">Parent Signature</div></div>
+                        <div class="sig-item"><div class="sig-line">Principal / Office</div></div>
+                    </div>
+                </div>
+            </body>
+        </html>`);
+        printWindow.document.close();
+        await waitForImages(printWindow.document);
+        printWindow.focus();
+        printWindow.print();
+    }
+</script>
+
+<style>
+    .text-navy { color: #001f3f; }
+    .btn-navy { background-color: #001f3f; color: white; border: none; }
+    @media print { .no-print { display: none !important; } }
+</style>

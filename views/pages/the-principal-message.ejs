@@ -1,0 +1,123 @@
+<% layout("layouts/boilerplate") %>
+    <section class="page-banner">
+        <div class="banner-motion"></div>
+        <div class="banner-overlay"></div>
+
+        <div class="container text-center banner-content">
+            <h2 class="banner-title" data-aos="fade-down">Principal Message</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">message/principal</li>
+                </ol>
+            </nav>
+        </div>
+
+        <svg class="banner-wave wave-back" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-mid" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-front" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+    </section>
+<section class="principal-message-section py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5" data-aos="fade-right">
+                <div class="principal-img-container">
+                    <img src="/img/Principal1.jpeg" alt="Principal of BWSSS" class="img-fluid principal-portrait rounded-4 shadow">
+                </div>
+            </div>
+
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="message-content ps-lg-4">
+                    <h4 class="cursive-sub text-orange">Leadership Message</h4>
+                    <h2 class="section-main-title mb-4">From the Principal's Desk</h2>
+                    
+                    <div class="quote-box mb-4">
+                        <i class="bi bi-quote fs-1 text-orange"></i>
+                        <p class="lead-text italic">
+                            "Education is not limited to academic achievement; it is about shaping character, nurturing values, and preparing students to face the future with confidence and responsibility."
+                        </p>
+                    </div>
+
+                    <div class="principal-body-text">
+                        <p class="message-paragraph">
+                            First of all we would like to take the opportunity to thank those parents/guardians who have shown their faith in us by admitting their children in our institution.
+                        </p>
+                        <p class="message-paragraph">
+                            Well, BWSSS is totally a new concept in the entire Barak Valley. Its a boarding institution for students who want literally to have a golden future in medical, engineering, civil services and other fields.
+                        </p>
+
+                        <div id="moreTextPrincipal" style="display: none;">
+                            <p class="message-paragraph">
+                                In the last few years, we have observed a “mushroom growth” of numerous junior colleges in the valley. But our question is--- how many of those institutions are providing practically befitting quality education to our student community. Do you think they are self sufficient to prepare our children for a better future. Once they got admitted in a college ---they along with their parents become “all busy” from one tutorial home to another. They are indirectly forced to take private tuitions per subject. And by doing this, when they reach home at night, they are exhausted and don’t have time and ability for “self study”. Under this grave condition, when will they use their brain- their intellect? As a result, they become just parrots. In this process, they become intellectually, morally paralysed.
+                            </p>
+                            <p class="message-paragraph">
+                                But unfortunately we don’t realize – our parents also cannot realize this lethal situation. Rather, we become helpless under the circumstances. And in this process, our parents spend around 3 to 4 lacs in colleges, private tuitions, conveyances & coaching fees. But BWSSS wants to break this tradition. We assure a hassle-free life for our parents and guardians. No private tuition, no extra coaching. We are determined to provide enough time for “self study” to our students—enough time to use their creative brain.
+                            </p>
+                            <p class="message-paragraph">
+                                We have got experienced academics, hitech classrooms, well equipped labs, fully enriched library, delicious & hygienic food, 24 hrs electricity & AC back up and a very very congenial teaching-learning environment. Our promises, today you might think, are just water bubbles; because everybody promises a lot at the time of opening an institution—but we will definitely make you realize that we have kept our promises.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button onclick="togglePrincipalMore()" id="principalBtn" class="btn btn-link text-orange fw-bold p-0 text-decoration-none">
+                            Read More <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="principal-signature mt-5 border-top pt-4">
+                        <h5 class="fw-bold mb-0 text-navy">Dr. Nibendu Nath</h5>
+                        <p class="text-muted mb-0">MSc, PhD</p>
+                        <p class="text-orange fw-bold">Principal, BWSSS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function togglePrincipalMore() {
+        const moreText = document.getElementById("moreTextPrincipal");
+        const btnText = document.getElementById("principalBtn");
+
+        if (moreText.style.display === "none") {
+            moreText.style.display = "block";
+            btnText.innerHTML = 'Read Less <i class="bi bi-chevron-up ms-1"></i>';
+        } else {
+            moreText.style.display = "none";
+            btnText.innerHTML = 'Read More <i class="bi bi-chevron-down ms-1"></i>';
+        }
+    }
+</script>
+
+<style>
+    .text-orange { color: #f37021; }
+    .text-navy { color: #001f3f; }
+    .italic { font-style: italic; }
+    .lead-text { font-size: 1.15rem; color: #444; line-height: 1.6; }
+    .message-paragraph { line-height: 1.8; margin-bottom: 1.2rem; color: #555; }
+    #principalBtn:hover { color: #d65a12; }
+    
+    .principal-portrait {
+        border-bottom: 8px solid #f37021;
+        transition: transform 0.3s ease;
+    }
+    .principal-portrait:hover {
+        transform: scale(1.02);
+    }
+</style>

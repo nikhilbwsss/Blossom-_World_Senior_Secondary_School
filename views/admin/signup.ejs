@@ -1,0 +1,88 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="card shadow-lg border-0" style="max-width: 450px; width: 100%; border-radius: 15px;">
+        <div class="card-body p-4">
+            <h3 class="text-center fw-bold mb-4" style="color: #001f3f;">Admin Signup</h3>
+
+            <form action="/admin/signup" method="POST" id="signupForm" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Username</label>
+                    <input type="text" name="username" class="form-control" required placeholder="admin_name">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Email ID</label>
+                    <input type="email" name="email" class="form-control" required placeholder="admin@ummed.com">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Master Secret Code</label>
+                    <input type="password" name="secretCode" id="secretCodeInput"
+                        class="form-control <%= (error && error.length > 0 && error.some(msg => msg.includes('valid code'))) ? 'is-invalid' : '' %>"
+                        required placeholder="Enter School Secret Code">
+
+                    <div class="invalid-feedback">
+                        Please enter valid code.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Password</label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control" required>
+                        <button class="btn btn-outline-secondary" type="button"
+                            onclick="togglePassword('password', this)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small">Confirm Password</label>
+                    <div class="input-group">
+                        <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                            required>
+                        <button class="btn btn-outline-secondary" type="button"
+                            onclick="togglePassword('confirmPassword', this)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn w-100 fw-bold text-white" style="background-color: #001f3f;">
+                    Create Admin Account
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    }
+
+    // Bootstrap validation script
+    (() => {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>

@@ -1,0 +1,363 @@
+<% layout("layouts/admin-layout") %>
+
+<% const dobValue = student.dob ? new Date(student.dob).toISOString().slice(0, 10) : ""; %>
+<% const docsSubmitted = student.documentsSubmitted || []; %>
+<% const docList = [
+  "Birth certificate (Xerox)",
+  "Father's photo (2 copies)",
+  "Student's Blood Group Certificate",
+  "Aadhaar card of father (Xerox)",
+  "Guardian's Aadhaar card (Xerox)",
+  "Student's photo (4 copies)",
+  "Mother's photo (2 copies)",
+  "Aadhaar card of student (Xerox)",
+  "Aadhaar card of mother (Xerox)",
+  "T.C. (Original)",
+  "Marksheet (Original)"
+]; %>
+
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
+    <div>
+      <a href="/admin/dashboard" class="btn btn-outline-secondary btn-sm mb-2">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+      </a>
+      <h2 class="fw-bold text-navy mb-1">Edit Application</h2>
+      <div class="text-muted small">
+        App ID: <strong><%= student._id %></strong>
+        <% if (student.submittedAt) { %>
+          | Submitted: <%= student.submittedAt.toLocaleDateString('en-GB') %>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" form="checkForm" class="btn btn-success shadow-sm">
+        <i class="bi bi-save me-1"></i> Save Changes
+      </button>
+      <a href="/admin/admissions/<%= student._id %>/view" class="btn btn-outline-primary shadow-sm">
+        <i class="bi bi-eye me-1"></i> View
+      </a>
+    </div>
+  </div>
+
+  <form id="checkForm" action="/admin/update/<%= student._id %>" method="POST">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-navy"><i class="bi bi-person-badge me-2"></i>Student Particulars</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">First Name *</label>
+                <input class="form-control" name="firstName" value="<%= student.firstName || '' %>" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Middle Name</label>
+                <input class="form-control" name="middleName" value="<%= student.middleName || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Last Name *</label>
+                <input class="form-control" name="lastName" value="<%= student.lastName || '' %>" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Aadhaar Number</label>
+                <input class="form-control" name="aadhaarNumber" value="<%= student.aadhaarNumber || '' %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">APAAR ID</label>
+                <input class="form-control" name="apaarId" value="<%= student.apaarId || '' %>">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Class *</label>
+                <select class="form-select" name="requiredClass" required>
+                  <% const classes = ["Nursery","KG","Class I","Class II","Class III","Class IV","Class V","Class VI","Class VII","Class VIII","Class IX","Class X","XI","XII"]; %>
+                  <% classes.forEach((c) => { %>
+                    <option value="<%= c %>" <%= (student.requiredClass === c) ? "selected" : "" %>><%= c %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">DOB *</label>
+                <input type="date" class="form-control" name="dob" value="<%= dobValue %>" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Gender *</label>
+                <select class="form-select" name="gender" required>
+                  <% ["Male","Female","Other"].forEach((g) => { %>
+                    <option value="<%= g %>" <%= (student.gender === g) ? "selected" : "" %>><%= g %></option>
+                  <% }) %>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Stream</label>
+                <select class="form-select" name="stream">
+                  <% const streams = ["None","Science","Commerce","Arts"]; %>
+                  <% streams.forEach((s) => { %>
+                    <option value="<%= s %>" <%= ((student.stream || "None") === s) ? "selected" : "" %>><%= s %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label small fw-bold">Selected Subjects (comma separated)</label>
+                <textarea class="form-control" name="selectedSubjectsText" rows="2" placeholder="Physics, Chemistry, Mathematics"><%= (student.selectedSubjects || []).join(", ") %></textarea>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Blood Group</label>
+                <input class="form-control" name="bloodGroup" value="<%= student.bloodGroup || '' %>">
+              </div>
+              <div class="col-md-8">
+                <label class="form-label small fw-bold">Identification Mark</label>
+                <input class="form-control" name="identificationMark" value="<%= student.identificationMark || '' %>">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Religion</label>
+                <input class="form-control" name="religion" value="<%= student.religion || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Caste</label>
+                <input class="form-control" name="caste" value="<%= student.caste || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Nationality</label>
+                <input class="form-control" name="nationality" value="<%= student.nationality || 'Indian' %>">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mt-4">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-navy"><i class="bi bi-people me-2"></i>Parents</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <h6 class="fw-bold text-muted small text-uppercase">Father</h6>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Name *</label>
+                  <input class="form-control" name="fatherName" value="<%= student.fatherName || '' %>" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Occupation</label>
+                  <input class="form-control" name="fatherOccupation" value="<%= student.fatherOccupation || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Annual Income</label>
+                  <input class="form-control" name="fatherIncome" value="<%= student.fatherIncome || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Education</label>
+                  <input class="form-control" name="fatherEducation" value="<%= student.fatherEducation || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Aadhaar</label>
+                  <input class="form-control" name="fatherAadhaar" value="<%= student.fatherAadhaar || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">WhatsApp</label>
+                  <input class="form-control" name="fatherWhatsApp" value="<%= student.fatherWhatsApp || '' %>">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <h6 class="fw-bold text-muted small text-uppercase">Mother</h6>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Name *</label>
+                  <input class="form-control" name="motherName" value="<%= student.motherName || '' %>" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Occupation</label>
+                  <input class="form-control" name="motherOccupation" value="<%= student.motherOccupation || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Annual Income</label>
+                  <input class="form-control" name="motherIncome" value="<%= student.motherIncome || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Education</label>
+                  <input class="form-control" name="motherEducation" value="<%= student.motherEducation || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Aadhaar</label>
+                  <input class="form-control" name="motherAadhaar" value="<%= student.motherAadhaar || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Contact</label>
+                  <input class="form-control" name="motherContact" value="<%= student.motherContact || '' %>">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">WhatsApp</label>
+                  <input class="form-control" name="motherWhatsApp" value="<%= student.motherWhatsApp || '' %>">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Main Mobile *</label>
+                <input class="form-control" name="mobile" value="<%= student.mobile || '' %>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Alt Mobile</label>
+                <input class="form-control" name="altMobile" value="<%= student.altMobile || '' %>">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mt-4">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-navy"><i class="bi bi-geo-alt me-2"></i>Address & Health</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Permanent Address *</label>
+                <textarea class="form-control" name="permanentAddress" rows="3" required><%= student.permanentAddress || '' %></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Present Address *</label>
+                <textarea class="form-control" name="presentAddress" rows="3" required><%= student.presentAddress || '' %></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Local Guardian</label>
+                <input class="form-control" name="localGuardianName" value="<%= student.localGuardianName || '' %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Siblings In School</label>
+                <input class="form-control" name="siblingsInSchool" value="<%= student.siblingsInSchool || '' %>">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Physically Handicapped</label>
+                <select class="form-select" name="isHandicapped">
+                  <% ["No","Yes"].forEach((v) => { %>
+                    <option value="<%= v %>" <%= (student.isHandicapped === v) ? "selected" : "" %>><%= v %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label small fw-bold">Handicap Details</label>
+                <input class="form-control" name="handicapDetails" value="<%= student.handicapDetails || '' %>">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Height</label>
+                <input class="form-control" name="height" value="<%= student.height || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Weight</label>
+                <input class="form-control" name="weight" value="<%= student.weight || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Distance From School</label>
+                <input class="form-control" name="distanceFromSchool" value="<%= student.distanceFromSchool || '' %>">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mt-4">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-navy"><i class="bi bi-arrow-repeat me-2"></i>Transfer Student</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Previous School</label>
+                <input class="form-control" name="previousSchool" value="<%= student.previousSchool || '' %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Previous School DISE</label>
+                <input class="form-control" name="previousSchoolDise" value="<%= student.previousSchoolDise || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Previous School PEN</label>
+                <input class="form-control" name="previousSchoolPen" value="<%= student.previousSchoolPen || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Previous Result</label>
+                <input class="form-control" name="previousSchoolResult" value="<%= student.previousSchoolResult || '' %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Previous Attendance</label>
+                <input class="form-control" name="previousSchoolAttendance" value="<%= student.previousSchoolAttendance || '' %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Previous Class</label>
+                <input class="form-control" name="previousSchoolClass" value="<%= student.previousSchoolClass || '' %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Previous School Address</label>
+                <input class="form-control" name="previousSchoolAddress" value="<%= student.previousSchoolAddress || '' %>">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mt-4">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-navy"><i class="bi bi-file-earmark-check me-2"></i>Documents Submitted</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-2">
+              <% docList.forEach((doc) => { %>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="documentsSubmitted" value="<%= doc %>" id="doc_<%= doc.replace(/\\s+/g, '') %>" <%= docsSubmitted.includes(doc) ? "checked" : "" %>>
+                    <label class="form-check-label small" for="doc_<%= doc.replace(/\\s+/g, '') %>"><%= doc %></label>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 mb-4 text-center p-4">
+          <img
+            src="<%= (student.studentPhoto && student.studentPhoto.url) ? student.studentPhoto.url : '/img/default-avatar.png' %>"
+            class="img-thumbnail rounded-4 mb-3 mx-auto"
+            style="width: 150px; height: 180px; object-fit: cover;"
+          >
+
+          <h5 class="fw-bold mb-1"><%= student.firstName %> <%= student.lastName %></h5>
+          <p class="text-muted small mb-2">Application No: APP-2026-<%= String(student._id).slice(-6).toUpperCase() %></p>
+          <hr>
+
+          <div class="mb-3 text-start">
+            <label class="form-label small fw-bold">Status</label>
+            <select name="status" class="form-select">
+              <% ["Pending","Contacted","Approved","Rejected"].forEach((st) => { %>
+                <option value="<%= st %>" <%= (student.status === st) ? "selected" : "" %>><%= st %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label small fw-bold">Admin Notes</label>
+            <textarea name="adminNotes" class="form-control" rows="4" placeholder="Internal notes"><%= student.adminNotes || '' %></textarea>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label small fw-bold">Place</label>
+            <input class="form-control" name="applicationPlace" value="<%= student.applicationPlace || '' %>">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .bg-navy { background-color: #001f3f !important; }
+  .text-navy { color: #001f3f; }
+</style>
+

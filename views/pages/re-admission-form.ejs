@@ -1,0 +1,614 @@
+<% layout("layouts/boilerplate") %>
+
+<section class="admission-form-section py-5 bg-light min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="form-card shadow-lg bg-white rounded-4 overflow-hidden border-top border-5 border-navy">
+                    
+                    <div class="form-header text-center p-4 border-bottom bg-white">
+                        <img src="/img/logo.jpg" alt="Blossom World Logo" height="90" class="mb-2">
+                        <h2 class="mb-0 fw-bold text-navy">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</h2>
+                        <p class="text-muted fw-bold mb-0">Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006</p>
+                        <h4 class="bg-navy text-white d-inline-block px-5 py-2 rounded-pill shadow-sm mt-3">RE-ADMISSION FORM (2026-27)</h4>
+                    </div>
+
+                    <form id="reAdmissionForm" action="/submit-readmission" method="POST" class="p-4 p-md-5 needs-validation" enctype="multipart/form-data" novalidate>
+                        <div class="row g-4">
+                            
+                            <div class="col-lg-8 border-end">
+                                <h5 class="section-title mb-4"><i class="bi bi-info-circle-fill me-2"></i>Registration Info</h5>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold small text-muted">Application ID</label>
+                                        <input type="text" name="data[readmissionId]" id="readmissionId" class="form-control border-2 bg-light fw-bold text-navy" readonly required>
+                                        <div class="form-text fw-semibold">Application ID: <span id="readmissionIdDisplay"></span></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold small text-muted">Admission Date *</label>
+                                        <input type="date" name="data[admissionDate]" class="form-control border-2" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold small text-muted">Current Class *</label>
+                                        <input type="text" name="data[className]" class="form-control border-2" placeholder="e.g. VIII" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold small text-muted">Class to be Admitted *</label>
+                                        <input type="text" name="data[classToBeAdmitted]" class="form-control border-2" placeholder="e.g. IX" required>
+                                    </div>
+                                </div>
+
+                                <h5 class="section-title mb-4"><i class="bi bi-person-fill me-2"></i>Personal Particulars</h5>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-bold small">Full Student Name (As per Aadhaar) *</label>
+                                        <input type="text" name="data[studentName]" class="form-control border-2 text-uppercase fw-bold" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small">Father's Name *</label>
+                                        <input type="text" name="data[fatherName]" class="form-control border-2" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small">Mother's Name *</label>
+                                        <input type="text" name="data[motherName]" class="form-control border-2" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small">Parent WhatsApp No *</label>
+                                        <input type="text" name="data[parentWhatsapp]" class="form-control border-2" required inputmode="numeric" autocomplete="tel" pattern="^[0-9 .]{1,20}$" maxlength="14">
+                                        <div class="invalid-feedback">Only numbers are allowed (max 10 digits). Spaces and dot are allowed.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small">Student Aadhaar No *</label>
+                                        <input type="text" name="data[studentAadhaar]" class="form-control border-2" inputmode="numeric" autocomplete="off" pattern="^[0-9]{12}$" minlength="12" maxlength="12" required>
+                                        <div class="invalid-feedback">Aadhaar must be exactly 12 digits (numbers only).</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small">Parent Aadhaar No *</label>
+                                        <input type="text" name="data[parentAadhaar]" class="form-control border-2" inputmode="numeric" autocomplete="off" pattern="^[0-9]{12}$" minlength="12" maxlength="12" required>
+                                        <div class="invalid-feedback">Aadhaar must be exactly 12 digits (numbers only).</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-bold small">Permanent Address *</label>
+                                        <textarea name="data[permanentAddress]" class="form-control border-2" rows="2" required></textarea>
+                                    </div>
+                                </div>
+
+                                <h5 class="section-title mb-4"><i class="bi bi-graph-up-arrow me-2"></i>Academic & Health Stats</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold small">Prev. Marks % *</label>
+                                        <input type="text" name="data[previousMarksPercentage]" class="form-control border-2" required inputmode="numeric" autocomplete="off" pattern="^[0-9 .]{1,20}$" maxlength="14">
+                                        <div class="invalid-feedback">Only numbers are allowed (max 10 digits). Spaces and dot are allowed.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold small">Prev. Attendance % *</label>
+                                        <input type="text" name="data[previousAttendancePercentage]" class="form-control border-2" required inputmode="numeric" autocomplete="off" pattern="^[0-9 .]{1,20}$" maxlength="14">
+                                        <div class="invalid-feedback">Only numbers are allowed (max 10 digits). Spaces and dot are allowed.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold small">Height / Weight</label>
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <input type="text" name="data[height]" class="form-control border-2" placeholder="CM" inputmode="numeric" autocomplete="off" pattern="^[0-9 .]{0,20}$" maxlength="14">
+                                                <div class="invalid-feedback">Only numbers are allowed (max 10 digits). Spaces and dot are allowed.</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" name="data[weight]" class="form-control border-2" placeholder="KG" inputmode="numeric" autocomplete="off" pattern="^[0-9 .]{0,20}$" maxlength="14">
+                                                <div class="invalid-feedback">Only numbers are allowed (max 10 digits). Spaces and dot are allowed.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="verification-panel p-4 bg-light rounded-4 h-100 border border-2 shadow-sm" style="background-image: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);">
+                                    <h5 class="text-navy fw-bold text-center mb-4 text-uppercase small">Verification Media</h5>
+                                    
+                                    <div class="photo-section text-center mb-5">
+                                        <label class="form-label fw-bold small text-muted d-block mb-3">STUDENT PHOTO</label>
+                                        <div id="photoPreview" class="mx-auto shadow-sm rounded-3 bg-white border d-flex align-items-center justify-content-center" style="width: 140px; height: 165px; border-style: dashed !important; border-width: 2px !important;">
+                                            <span class="text-muted x-small">No Photo</span>
+                                        </div>
+                                        <input type="file" name="studentPhoto" id="studentPhoto" class="form-control form-control-sm border-2 mt-3" accept="image/*" required>
+                                        <div id="photoError" class="text-danger x-small mt-1 fw-bold d-none">MAX 1MB ALLOWED</div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="signature-section text-center">
+                                        <label class="form-label fw-bold small text-muted d-block mb-3">STUDENT SIGNATURE</label>
+                                        <div id="sigPreview" class="mx-auto shadow-sm rounded-3 bg-white border d-flex align-items-center justify-content-center" style="width: 200px; height: 70px; border-style: dashed !important; border-width: 2px !important;">
+                                            <span class="text-muted x-small">Upload Signature</span>
+                                        </div>
+                                        <input type="file" name="studentSignatureFile" id="studentSignatureFile" class="form-control form-control-sm border-2 mt-3" accept="image/*" required>
+                                    </div>
+
+                                    <div class="mt-4 p-3 bg-white rounded-3 border">
+                                        <p class="x-small text-muted mb-0 italic"><i class="bi bi-info-circle me-1"></i> Ensure both images are clear and well-lit for faster verification.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center pt-4 border-top">
+                            <button type="submit" id="submitBtn" class="btn btn-navy btn-lg rounded-pill px-5 shadow-lg">
+                                <i class="bi bi-check2-circle me-2"></i>SUBMIT RE-ADMISSION FORM
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .bg-navy { background-color: #001f3f; }
+    .text-navy { color: #001f3f; }
+    .btn-navy { background-color: #001f3f; color: white; border: none; transition: 0.3s; }
+    .btn-navy:hover { background-color: #003366; transform: translateY(-2px); }
+    .border-2 { border-width: 2px !important; }
+    .section-title { color: #001f3f; font-weight: 800; text-transform: uppercase; border-left: 5px solid #f37021; padding-left: 15px; font-size: 1rem; }
+    .x-small { font-size: 0.7rem; }
+    .italic { font-style: italic; }
+</style>
+
+<script>
+    // Preview logic for both photo and signature
+    const handlePreview = (inputId, previewId) => {
+        document.getElementById(inputId).addEventListener('change', function() {
+            const file = this.files[0];
+            const preview = document.getElementById(previewId);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => preview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
+                reader.readAsDataURL(file);
+            }
+        });
+    };
+
+    handlePreview('studentPhoto', 'photoPreview');
+    handlePreview('studentSignatureFile', 'sigPreview');
+</script>
+
+<style>
+    .bg-navy { background-color: #001f3f; }
+    .text-navy { color: #001f3f; }
+    .border-2 { border-width: 2px !important; }
+    .section-title { color: #001f3f; font-weight: 800; text-transform: uppercase; border-left: 5px solid #f37021; padding-left: 15px; }
+    .btn-navy { background-color: #001f3f; color: white; border: none; font-weight: 600; padding: 15px 50px; }
+</style>
+
+<script>
+    const form = document.getElementById('reAdmissionForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const idInput = document.getElementById('readmissionId');
+    const idDisplay = document.getElementById('readmissionIdDisplay');
+
+    function generateReadmissionId() {
+        const d = new Date();
+        const y = d.getFullYear().toString().slice(-2);
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const rand = Math.floor(1000 + Math.random() * 9000);
+        return `BWSSS-${y}${m}${day}-${rand}`;
+    }
+    idInput.value = generateReadmissionId();
+    if (idDisplay) idDisplay.textContent = idInput.value;
+
+    function fileToDataURL(file) {
+        return new Promise((resolve, reject) => {
+            if (!file) return resolve('');
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function urlToDataURL(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width;
+                canvas.height = img.naturalHeight || img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL('image/jpeg', 0.95));
+            };
+            img.onerror = reject;
+            img.src = url;
+        });
+    }
+
+    document.getElementById('studentPhoto').addEventListener('change', function () {
+        const file = this.files[0];
+        const preview = document.getElementById('photoPreview');
+        if (file && file.size > 1024 * 1024) {
+            document.getElementById('photoError').classList.remove('d-none');
+            this.value = '';
+            preview.innerHTML = '<span class="text-danger fw-bold">Too Large</span>';
+        } else if (file) {
+            document.getElementById('photoError').classList.add('d-none');
+            const reader = new FileReader();
+            reader.onload = e => preview.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;" class="rounded-3">`;
+            reader.readAsDataURL(file);
+        }
+    });
+
+    async function ensureJsPdf() {
+        if (window.jspdf && window.jspdf.jsPDF) return;
+        await new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            s.onload = resolve;
+            s.onerror = reject;
+            document.body.appendChild(s);
+        });
+    }
+
+    function reviewHtml(data) {
+        return `
+            <div style="text-align:left; max-height:55vh; overflow:auto; font-size:14px;">
+                <p><strong>Application ID:</strong> ${data.readmissionId || ''}</p>
+                <p><strong>Student:</strong> ${data.studentName || ''}</p>
+                <p><strong>Class:</strong> ${data.className || ''}</p>
+                <p><strong>Father:</strong> ${data.fatherName || ''}</p>
+                <p><strong>Mother:</strong> ${data.motherName || ''}</p>
+                <p><strong>To be admitted in:</strong> ${data.classToBeAdmitted || ''}</p>
+                <p><strong>Marks %:</strong> ${data.previousMarksPercentage || ''}</p>
+                <p><strong>Attendance %:</strong> ${data.previousAttendancePercentage || ''}</p>
+                <p style="margin:0; color:#6c757d;">Click <b>Edit</b> to change details, or <b>Submit</b> to continue.</p>
+            </div>
+        `;
+    }
+
+
+
+    async function downloadReAdmissionPdf(data, appId) {
+    await ensureJsPdf();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const logoDataUrl = await urlToDataURL('/img/logo.jpg').catch(() => null);
+
+    // Header & Logo
+    if (logoDataUrl) {
+        try { doc.addImage(logoDataUrl, 'JPEG', 15, 12, 22, 22); } catch (_) {}
+    }
+    doc.setFont('times', 'bold');
+    doc.setFontSize(18);
+    doc.text('BLOSSOM WORLD SENIOR SECONDARY SCHOOL', 105, 20, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text('Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006', 105, 26, { align: 'center' });
+    doc.setFontSize(14);
+    doc.text('RE-ADMISSION FORM (2026-27)', 105, 34, { align: 'center' });
+
+    // Student Photo at Top Right
+    if (data.studentPhotoDataUrl) {
+        try { doc.addImage(data.studentPhotoDataUrl, 'JPEG', 165, 12, 30, 38); 
+              doc.rect(165, 12, 30, 38); } catch (_) {}
+    }
+
+    doc.setLineWidth(0.5);
+    doc.line(15, 52, 195, 52); // Header Separator
+
+    // Data Rows
+    doc.setFontSize(11);
+    doc.setFont('times', 'normal');
+    let y = 60;
+    const details = [
+        ['Application ID', appId || 'N/A'],
+        ['Student Name', (data.studentName || '').toUpperCase()],
+        ['Class Admitted', data.className || 'N/A'],
+        ['Father\'s Name', data.fatherName || 'N/A'],
+        ['Mother\'s Name', data.motherName || 'N/A'],
+        ['Permanent Address', data.permanentAddress || 'N/A'],
+        ['WhatsApp Number', data.parentWhatsapp || 'N/A'],
+        ['Aadhaar (Student)', data.studentAadhaar || 'N/A'],
+        ['Aadhaar (Parent)', data.parentAadhaar || 'N/A'],
+        ['PEN No / Qualification', `${data.panNo || 'N/A'} / ${data.parentQualification || 'N/A'}`],
+        ['Prev. Marks / Attendance', `${data.previousMarksPercentage || '0'}% / ${data.previousAttendancePercentage || '0'}%`],
+        ['Physical Stats', `Height: ${data.height || '--'} cm | Weight: ${data.weight || '--'} kg`]
+    ];
+
+    details.forEach(([label, value]) => {
+        doc.setFont('times', 'bold');
+        doc.text(`${label}:`, 15, y);
+        doc.setFont('times', 'normal');
+        const splitValue = doc.splitTextToSize(String(value), 130);
+        doc.text(splitValue, 55, y);
+        y += (splitValue.length * 6) + 2;
+    });
+
+    // Signatures Section at Bottom
+    y = 240;
+    doc.line(15, y - 5, 195, y - 5);
+    
+    // Insert Student Signature Image
+    if (data.studentSignatureDataUrl) {
+        try { doc.addImage(data.studentSignatureDataUrl, 'PNG', 20, y - 20, 35, 12); } catch (_) {}
+    }
+
+    doc.setFontSize(9);
+    doc.text('__________________________', 35, y, { align: 'center' });
+    doc.text('Student Signature', 35, y + 5, { align: 'center' });
+
+    doc.text('__________________________', 105, y, { align: 'center' });
+    doc.text('Parent Signature', 105, y + 5, { align: 'center' });
+
+    doc.text('__________________________', 170, y, { align: 'center' });
+    doc.text('In-Charge', 170, y + 5, { align: 'center' });
+
+     doc.text('__________________________', 170, y, { align: 'center' });
+    doc.text('Principal', 170, y + 5, { align: 'center' });
+
+    doc.save(`re-admission-${appId || Date.now()}.pdf`);
+}
+
+
+
+
+    function printConfirmation(data, appId) {
+    const printWindow = window.open('', '_blank');
+    const targetDoc = printWindow.document;
+    const currentDate = new Date().toLocaleDateString('en-GB');
+
+    targetDoc.write(`
+    <html>
+        <head>
+            <title>Official Re-Admission Form - Blossom World</title>
+            <style>
+                @media print { @page { margin: 1cm; } .no-print { display: none; } }
+                body { font-family: 'Times New Roman', serif; color: #000; line-height: 1.5; padding: 10px; }
+                .outer-border { border: 3px double #000; padding: 20px; min-height: 95vh; position: relative; }
+                .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 20px; }
+                .school-name { font-size: 26px; font-weight: bold; margin: 0; color: #001f3f; text-align: center; }
+                .sub-header { text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
+                
+                .photo-box { 
+                    position: absolute; top: 30px; right: 30px; 
+                    width: 120px; height: 150px; border: 1px solid #000; 
+                    display: flex; align-items: center; justify-content: center; overflow: hidden; 
+                    background: #f9f9f9;
+                }
+                
+                .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                .data-table td { padding: 8px; vertical-align: top; border-bottom: 1px solid #eee; }
+                .label { font-weight: bold; width: 35%; }
+                
+                .sig-container { margin-top: 60px; display: flex; justify-content: space-between; text-align: center; }
+                .sig-item { width: 30%; position: relative; }
+                .sig-line { border-top: 1px solid #000; margin-top: 50px; padding-top: 5px; font-weight: bold; }
+                .student-sig-img { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); max-height: 50px; }
+                
+                .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(0,0,0,0.05); z-index: -1; white-space: nowrap; }
+            </style>
+        </head>
+        <body>
+            <div class="outer-border">
+                <div class="watermark">BLOSSOM WORLD</div>
+                
+                <div class="photo-box">
+                    ${data.studentPhotoDataUrl ? `<img src="${data.studentPhotoDataUrl}" style="width:100%;height:100%;object-fit:cover;">` : 'Affix Photo'}
+                </div>
+
+                <div class="header-table">
+                    <div style="text-align:center; margin-bottom:10px;"><img src="/img/logo.jpg" style="height:70px;"></div>
+                    <h1 class="school-name">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</h1>
+                    <p class="sub-header">Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006</p>
+                    <div style="background:#001f3f; color:#fff; text-align:center; padding:5px; font-weight:bold; border-radius:50px; width:60%; margin: 10px auto;">RE-ADMISSION FORM (2026-27)</div>
+                </div>
+
+                <table class="data-table">
+                    <tr><td class="label">Application ID:</td><td>${appId || 'N/A'}</td></tr>
+                    <tr><td class="label">Student Name (Aadhaar):</td><td style="text-transform:uppercase; font-weight:bold;">${data.studentName || ''}</td></tr>
+                    <tr><td class="label">Father's Name:</td><td>${data.fatherName || ''}</td></tr>
+                    <tr><td class="label">Mother's Name:</td><td>${data.motherName || ''}</td></tr>
+                    <tr><td class="label">Permanent Address:</td><td>${data.permanentAddress || ''}</td></tr>
+                    <tr><td class="label">Parent WhatsApp:</td><td>${data.parentWhatsapp || ''}</td></tr>
+                    <tr><td class="label">Student Aadhaar No:</td><td>${data.studentAadhaar || ''}</td></tr>
+                    <tr><td class="label">Marks % (Prev. Class):</td><td>${data.previousMarksPercentage || '0'}%</td></tr>
+                    <tr><td class="label">Attendance % (Prev. Class):</td><td>${data.previousAttendancePercentage || '0'}%</td></tr>
+                    <tr><td class="label">Health Profile:</td><td>Height: ${data.height || '--'} cm | Weight: ${data.weight || '--'} kg</td></tr>
+                    <tr><td class="label">Date of Submission:</td><td>${data.admissionDate || currentDate}</td></tr>
+                </table>
+
+                <div class="sig-container">
+                    <div class="sig-item">
+                        ${data.studentSignatureDataUrl ? `<img src="${data.studentSignatureDataUrl}" class="student-sig-img">` : ''}
+                        <div class="sig-line">Student Signature</div>
+                    </div>
+                    <div class="sig-item">
+                        <div class="sig-line">Parent/Guardian Signature</div>
+                    </div>
+                    <div class="sig-item">
+                        <div class="sig-line">Principal / In-Charge</div>
+                    </div>
+                </div>
+                <div class="sig-container" style="justify-content: right;">
+                    <div class="sig-item">
+                        <div class="sig-line">Principal</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:40px; font-size:11px; color:#555; border-top:1px dashed #ccc; padding-top:10px;">
+                    * This is a computer-generated form for record purposes. Any discrepancy should be reported to the office immediately.
+                </div>
+            </div>
+        </body>
+    </html>`);
+
+    targetDoc.close();
+    setTimeout(() => {
+        if (printWindow) {
+            printWindow.focus();
+            printWindow.print();
+        }
+    }, 800);
+}
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        form.classList.add('was-validated');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(form);
+        const plainData = {};
+        for (const [key, value] of formData.entries()) {
+            const match = key.match(/^data\[(.+)\]$/);
+            const targetKey = match ? match[1] : key;
+            if (plainData[targetKey] === undefined) {
+                plainData[targetKey] = value;
+            }
+        }
+        plainData.studentPhotoDataUrl = await fileToDataURL(document.getElementById('studentPhoto').files[0]);
+        plainData.studentSignatureDataUrl = await fileToDataURL(document.getElementById('studentSignatureFile').files[0]);
+
+        const reviewResult = await Swal.fire({
+            title: 'Review Before Submit',
+            html: reviewHtml(plainData),
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            cancelButtonText: 'Edit',
+            width: 700
+        });
+        if (!reviewResult.isConfirmed) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        try {
+            const res = await fetch('/submit-readmission', {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+            const raw = await res.text();
+            const isJson = res.headers.get('content-type')?.includes('application/json');
+            if (!isJson) throw new Error(raw || 'Submission failed');
+
+            let data = {};
+            try { data = JSON.parse(raw); } catch { throw new Error('Invalid JSON response'); }
+            if (!res.ok || !data.success) throw new Error(data.message || 'Submission failed');
+
+            const nextAction = await Swal.fire({
+                icon: 'success',
+                title: 'Re-Admission Submitted',
+                html: `Application ID: <b>${plainData.readmissionId || ''}</b><br>Choose what you want now.`,
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonText: 'Print',
+                denyButtonText: 'Download PDF',
+                cancelButtonText: 'Skip'
+            });
+
+            if (nextAction.isConfirmed) {
+                printConfirmation(plainData, plainData.readmissionId);
+            } else if (nextAction.isDenied) {
+                await downloadReAdmissionPdf(plainData, plainData.readmissionId);
+            }
+
+            form.reset();
+            idInput.value = generateReadmissionId();
+            if (idDisplay) idDisplay.textContent = idInput.value;
+            document.getElementById('photoPreview').innerHTML = '<span class="text-muted small">Photo Box</span>';
+            document.getElementById('photoError').classList.add('d-none');
+        } catch (err) {
+            await Swal.fire({ icon: 'error', title: 'Submission failed', text: err.message || 'Please try again.' });
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Re-Admission Form';
+        }
+    });
+
+    function digitsOnly(value) {
+        return String(value || '').replace(/\D+/g, '');
+    }
+
+    function sanitizeNumericLoose(value) {
+        return String(value || '').replace(/[^0-9 .]/g, '');
+    }
+
+    function applyLooseNumberRules(inputEl, { required = false, maxDigits = 10 } = {}) {
+        const original = inputEl.value;
+        let next = sanitizeNumericLoose(original);
+
+        const digits = digitsOnly(next);
+        if (digits.length > maxDigits) {
+            next = digits.slice(0, maxDigits);
+        }
+
+        if (next !== original) inputEl.value = next;
+
+        const isTouched = inputEl.dataset.touched === '1' || form.classList.contains('was-validated');
+        if (!isTouched) {
+            inputEl.setCustomValidity('');
+            inputEl.classList.remove('is-invalid', 'is-valid');
+            return;
+        }
+
+        if (required && !digitsOnly(inputEl.value).length) {
+            inputEl.setCustomValidity('Required');
+            inputEl.classList.add('is-invalid');
+            inputEl.classList.remove('is-valid');
+            return;
+        }
+
+        inputEl.setCustomValidity('');
+        if (digitsOnly(inputEl.value).length) {
+            inputEl.classList.remove('is-invalid');
+            inputEl.classList.add('is-valid');
+        } else {
+            inputEl.classList.remove('is-invalid', 'is-valid');
+        }
+    }
+
+    function applyAadhaarRules(inputEl) {
+        const original = inputEl.value;
+        const next = digitsOnly(original).slice(0, 12);
+        if (next !== original) inputEl.value = next;
+
+        const isTouched = inputEl.dataset.touched === '1' || form.classList.contains('was-validated');
+        if (!isTouched) {
+            inputEl.setCustomValidity('');
+            inputEl.classList.remove('is-invalid', 'is-valid');
+            return;
+        }
+
+        if (inputEl.value.length !== 12) {
+            inputEl.setCustomValidity('Aadhaar must be 12 digits');
+            inputEl.classList.add('is-invalid');
+            inputEl.classList.remove('is-valid');
+            return;
+        }
+
+        inputEl.setCustomValidity('');
+        inputEl.classList.remove('is-invalid');
+        inputEl.classList.add('is-valid');
+    }
+
+    function wireValidation(selector, handler) {
+        const el = document.querySelector(selector);
+        if (!el) return;
+        el.addEventListener('input', () => handler(el));
+        el.addEventListener('blur', () => {
+            el.dataset.touched = '1';
+            handler(el);
+        });
+        handler(el);
+    }
+
+    wireValidation('[name="data[parentWhatsapp]"]', (el) => applyLooseNumberRules(el, { required: true, maxDigits: 10 }));
+    wireValidation('[name="data[previousMarksPercentage]"]', (el) => applyLooseNumberRules(el, { required: true, maxDigits: 10 }));
+    wireValidation('[name="data[previousAttendancePercentage]"]', (el) => applyLooseNumberRules(el, { required: true, maxDigits: 10 }));
+    wireValidation('[name="data[height]"]', (el) => applyLooseNumberRules(el, { required: false, maxDigits: 10 }));
+    wireValidation('[name="data[weight]"]', (el) => applyLooseNumberRules(el, { required: false, maxDigits: 10 }));
+    wireValidation('[name="data[studentAadhaar]"]', applyAadhaarRules);
+    wireValidation('[name="data[parentAadhaar]"]', applyAadhaarRules);
+</script>

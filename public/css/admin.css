@@ -1,0 +1,14 @@
+/* --- Admin Specific Styling --- */
+.table-hover tbody tr:hover {
+    background-color: rgba(243, 112, 33, 0.05); /* Very light school orange */
+}
+
+.school-navy {
+    color: #001f3f;
+    font-weight: 800;
+}
+
+.btn-group .btn {
+    border-radius: 4px !important;
+    font-weight: 600;
+}

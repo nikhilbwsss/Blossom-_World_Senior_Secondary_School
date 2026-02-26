@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Slip - <%= registration.firstName %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print { .no-print { display: none; } }
+        .slip-container { border: 2px solid #001f3f; padding: 30px; margin-top: 20px; }
+        .school-logo { width: 80px; }
+    </style>
+</head>
+<body onload="window.print()"> <div class="container">
+        <div class="text-center no-print mt-3">
+            <button onclick="window.print()" class="btn btn-primary">Print Now</button>
+            <a href="/admin/dashboard" class="btn btn-secondary">Back</a>
+        </div>
+
+        <div class="slip-container">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                <div class="text-start">
+                    <h3 class="fw-bold mb-0" style="color: #001f3f;">The Ummed International School</h3>
+                    <p class="text-muted small mb-0">Enlighten and Empower</p>
+                </div>
+                <div class="text-end">
+                    <h5 class="mb-0">Registration Slip</h5>
+                    <small>ID: #<%= registration._id.toString().slice(-6).toUpperCase() %></small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="text-muted small d-block">Student Name</label>
+                    <strong><%= registration.firstName %> <%= registration.lastName %></strong>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="text-muted small d-block">Grade Applied For</label>
+                    <strong><%= registration.requiredClass %></strong>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="text-muted small d-block">Parent's Name</label>
+                    <strong>Father: <%= registration.fatherName %> / Mother: <%= registration.motherName %></strong>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="text-muted small d-block">Contact</label>
+                    <strong><%= registration.mobile %> / <%= registration.email %></strong>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="text-muted small d-block">Date of Submission</label>
+                    <strong><%= registration.submittedAt.toLocaleDateString() %></strong>
+                </div>
+            </div>
+
+            <div class="mt-5 pt-5 d-flex justify-content-between">
+                <div class="text-center" style="width: 200px; border-top: 1px solid #000;">
+                    <small>Parent Signature</small>
+                </div>
+                <div class="text-center" style="width: 200px; border-top: 1px solid #000;">
+                    <small>Office Seal & Sign</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

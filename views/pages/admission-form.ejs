@@ -1,0 +1,865 @@
+<% layout("layouts/boilerplate") %>
+
+    <section class="admission-form-section py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="form-card shadow-lg bg-white rounded-4 overflow-hidden border-top border-5 border-navy">
+
+                        <div class="form-header text-center p-4">
+                            <img src="/img/logo.jpg" alt="Blossom World Logo" height="90" class="mb-2">
+                            <h2 class="mb-0 fw-bold text-navy">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</h2>
+                            <p class="text-muted small fw-bold">Uttarkrishnapur-II, Cachar, Assam</p>
+                            <h4 class="bg-navy text-white d-inline-block px-5 py-2 rounded-pill mt-3 shadow-sm">
+                                APPLICATION FOR ADMISSION (2026-27)</h4>
+
+                            <!-- <div class="row mt-4 px-4 text-start small fw-bold text-muted">
+                                <div class="col-4">Form No.: <span class="text-navy">________</span></div>
+                                <div class="col-4">Received on: <span class="text-navy">________</span></div>
+                                <div class="col-4">Admission No.: <span class="text-navy">________</span></div>
+                            </div> -->
+                        </div>
+                        <form id="admissionForm" action="/submit-admission" method="POST" class="p-4 p-md-5"
+                            enctype="multipart/form-data">
+
+
+                            <div class="row mb-5 align-items-center bg-light p-4 rounded-4 border">
+                                <div class="col-md-9">
+                                    <h5 class="section-title"><i class="bi bi-camera me-2"></i>Candidate Photo</h5>
+                                    <p class="small text-muted mb-3">(Affix recent passport size color photo of the
+                                        candidate. Max 1MB.)</p>
+                                    <input type="file" name="studentPhoto" id="studentPhoto"
+                                        class="form-control border-2 shadow-sm" accept="image/*" required>
+                                    <div id="photoError" class="text-danger small mt-2 fw-bold d-none">
+                                        <i class="bi bi-exclamation-octagon-fill"></i> PHOTO SHOULD BE MAXIMUM 1MB!
+                                        PLEASE COMPRESS AND TRY AGAIN.
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    <div id="photoPreview"
+                                        class="mx-auto border-2 rounded-3 d-flex align-items-center justify-content-center bg-white shadow-sm"
+                                        style="width: 130px; height: 150px; border-style: dashed !important; border-color: #dee2e6 !important;">
+                                        <span class="text-muted small">Preview</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="mb-4"><strong>To, The Principal,</strong><br>Sir/Madam, I beg to apply for the
+                                admission of my son/daughter/ward in your school. The particulars are furnished below:
+                            </p>
+
+                            <h5 class="section-title mb-4"><i class="bi bi-person-badge me-2"></i>1. Student Particulars
+                            </h5>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold small">Name of Student (IN BLOCK LETTERS) *</label>
+                                    <div class="row g-2">
+                                        <div class="col-md-4"><input type="text" name="data[firstName]"
+                                                placeholder="First Name" class="form-control border-2 text-uppercase"
+                                                required></div>
+                                        <div class="col-md-4"><input type="text" name="data[middleName]"
+                                                placeholder="Middle Name" class="form-control border-2 text-uppercase">
+                                        </div>
+                                        <div class="col-md-4"><input type="text" name="data[lastName]"
+                                                placeholder="Last Name" class="form-control border-2 text-uppercase"
+                                                required></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Aadhaar Number of Student</label>
+                                    <input type="text" name="data[aadhaarNumber]" class="form-control border-2"
+                                        maxlength="12">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">APAAR ID of Student</label>
+                                    <input type="text" name="data[apaarId]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Class (to be admitted) *</label>
+                                    <select name="data[requiredClass]" id="classSelect" class="form-select border-2"
+                                        required>
+                                        <option value="" disabled selected>Select</option>
+                                        <option>Nursery</option>
+                                        <option>KG</option>
+                                        <option>Class I</option>
+                                        <option>Class II</option>
+                                        <option>Class III</option>
+                                        <option>Class IV</option>
+                                        <option>Class V</option>
+                                        <option>Class VI</option>
+                                        <option>Class VII</option>
+                                        <option>Class VIII</option>
+                                        <option>Class IX</option>
+                                        <option>Class X</option>
+                                        <option value="XI">Class XI</option>
+                                        <option value="XII">Class XII</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Date of Birth *</label>
+                                    <input type="date" name="data[dob]" class="form-control border-2" required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Gender *</label>
+                                    <select name="data[gender]" class="form-select border-2" required>
+                                        <option value="">Select</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Blood Group</label>
+                                    <input type="text" name="data[bloodGroup]" class="form-control border-2"
+                                        placeholder="e.g. O+">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Identification Mark</label>
+                                    <input type="text" name="data[identificationMark]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Religion</label>
+                                    <input type="text" name="data[religion]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Caste</label>
+                                    <input type="text" name="data[caste]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Nationality</label>
+                                    <input type="text" name="data[nationality]" class="form-control border-2"
+                                        value="Indian">
+                                </div>
+                            </div>
+
+                            <div id="seniorSecondarySection" class="mb-5 d-none">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-orange">Select Stream *</label>
+                                        <select name="data[stream]" id="streamSelect"
+                                            class="form-select border-2 bg-light-orange">
+                                            <option value="" selected>Choose Stream</option>
+                                            <option value="Science">Science</option>
+                                            <option value="Commerce">Commerce</option>
+                                            <option value="Arts">Arts</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="subjectSection" class="mt-4 p-4 border rounded-4 d-none"
+                                    style="background: #fffcf9;">
+                                    <h6 class="fw-bold text-navy mb-3">Choose Elective Subjects</h6>
+                                    <div id="subjectOptions" class="row g-2"></div>
+                                </div>
+                            </div>
+
+                            <h5 class="section-title mt-5 mb-4"><i class="bi bi-people me-2"></i>2. Parental Information
+                            </h5>
+                            <div class="row g-4">
+                                <div class="col-md-6 border-end">
+                                    <p class="fw-bold text-navy border-bottom pb-2">Father's Particulars</p>
+                                    <div class="mb-3"><label class="small fw-bold">Full Name *</label><input type="text"
+                                            name="data[fatherName]" class="form-control border-2" required></div>
+                                    <div class="row g-2">
+                                        <div class="col-6 mb-3"><label class="small fw-bold">Occupation</label><input
+                                                type="text" name="data[fatherOccupation]" class="form-control border-2">
+                                        </div>
+                                        <div class="col-6 mb-3"><label class="small fw-bold">Annual Income</label><input
+                                                type="text" name="data[fatherIncome]" class="form-control border-2">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3"><label class="small fw-bold">Educational
+                                            Qualification</label><input type="text" name="data[fatherEducation]"
+                                            class="form-control border-2"></div>
+                                    <div class="mb-3"><label class="small fw-bold">Aadhaar No.</label><input type="text"
+                                            name="data[fatherAadhaar]" class="form-control border-2"></div>
+                                    <div class="row g-2">
+                                        <div class="col-6"><label class="small fw-bold">Contact No *</label><input
+                                                type="tel" name="data[mobile]" class="form-control border-2" required>
+                                        </div>
+                                        <div class="col-6"><label class="small fw-bold">WhatsApp No</label><input
+                                                type="tel" name="data[fatherWhatsApp]" class="form-control border-2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="fw-bold text-navy border-bottom pb-2">Mother's Particulars</p>
+                                    <div class="mb-3"><label class="small fw-bold">Full Name *</label><input type="text"
+                                            name="data[motherName]" class="form-control border-2" required></div>
+                                    <div class="row g-2">
+                                        <div class="col-6 mb-3"><label class="small fw-bold">Occupation</label><input
+                                                type="text" name="data[motherOccupation]" class="form-control border-2">
+                                        </div>
+                                        <div class="col-6 mb-3"><label class="small fw-bold">Annual Income</label><input
+                                                type="text" name="data[motherIncome]" class="form-control border-2">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3"><label class="small fw-bold">Educational
+                                            Qualification</label><input type="text" name="data[motherEducation]"
+                                            class="form-control border-2"></div>
+                                    <div class="mb-3"><label class="small fw-bold">Aadhaar No.</label><input type="text"
+                                            name="data[motherAadhaar]" class="form-control border-2"></div>
+                                    <div class="row g-2">
+                                        <div class="col-6"><label class="small fw-bold">Contact No</label><input
+                                                type="tel" name="data[motherContact]" class="form-control border-2">
+                                        </div>
+                                        <div class="col-6"><label class="small fw-bold">WhatsApp No</label><input
+                                                type="tel" name="data[motherWhatsApp]" class="form-control border-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="section-title mt-5 mb-4"><i class="bi bi-geo-alt me-2"></i>3. Address & Health
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Permanent Address *</label>
+                                    <textarea name="data[permanentAddress]" id="permAddress"
+                                        class="form-control border-2" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label fw-bold small">Present Residential Address *</label>
+                                        <div class="form-check small"><input class="form-check-input" type="checkbox"
+                                                id="syncAddress"> <label class="form-check-label text-orange fw-bold"
+                                                for="syncAddress">Same as Permanent?</label></div>
+                                    </div>
+                                    <textarea name="data[presentAddress]" id="presAddress" class="form-control border-2"
+                                        rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Name of Local Guardian</label>
+                                    <input type="text" name="data[localGuardianName]" class="form-control border-2">
+
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold small">Brother/Sister studying in this school (Name
+                                        with Class)</label>
+                                    <input type="text" name="data[siblingsInSchool]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Physically Handicapped?</label>
+                                    <select name="data[isHandicapped]" class="form-select border-2">
+                                        <option>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-9">
+                                    <label class="form-label fw-bold small">If yes, give details</label>
+                                    <input type="text" name="data[handicapDetails]" class="form-control border-2">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Height / Weight</label>
+                                    <div class="input-group"><input type="text" name="data[height]" class="form-control"
+                                            placeholder="H"><input type="text" name="data[weight]" class="form-control"
+                                            placeholder="W"></div>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label fw-bold small">Distance from School to residence</label>
+                                    <input type="text" name="data[distanceFromSchool]" class="form-control border-2">
+                                </div>
+                            </div>
+
+                            <h5 class="section-title mt-5 mb-4"><i class="bi bi-arrow-repeat me-2"></i>4. For Transfer
+                                Students</h5>
+                            <div class="bg-light p-4 rounded-4 border">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="small fw-bold">Name of Previous
+                                            School</label><input type="text" name="data[previousSchool]"
+                                            class="form-control bg-white"></div>
+                                    <div class="col-md-6"><label class="small fw-bold">DISE of Previous
+                                            School</label><input type="text" name="data[previousSchoolDise]"
+                                            class="form-control bg-white"></div>
+                                    <div class="col-md-3"><label class="small fw-bold">PEN No. / APAAR ID</label><input
+                                            type="text" name="data[previousSchoolPen]" class="form-control bg-white">
+                                    </div>
+                                    <div class="col-md-3"><label class="small fw-bold">Result (in %)</label><input
+                                            type="text" name="data[previousResult]" class="form-control bg-white"></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Total Attendance</label><input
+                                            type="text" name="data[previousSchoolAttendance]"
+                                            class="form-control bg-white"></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Class</label><input type="text"
+                                            name="data[previousSchoolClass]" class="form-control bg-white"></div>
+                                </div>
+                            </div>
+
+                            <h5 class="section-title mt-5 mb-4"><i class="bi bi-file-earmark-check me-2"></i>5.
+                                Documents Submitted</h5>
+                            <div class="row g-2 p-3 bg-white border rounded-4">
+                                <% const docList=['Birth certificate (Xerox)', "Father's photo (2 copies)"
+                                    , "Student's Blood Group Certificate" , "Aadhaar card of father (Xerox)"
+                                    , "Guardian's Aadhaar card (Xerox)" , "Student's photo (4 copies)"
+                                    , "Mother's photo (2 copies)" , "Aadhaar card of student (Xerox)"
+                                    , "Aadhaar card of mother (Xerox)" , "T.C. (Original)" , "Marksheet (Original)" ];
+                                    %>
+                                    <% docList.forEach(doc=> { %>
+                                        <div class="col-md-6 col-lg-4">
+                                            <div class="form-check"><input class="form-check-input" type="checkbox"
+                                                    name="data[documentsSubmitted]" value="<%= doc %>"
+                                                    id="doc_<%= doc.replace(/\s+/g, '') %>"> <label
+                                                    class="form-check-label small"
+                                                    for="doc_<%= doc.replace(/\s+/g, '') %>">
+                                                    <%= doc %>
+                                                </label></div>
+                                        </div>
+                                        <% }) %>
+                            </div>
+
+                            <div class="mt-5 p-4 border-start border-5 border-orange bg-light">
+                                <p class="small italic">I hereby declare that the information supplied above is true to
+                                    the best of my knowledge and belief. The rules and regulation of the school shall be
+                                    strictly adhered to by my ward. <strong>N.B.: Fees once paid will not be
+                                        returned.</strong></p>
+                                <div class="form-check mt-3"><input class="form-check-input" type="checkbox"
+                                        id="declaration" required> <label class="form-check-label fw-bold"
+                                        for="declaration">I Accept the above declaration.</label></div>
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold small">Place *</label>
+                                    <input type="text" name="data[applicationPlace]" class="form-control border-2"
+                                        placeholder="Enter place" required>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 text-center">
+                                <button type="submit" id="submitBtn"
+                                    class="btn btn-navy btn-lg rounded-pill px-5 shadow">Submit Application
+                                    Form</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .bg-navy {
+            background-color: #001f3f;
+        }
+
+        .text-navy {
+            color: #001f3f;
+        }
+
+        .text-orange {
+            color: #f37021;
+        }
+
+        .border-2 {
+            border-width: 2px !important;
+        }
+
+        .section-title {
+            color: #001f3f;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-left: 5px solid #f37021;
+            padding-left: 15px;
+        }
+
+        .bg-light-orange {
+            background-color: #fff4ed !important;
+            border-color: #f37021 !important;
+        }
+
+        .subject-card {
+            background: white;
+            border: 2px solid #eee;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-navy {
+            background-color: #001f3f;
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 15px 50px;
+        }
+    </style>
+
+    <script>
+        const classSelect = document.getElementById('classSelect');
+        const seniorSection = document.getElementById('seniorSecondarySection');
+        const streamSelect = document.getElementById('streamSelect');
+        const subjectSection = document.getElementById('subjectSection');
+        const subjectOptions = document.getElementById('subjectOptions');
+
+        // 1. Photo Size Validation
+        document.getElementById('studentPhoto').addEventListener('change', function () {
+            const file = this.files[0];
+            const preview = document.getElementById('photoPreview');
+            if (file && file.size > 1024 * 1024) {
+                document.getElementById('photoError').classList.remove('d-none');
+                this.value = '';
+                preview.innerHTML = '<span class="text-danger fw-bold">Too Large</span>';
+            } else if (file) {
+                document.getElementById('photoError').classList.add('d-none');
+                const reader = new FileReader();
+                reader.onload = e => preview.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;" class="rounded-3">`;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Address Sync
+        document.getElementById('syncAddress').addEventListener('change', function () {
+            const perm = document.getElementById('permAddress');
+            const pres = document.getElementById('presAddress');
+            if (this.checked) {
+                pres.value = perm.value;
+                pres.readOnly = true;
+            } else {
+                pres.readOnly = false;
+            }
+        });
+
+        // 3. Dynamic Streams
+        const streamSubjects = {
+            Science: ['Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science'],
+            Commerce: ['Accountancy', 'Business Studies', 'Economics', 'Commercial Math'],
+            Arts: ['Political Science', 'History', 'Geography', 'Sociology', 'Logic & Philosophy']
+        };
+
+        classSelect.addEventListener('change', function () {
+            if (this.value === 'XI' || this.value === 'XII') {
+                seniorSection.classList.remove('d-none');
+            } else {
+                seniorSection.classList.add('d-none');
+                subjectSection.classList.add('d-none');
+                subjectOptions.innerHTML = '';
+            }
+        });
+
+        streamSelect.addEventListener('change', function () {
+            const stream = this.value;
+            if (stream && streamSubjects[stream]) {
+                subjectSection.classList.remove('d-none');
+                subjectOptions.innerHTML = streamSubjects[stream].map(sub => `
+                <div class="col-md-4 col-6">
+                    <label class="subject-card" for="sub_${sub}"><input type="checkbox" name="data[selectedSubjects]" value="${sub}" id="sub_${sub}" class="form-check-input me-2"><span class="small fw-bold">${sub}</span></label>
+                </div>
+            `).join('');
+            } else {
+                subjectSection.classList.add('d-none');
+                subjectOptions.innerHTML = '';
+            }
+        });
+
+        const form = document.getElementById('admissionForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Auto-append units on blur (keeps typing simple; avoids fighting cursor while user edits).
+        function attachUnit(input, unit) {
+            if (!input) return;
+            input.addEventListener('blur', () => {
+                const raw = String(input.value || '').trim();
+                if (!raw) return;
+                const withoutUnit = raw.replace(new RegExp(`\\s*${unit}$`, 'i'), '').trim();
+                if (!withoutUnit) return;
+                input.value = `${withoutUnit} ${unit}`;
+            });
+        }
+
+        attachUnit(document.querySelector('input[name="data[height]"]'), 'cm');
+        attachUnit(document.querySelector('input[name="data[weight]"]'), 'kg');
+        attachUnit(document.querySelector('input[name="data[distanceFromSchool]"]'), 'km');
+
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return resolve('');
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function urlToDataURL(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth || img.width;
+                        canvas.height = img.naturalHeight || img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve(canvas.toDataURL('image/jpeg', 0.95));
+                    } catch (err) {
+                        reject(err);
+                    }
+                };
+                img.onerror = reject;
+                img.src = url;
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function reviewHtml(data) {
+            const subjects = (data.selectedSubjects || []).join(', ') || 'N/A';
+            const docs = (data.documentsSubmitted || []).join(', ') || 'N/A';
+            return `
+                <div style="text-align:left; max-height:55vh; overflow:auto; font-size:14px;">
+                    <p><strong>Student:</strong> ${escapeHtml(`${data.firstName || ''} ${data.middleName || ''} ${data.lastName || ''}`.trim())}</p>
+                    <p><strong>Class:</strong> ${escapeHtml(data.requiredClass || '')}</p>
+                    <p><strong>DOB:</strong> ${escapeHtml(data.dob || '')}</p>
+                    <p><strong>Gender:</strong> ${escapeHtml(data.gender || '')}</p>
+                    <p><strong>Father:</strong> ${escapeHtml(data.fatherName || '')}</p>
+                    <p><strong>Mother:</strong> ${escapeHtml(data.motherName || '')}</p>
+                    <p><strong>Mobile:</strong> ${escapeHtml(data.mobile || '')}</p>
+                    <p><strong>Address:</strong> ${escapeHtml(data.presentAddress || '')}</p>
+                    <p><strong>Place:</strong> ${escapeHtml(data.applicationPlace || '')}</p>
+                    <p><strong>Subjects:</strong> ${escapeHtml(subjects)}</p>
+                    <p><strong>Documents:</strong> ${escapeHtml(docs)}</p>
+                    <hr>
+                    <p style="margin:0; color:#6c757d;">Click <b>Edit</b> to change details, or <b>Submit</b> to continue.</p>
+                </div>
+            `;
+        }
+
+        async function ensureJsPdf() {
+            if (window.jspdf && window.jspdf.jsPDF) return;
+            await new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+                s.onload = resolve;
+                s.onerror = reject;
+                document.body.appendChild(s);
+            });
+        }
+
+        async function downloadAdmissionPdf(data, appId) {
+            await ensureJsPdf();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const logoDataUrl = await urlToDataURL('/img/logo.jpg').catch(() => null);
+
+            let y = 16;
+            if (logoDataUrl) {
+                try {
+                    doc.addImage(logoDataUrl, 'JPEG', 15, 10, 18, 18);
+                } catch (_) { }
+            }
+            doc.setFont('times', 'bold');
+            doc.setFontSize(16);
+            doc.text('BLOSSOM WORLD SENIOR SECONDARY SCHOOL', 105, y, { align: 'center' });
+            y += 7;
+            doc.setFontSize(12);
+            doc.text('APPLICATION FORM', 105, y, { align: 'center' });
+            y += 10;
+
+            if (data.studentPhotoDataUrl) {
+                try {
+                    doc.addImage(data.studentPhotoDataUrl, 'JPEG', 160, 15, 30, 35);
+                } catch (_) {
+                    try {
+                        doc.addImage(data.studentPhotoDataUrl, 'PNG', 160, 15, 30, 35);
+                    } catch (_) { }
+                }
+            }
+
+            doc.setFont('times', 'normal');
+            doc.setFontSize(11);
+            const lines = [
+                `Name: ${(data.firstName || '')} ${(data.middleName || '')} ${(data.lastName || '')}`.trim(),
+                `Class / DOB: ${data.requiredClass || ''} / ${data.dob || ''}`,
+                `Gender: ${data.gender || ''}`,
+                `Father: ${data.fatherName || ''}`,
+                `Mother: ${data.motherName || ''}`,
+                `Contact: ${data.mobile || ''}`,
+                `Address: ${data.presentAddress || ''}`,
+                `Place: ${data.applicationPlace || ''}`,
+                `Subjects: ${(data.selectedSubjects || []).join(', ') || 'N/A'}`,
+                `Documents: ${(data.documentsSubmitted || []).join(', ') || 'N/A'}`,
+                `Application ID: ${appId || ''}`
+            ];
+
+            lines.forEach((line) => {
+                const split = doc.splitTextToSize(line, 180);
+                doc.text(split, 15, y);
+                y += split.length * 6;
+                if (y > 275) {
+                    doc.addPage();
+                    y = 18;
+                }
+            });
+
+            doc.save(`admission-${appId || Date.now()}.pdf`);
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const plainData = {};
+            for (const [key, value] of formData.entries()) {
+                const match = key.match(/^data\[(.+)\]$/);
+                const targetKey = match ? match[1] : key;
+                if (plainData[targetKey] === undefined) {
+                    plainData[targetKey] = value;
+                }
+            }
+            const photoFile = document.getElementById('studentPhoto').files[0];
+            plainData.studentPhotoDataUrl = await fileToDataURL(photoFile);
+            plainData.selectedSubjects = formData.getAll('data[selectedSubjects]');
+            plainData.documentsSubmitted = formData.getAll('data[documentsSubmitted]');
+
+            const reviewResult = await Swal.fire({
+                title: 'Review Before Submit',
+                html: reviewHtml(plainData),
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Edit',
+                width: 700
+            });
+
+            if (!reviewResult.isConfirmed) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const res = await fetch('/submit-admission', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                const raw = await res.text();
+                const isJson = res.headers.get('content-type')?.includes('application/json');
+                if (!isJson) {
+                    throw new Error(raw || 'Submission failed');
+                }
+
+                let data = {};
+                try {
+                    data = JSON.parse(raw);
+                } catch {
+                    throw new Error('Invalid JSON response');
+                }
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.message || 'Submission failed');
+                }
+
+                const nextAction = await Swal.fire({
+                    icon: 'success',
+                    title: 'Application Submitted',
+                    text: 'Choose what you want now.',
+                    showCancelButton: true,
+                    showDenyButton: true,
+                    confirmButtonText: 'Print',
+                    denyButtonText: 'Download PDF',
+                    cancelButtonText: 'Skip'
+                });
+
+                if (nextAction.isConfirmed) {
+                    const appNo = `APP-2026-${String(data.applicationId).slice(-6).toUpperCase()}`;
+                    printConfirmation(plainData, appNo);
+                } else if (nextAction.isDenied) {
+                    await downloadAdmissionPdf(plainData, data.applicationId);
+                }
+
+                form.reset();
+                document.getElementById('photoPreview').innerHTML = '<span class="text-muted small">Preview</span>';
+                document.getElementById('photoError').classList.add('d-none');
+            } catch (err) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Submission failed',
+                    text: err.message || 'Please try again.'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Application Form';
+            }
+        });
+
+        function printConfirmation(data, appId) {
+            const printWindow = window.open('', '_blank');
+            const iframe = !printWindow ? document.createElement('iframe') : null;
+
+            if (iframe) {
+                iframe.style.position = 'fixed';
+                iframe.style.right = '0';
+                iframe.style.bottom = '0';
+                iframe.style.width = '0';
+                iframe.style.height = '0';
+                iframe.style.border = '0';
+                document.body.appendChild(iframe);
+            }
+
+            const targetDoc = printWindow ? printWindow.document : iframe.contentWindow.document;
+            const currentDate = new Date().toLocaleDateString('en-GB');
+            const heightVal = (data.height && String(data.height).trim() ? String(data.height).trim() : '__').replace(/\s*cm$/i, '');
+            const weightVal = (data.weight && String(data.weight).trim() ? String(data.weight).trim() : '__').replace(/\s*kg$/i, '');
+            const distanceVal = (data.distanceFromSchool && String(data.distanceFromSchool).trim() ? String(data.distanceFromSchool).trim() : '__').replace(/\s*km$/i, '');
+            const esc = (value) => String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+            const escOr = (value, fallback) => {
+                const raw = value == null ? '' : String(value);
+                const trimmed = raw.trim();
+                return trimmed ? esc(trimmed) : fallback;
+            };
+
+            targetDoc.write(`
+        <html>
+            <head>
+                <title>Admission Form - Blossom World</title>
+                <style>
+                    @media print { .no-print { display: none; } @page { margin: 1cm; } }
+                    body { font-family: 'Times New Roman', Times, serif; padding: 20px; color: #000; line-height: 1.3; font-size: 13px; }
+                    .form-border { border: 2px solid #000; padding: 15px; position: relative; }
+                    .header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 10px; }
+                    .school-name { font-size: 24px; font-weight: bold; margin: 0; }
+                    .school-loc { font-size: 14px; margin-top: 5px; }
+                    .form-title { font-weight: bold; text-decoration: underline; font-size: 16px; margin-top: 10px; }
+                    .meta-row { display: flex; justify-content: space-between; margin: 10px 0; font-weight: bold; }
+                    .photo-box { position: absolute; top: 15px; right: 15px; width: 110px; height: 130px; border: 1px solid #000; text-align: center; font-size: 10px; padding: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+                    .section-head { background: #eee; font-weight: bold; padding: 3px 8px; margin-top: 15px; border: 1px solid #000; font-size: 13px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+                    th { text-align: left; width: 35%; padding: 4px; border: 1px solid #ccc; font-weight: bold; background: #fafafa; }
+                    td { padding: 4px; border: 1px solid #ccc; }
+                    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+                    .sig-section { margin-top: 25px; display: flex; justify-content: space-between; text-align: center; }
+                    .sig-box { width: 30%; }
+                    .sig-line { border-top: 1px solid #000; margin-top: 40px; padding-top: 5px; font-weight: bold; font-size: 11px; }
+                    .declaration-box { margin-top: 20px; font-size: 12px; text-align: justify; border: 1px solid #000; padding: 10px; }
+                    .office-use { margin-top: 20px; border: 2px solid #000; padding: 10px; background: #fff; }
+                    .office-title { font-weight: bold; text-decoration: underline; margin-bottom: 8px; text-align: center; }
+                    .checkbox-item { margin-right: 15px; display: inline-block; }
+                </style>
+            </head>
+            <body>
+                <div class="form-border">
+                    <div class="photo-box">
+                        ${data.studentPhotoDataUrl
+                    ? `<img src="${esc(data.studentPhotoDataUrl)}" alt="Student Photo" style="width:100%;height:100%;object-fit:cover;">`
+                    : 'Affix recent passport size color photo of the candidate'
+                }
+                    </div>
+
+                    <div class="header">
+                        <img src="/img/logo.jpg" alt="School Logo" style="height:60px; margin-bottom:6px;">
+                        <h1 class="school-name">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</h1>
+                        <div class="school-loc">Uttarkrishnapur-II, Cachar, Assam
+                        </div>
+                        <div class="form-title">APPLICATION FORM</div>
+                        <p><strong>Application ID:</strong> ${escOr(appId, '________')}</p>
+
+                    </div>
+
+
+                    <p><strong>To, The Principal,</strong> Sir/Madam, I beg to apply for the admission of my son/daughter/ward <strong>${esc(((data.firstName || '') + ' ' + (data.middleName || '') + ' ' + (data.lastName || '')).toUpperCase())}</strong> in your school. The particulars are furnished below:</p>
+
+                    <div class="section-head">1. STUDENT PARTICULARS</div>
+                    <table>
+                        <tr><th>Aadhaar / APAAR ID</th><td>${escOr(data.aadhaarNumber, '________')} / ${escOr(data.apaarId, '________')}</td></tr>
+                        <tr><th>Class / DOB</th><td>${escOr(data.requiredClass, '________')} / ${escOr(data.dob, '________')}</td></tr>
+                        <tr><th>Blood Group / Identification</th><td>${escOr(data.bloodGroup, '________')} / ${escOr(data.identificationMark, '________')}</td></tr>
+                        <tr><th>Religion / Caste / Nationality</th><td>${escOr(data.religion, '________')} / ${escOr(data.caste, '________')} / ${escOr(data.nationality, 'Indian')}</td></tr>
+                        <tr><th>Address</th><td>${escOr(data.presentAddress, '________')}</td></tr>
+                    </table>
+
+                    <div class="grid-2">
+                        <div>
+                            <div class="section-head">2. FATHER'S PARTICULARS</div>
+                            <table>
+                                <tr><th>Name</th><td>${escOr(data.fatherName, '________')}</td></tr>
+                                <tr><th>Occupation / Income</th><td>${escOr(data.fatherOccupation, '________')} / ${escOr(data.fatherIncome, '________')}</td></tr>
+                                <tr><th>Aadhaar / WhatsApp</th><td>${escOr(data.fatherAadhaar, '________')} / ${escOr(data.fatherWhatsApp, '________')}</td></tr>
+                            </table>
+                        </div>
+                        <div>
+                            <div class="section-head">3. MOTHER'S PARTICULARS</div>
+                            <table>
+                                <tr><th>Name</th><td>${escOr(data.motherName, '________')}</td></tr>
+                                <tr><th>Occupation / Income</th><td>${escOr(data.motherOccupation, '________')} / ${escOr(data.motherIncome, '________')}</td></tr>
+                                <tr><th>Contact No.</th><td>${escOr(data.motherContact, '________')}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="section-head">4. ADDITIONAL DETAILS</div>
+                    <table>
+                        <tr><th>Local Guardian</th><td>${escOr(data.localGuardianName, '________________')}</td></tr>
+                        <tr><th>Siblings in School</th><td>${escOr(data.siblingsInSchool, 'None')}</td></tr>
+                        <tr><th>Height / Weight / Distance</th><td>${esc(heightVal)} cm / ${esc(weightVal)} kg / ${esc(distanceVal)} km</td></tr>
+                    </table>
+
+                    <div class="section-head">5. FOR TRANSFER STUDENTS</div>
+                    <table>
+                        <tr><th>Prev. School / DISE</th><td>${escOr(data.previousSchool, '________________')} / ${escOr(data.previousSchoolDise, '________')}</td></tr>
+                        <tr><th>PEN / APAAR ID</th><td>${escOr(data.prevPenNo, '________')} / ${escOr(data.apaarId, '________')}</td></tr>
+                        <tr><th>Prev. Result / Attendance</th><td>${escOr(data.previousResult, '____')}% / ${escOr(data.prevAttendance, '____')} days</td></tr>
+                    </table>
+
+                    <div class="section-head">18. SPECIMEN SIGNATURES</div>
+                    <div class="sig-section">
+                        <div class="sig-box"><div class="sig-line">Local Guardian</div></div>
+                        <div class="sig-box"><div class="sig-line">Mother</div></div>
+                        <div class="sig-box"><div class="sig-line">Father</div></div>
+                    </div>
+
+                    <div class="declaration-box">
+                        I hereby declare that the information supplied above is true to the best of my knowledge and belief. The rules and regulation of the school shall be strictly adhered to by my son/daughter/ward. Any hindrance of my child's part, he/she shall accept any decision deemed by the school authority.
+                        <br><br>
+                        <strong>Date:</strong> ${currentDate} &nbsp;&nbsp;&nbsp; <strong>Place:</strong> ${escOr(data.applicationPlace, '__________')}
+                        <div style="float:right; text-align:center; width:200px; border-top:1px solid #000; margin-top:20px;">Signature of applicant / Relation</div>
+                        <div style="clear:both;"></div>
+                        <p style="font-size:10px; margin-top:10px;"><strong>N.B.: Fees once paid will not be returned.</strong></p>
+                    </div>
+
+                    <div class="office-use">
+                        <div class="office-title">FOR OFFICE USE ONLY</div>
+                        <div>Order: ____________________ &nbsp;&nbsp; Remarks: ___________________________________</div>
+                        <div style="margin-top:10px;">
+                            <span class="checkbox-item">? Document complete</span>
+                            <span class="checkbox-item">? Document incomplete</span>
+                            <span class="checkbox-item">? Admission allowed</span>
+                            <span class="checkbox-item">? Not allowed</span>
+                            <span class="checkbox-item">? Provisional allowed</span>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    `);
+
+            targetDoc.close();
+            setTimeout(() => {
+                if (printWindow) {
+                    printWindow.focus();
+                    printWindow.print();
+                } else if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                    setTimeout(() => iframe.remove(), 1000);
+                }
+            }, 700);
+        }
+    </script>

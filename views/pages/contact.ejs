@@ -1,0 +1,129 @@
+<% layout("layouts/boilerplate") %>
+    <section class="page-banner">
+        <div class="banner-motion"></div>
+        <div class="banner-overlay"></div>
+
+        <div class="container text-center banner-content">
+            <h2 class="banner-title" data-aos="fade-down">About Our School</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">About Us</li>
+                </ol>
+            </nav>
+        </div>
+
+        <svg class="banner-wave wave-back" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-mid" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+
+        <svg class="banner-wave wave-front" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+                d="M0,40 C120,80 240,0 360,20 480,40 600,100 720,90 840,80 960,20 1080,10 1200,0 1320,40 1440,60 L1440,120 L0,120 Z">
+            </path>
+        </svg>
+    </section>
+
+<section class="contact-section py-5">
+    <div class="container">
+        <div class="row g-5">
+            
+            <div class="col-lg-7">
+                <h2 class="school-navy fw-bold mb-4">Any enquiries</h2>
+                <form id="contactForm" class="contact-form">
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control custom-input" placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control custom-input" placeholder="Your email address" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="tel" name="phone" class="form-control custom-input" placeholder="Your phone number" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="subject" class="form-control custom-input" placeholder="Subjects" required>
+                    </div>
+                    <div class="mb-4">
+                        <textarea name="message" class="form-control custom-input" rows="6" placeholder="Write your message..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-send-message px-5 py-2">Send Message</button>
+                </form>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="contact-info-block ps-lg-4">
+                    <h3 class="school-navy fw-bold mb-4">Here to Help</h3>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-phone-alt contact-icon me-3"></i>
+                        <span>Call Us: <strong>+91 86387 69734</strong></span>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-mobile-alt contact-icon me-3"></i>
+                        <span>Mobile: <strong>+91 87619 40748</strong></span>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-map-marker-alt contact-icon me-3"></i>
+                        <span>Location: <strong>Uttarkrishnapur PT- II, Silchar</strong></span>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-5">
+                        <i class="fas fa-envelope contact-icon me-3"></i>
+                        <span>Email Us: <strong>blossomworldsr.sec.school2020@gmail.com</strong></span>
+                    </div>
+
+                    <h3 class="school-navy fw-bold mb-4">Office Hours:</h3>
+                    <p class="mb-1">Monday to Saturday: 9:30 AM - 5:00 PM</p>
+                    <p>Sunday: <span class="text-muted">Closed</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        // Collect form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/submit-enquiryForm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                Swal.fire('Sent!', 'Your message has been received.', 'success');
+                this.reset(); // Clear the form
+            } else {
+                Swal.fire('Error', result.message || 'Failed to send enquiry', 'error');
+            }
+        } catch (error) {
+            Swal.fire('Error', 'Could not connect to server.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Message";
+        }
+    });
+</script>
