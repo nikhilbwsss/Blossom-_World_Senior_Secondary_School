@@ -1,3 +1,8 @@
+#cent p{
+    margin-bottom: 0;
+    line-height: unset;
+    text-align: center;
+}
 p{
         margin-bottom: 15px;
     line-height: 1.8;
