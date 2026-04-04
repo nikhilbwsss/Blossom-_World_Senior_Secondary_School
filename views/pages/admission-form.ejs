@@ -119,6 +119,23 @@
                                     <label class="form-label fw-bold small">Identification Mark</label>
                                     <input type="text" name="data[identificationMark]" class="form-control border-2">
                                 </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Email Address *</label>
+                                    <input type="email" name="data[email]" class="form-control border-2" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold small">Last Class Passed *</label>
+                                    <input type="text" name="data[lastClassPassed]" class="form-control border-2" placeholder="e.g. Class V" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Admission Type *</label>
+                                    <select name="data[admissionType]" class="form-select border-2" required>
+                                        <option value="">Select</option>
+                                        <option>Boarder</option>
+                                        <option>Day Boarder</option>
+                                        <option>Day Scholar</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold small">Religion</label>
                                     <input type="text" name="data[religion]" class="form-control border-2">

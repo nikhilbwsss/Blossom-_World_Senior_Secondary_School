@@ -39,7 +39,7 @@ function animateBlob(){
 }
 setInterval(animateBlob, 2500);
 
-// Test code for the testimonial carousel
+// Testimonial Carousel
     document.addEventListener('DOMContentLoaded', function () {
         const myCarousel = document.querySelector('#testimonialCarousel');
         const carousel = new bootstrap.Carousel(myCarousel, {
