@@ -108,9 +108,10 @@
                                     <div class="photo-section text-center mb-5">
                                         <label class="form-label fw-bold small text-muted d-block mb-3">STUDENT PHOTO</label>
                                         <div id="photoPreview" class="mx-auto shadow-sm rounded-3 bg-white border d-flex align-items-center justify-content-center" style="width: 140px; height: 165px; border-style: dashed !important; border-width: 2px !important;">
-                                            <span class="text-muted x-small">No Photo</span>
+                                            <span class="text-muted x-small text-center px-2">Upload Photo<br>Max 1 MB</span>
                                         </div>
                                         <input type="file" name="studentPhoto" id="studentPhoto" class="form-control form-control-sm border-2 mt-3" accept="image/*" required>
+                                        <div class="text-muted x-small mt-1">Maximum upload size: 1 MB</div>
                                         <div id="photoError" class="text-danger x-small mt-1 fw-bold d-none">MAX 1MB ALLOWED</div>
                                     </div>
 
@@ -119,9 +120,10 @@
                                     <div class="signature-section text-center">
                                         <label class="form-label fw-bold small text-muted d-block mb-3">STUDENT SIGNATURE</label>
                                         <div id="sigPreview" class="mx-auto shadow-sm rounded-3 bg-white border d-flex align-items-center justify-content-center" style="width: 200px; height: 70px; border-style: dashed !important; border-width: 2px !important;">
-                                            <span class="text-muted x-small">Upload Signature</span>
+                                            <span class="text-muted x-small text-center px-2">Upload Signature<br>Max 1 MB</span>
                                         </div>
                                         <input type="file" name="studentSignatureFile" id="studentSignatureFile" class="form-control form-control-sm border-2 mt-3" accept="image/*" required>
+                                        <div class="text-muted x-small mt-1">Maximum upload size: 1 MB</div>
                                     </div>
 
                                     <div class="mt-4 p-3 bg-white rounded-3 border">
@@ -180,11 +182,16 @@
     .btn-navy { background-color: #001f3f; color: white; border: none; font-weight: 600; padding: 15px 50px; }
 </style>
 
+<script src="/js/print-readmission.js"></script>
+
 <script>
     const form = document.getElementById('reAdmissionForm');
     const submitBtn = document.getElementById('submitBtn');
     const idInput = document.getElementById('readmissionId');
     const idDisplay = document.getElementById('readmissionIdDisplay');
+    const photoPreview = document.getElementById('photoPreview');
+    const sigPreview = document.getElementById('sigPreview');
+    const photoError = document.getElementById('photoError');
 
     function generateReadmissionId() {
         const d = new Date();
@@ -207,23 +214,6 @@
         });
     }
 
-    function urlToDataURL(url) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth || img.width;
-                canvas.height = img.naturalHeight || img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL('image/jpeg', 0.95));
-            };
-            img.onerror = reject;
-            img.src = url;
-        });
-    }
-
     document.getElementById('studentPhoto').addEventListener('change', function () {
         const file = this.files[0];
         const preview = document.getElementById('photoPreview');
@@ -238,17 +228,6 @@
             reader.readAsDataURL(file);
         }
     });
-
-    async function ensureJsPdf() {
-        if (window.jspdf && window.jspdf.jsPDF) return;
-        await new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-            s.onload = resolve;
-            s.onerror = reject;
-            document.body.appendChild(s);
-        });
-    }
 
     function reviewHtml(data) {
         return `
@@ -266,189 +245,23 @@
         `;
     }
 
+    function resetReAdmissionForm() {
+        form.reset();
+        form.classList.remove('was-validated');
 
+        Array.from(form.elements).forEach((el) => {
+            if (!el || !('value' in el)) return;
+            el.classList.remove('is-valid', 'is-invalid');
+            el.setCustomValidity('');
+            if (el.dataset && el.dataset.touched) delete el.dataset.touched;
+        });
 
-    async function downloadReAdmissionPdf(data, appId) {
-    await ensureJsPdf();
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const logoDataUrl = await urlToDataURL('/img/logo.jpg').catch(() => null);
-
-    // Header & Logo
-    if (logoDataUrl) {
-        try { doc.addImage(logoDataUrl, 'JPEG', 15, 12, 22, 22); } catch (_) {}
+        idInput.value = generateReadmissionId();
+        if (idDisplay) idDisplay.textContent = idInput.value;
+        if (photoPreview) photoPreview.innerHTML = '<span class="text-muted x-small text-center px-2">Upload Photo<br>Max 1 MB</span>';
+        if (sigPreview) sigPreview.innerHTML = '<span class="text-muted x-small text-center px-2">Upload Signature<br>Max 1 MB</span>';
+        if (photoError) photoError.classList.add('d-none');
     }
-    doc.setFont('times', 'bold');
-    doc.setFontSize(18);
-    doc.text('BLOSSOM WORLD SENIOR SECONDARY SCHOOL', 105, 20, { align: 'center' });
-    doc.setFontSize(10);
-    doc.text('Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006', 105, 26, { align: 'center' });
-    doc.setFontSize(14);
-    doc.text('RE-ADMISSION FORM (2026-27)', 105, 34, { align: 'center' });
-
-    // Student Photo at Top Right
-    if (data.studentPhotoDataUrl) {
-        try { doc.addImage(data.studentPhotoDataUrl, 'JPEG', 165, 12, 30, 38); 
-              doc.rect(165, 12, 30, 38); } catch (_) {}
-    }
-
-    doc.setLineWidth(0.5);
-    doc.line(15, 52, 195, 52); // Header Separator
-
-    // Data Rows
-    doc.setFontSize(11);
-    doc.setFont('times', 'normal');
-    let y = 60;
-    const details = [
-        ['Application ID', appId || 'N/A'],
-        ['Student Name', (data.studentName || '').toUpperCase()],
-        ['Class Admitted', data.className || 'N/A'],
-        ['Father\'s Name', data.fatherName || 'N/A'],
-        ['Mother\'s Name', data.motherName || 'N/A'],
-        ['Permanent Address', data.permanentAddress || 'N/A'],
-        ['WhatsApp Number', data.parentWhatsapp || 'N/A'],
-        ['Aadhaar (Student)', data.studentAadhaar || 'N/A'],
-        ['Aadhaar (Parent)', data.parentAadhaar || 'N/A'],
-        ['PEN No / Qualification', `${data.panNo || 'N/A'} / ${data.parentQualification || 'N/A'}`],
-        ['Prev. Marks / Attendance', `${data.previousMarksPercentage || '0'}% / ${data.previousAttendancePercentage || '0'}%`],
-        ['Physical Stats', `Height: ${data.height || '--'} cm | Weight: ${data.weight || '--'} kg`]
-    ];
-
-    details.forEach(([label, value]) => {
-        doc.setFont('times', 'bold');
-        doc.text(`${label}:`, 15, y);
-        doc.setFont('times', 'normal');
-        const splitValue = doc.splitTextToSize(String(value), 130);
-        doc.text(splitValue, 55, y);
-        y += (splitValue.length * 6) + 2;
-    });
-
-    // Signatures Section at Bottom
-    y = 240;
-    doc.line(15, y - 5, 195, y - 5);
-    
-    // Insert Student Signature Image
-    if (data.studentSignatureDataUrl) {
-        try { doc.addImage(data.studentSignatureDataUrl, 'PNG', 20, y - 20, 35, 12); } catch (_) {}
-    }
-
-    doc.setFontSize(9);
-    doc.text('__________________________', 35, y, { align: 'center' });
-    doc.text('Student Signature', 35, y + 5, { align: 'center' });
-
-    doc.text('__________________________', 105, y, { align: 'center' });
-    doc.text('Parent Signature', 105, y + 5, { align: 'center' });
-
-    doc.text('__________________________', 170, y, { align: 'center' });
-    doc.text('In-Charge', 170, y + 5, { align: 'center' });
-
-     doc.text('__________________________', 170, y, { align: 'center' });
-    doc.text('Principal', 170, y + 5, { align: 'center' });
-
-    doc.save(`re-admission-${appId || Date.now()}.pdf`);
-}
-
-
-
-
-    function printConfirmation(data, appId) {
-    const printWindow = window.open('', '_blank');
-    const targetDoc = printWindow.document;
-    const currentDate = new Date().toLocaleDateString('en-GB');
-
-    targetDoc.write(`
-    <html>
-        <head>
-            <title>Official Re-Admission Form - Blossom World</title>
-            <style>
-                @media print { @page { margin: 1cm; } .no-print { display: none; } }
-                body { font-family: 'Times New Roman', serif; color: #000; line-height: 1.5; padding: 10px; }
-                .outer-border { border: 3px double #000; padding: 20px; min-height: 95vh; position: relative; }
-                .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 20px; }
-                .school-name { font-size: 26px; font-weight: bold; margin: 0; color: #001f3f; text-align: center; }
-                .sub-header { text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
-                
-                .photo-box { 
-                    position: absolute; top: 30px; right: 30px; 
-                    width: 120px; height: 150px; border: 1px solid #000; 
-                    display: flex; align-items: center; justify-content: center; overflow: hidden; 
-                    background: #f9f9f9;
-                }
-                
-                .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                .data-table td { padding: 8px; vertical-align: top; border-bottom: 1px solid #eee; }
-                .label { font-weight: bold; width: 35%; }
-                
-                .sig-container { margin-top: 60px; display: flex; justify-content: space-between; text-align: center; }
-                .sig-item { width: 30%; position: relative; }
-                .sig-line { border-top: 1px solid #000; margin-top: 50px; padding-top: 5px; font-weight: bold; }
-                .student-sig-img { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); max-height: 50px; }
-                
-                .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(0,0,0,0.05); z-index: -1; white-space: nowrap; }
-            </style>
-        </head>
-        <body>
-            <div class="outer-border">
-                <div class="watermark">BLOSSOM WORLD</div>
-                
-                <div class="photo-box">
-                    ${data.studentPhotoDataUrl ? `<img src="${data.studentPhotoDataUrl}" style="width:100%;height:100%;object-fit:cover;">` : 'Affix Photo'}
-                </div>
-
-                <div class="header-table">
-                    <div style="text-align:center; margin-bottom:10px;"><img src="/img/logo.jpg" style="height:70px;"></div>
-                    <h1 class="school-name">BLOSSOM WORLD SENIOR SECONDARY SCHOOL</h1>
-                    <p class="sub-header">Uttarkrishnapur Pt-II, Silchar, Cachar, Assam - 788006</p>
-                    <div style="background:#001f3f; color:#fff; text-align:center; padding:5px; font-weight:bold; border-radius:50px; width:60%; margin: 10px auto;">RE-ADMISSION FORM (2026-27)</div>
-                </div>
-
-                <table class="data-table">
-                    <tr><td class="label">Application ID:</td><td>${appId || 'N/A'}</td></tr>
-                    <tr><td class="label">Student Name (Aadhaar):</td><td style="text-transform:uppercase; font-weight:bold;">${data.studentName || ''}</td></tr>
-                    <tr><td class="label">Father's Name:</td><td>${data.fatherName || ''}</td></tr>
-                    <tr><td class="label">Mother's Name:</td><td>${data.motherName || ''}</td></tr>
-                    <tr><td class="label">Permanent Address:</td><td>${data.permanentAddress || ''}</td></tr>
-                    <tr><td class="label">Parent WhatsApp:</td><td>${data.parentWhatsapp || ''}</td></tr>
-                    <tr><td class="label">Student Aadhaar No:</td><td>${data.studentAadhaar || ''}</td></tr>
-                    <tr><td class="label">Marks % (Prev. Class):</td><td>${data.previousMarksPercentage || '0'}%</td></tr>
-                    <tr><td class="label">Attendance % (Prev. Class):</td><td>${data.previousAttendancePercentage || '0'}%</td></tr>
-                    <tr><td class="label">Health Profile:</td><td>Height: ${data.height || '--'} cm | Weight: ${data.weight || '--'} kg</td></tr>
-                    <tr><td class="label">Date of Submission:</td><td>${data.admissionDate || currentDate}</td></tr>
-                </table>
-
-                <div class="sig-container">
-                    <div class="sig-item">
-                        ${data.studentSignatureDataUrl ? `<img src="${data.studentSignatureDataUrl}" class="student-sig-img">` : ''}
-                        <div class="sig-line">Student Signature</div>
-                    </div>
-                    <div class="sig-item">
-                        <div class="sig-line">Parent/Guardian Signature</div>
-                    </div>
-                    <div class="sig-item">
-                        <div class="sig-line">Principal / In-Charge</div>
-                    </div>
-                </div>
-                <div class="sig-container" style="justify-content: right;">
-                    <div class="sig-item">
-                        <div class="sig-line">Principal</div>
-                    </div>
-                </div>
-
-                <div style="margin-top:40px; font-size:11px; color:#555; border-top:1px dashed #ccc; padding-top:10px;">
-                    * This is a computer-generated form for record purposes. Any discrepancy should be reported to the office immediately.
-                </div>
-            </div>
-        </body>
-    </html>`);
-
-    targetDoc.close();
-    setTimeout(() => {
-        if (printWindow) {
-            printWindow.focus();
-            printWindow.print();
-        }
-    }, 800);
-}
 
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -514,11 +327,7 @@
                 await downloadReAdmissionPdf(plainData, plainData.readmissionId);
             }
 
-            form.reset();
-            idInput.value = generateReadmissionId();
-            if (idDisplay) idDisplay.textContent = idInput.value;
-            document.getElementById('photoPreview').innerHTML = '<span class="text-muted small">Photo Box</span>';
-            document.getElementById('photoError').classList.add('d-none');
+            resetReAdmissionForm();
         } catch (err) {
             await Swal.fire({ icon: 'error', title: 'Submission failed', text: err.message || 'Please try again.' });
         } finally {

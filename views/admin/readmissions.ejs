@@ -4,7 +4,7 @@
     <div>
         <h2 class="h4 fw-bold mb-0 text-navy">Re-Admission Overview</h2>
         <p class="text-muted small mb-0">
-            <i class="bi bi-people me-1"></i> Total Records: <strong id="totalCount"><%= readmissions.length %></strong>
+            <i class="bi bi-people me-1"></i> Total Records: <strong id="totalCount"><%= totalReadmissions %></strong>
         </p>
     </div>
     <div class="btn-toolbar">
@@ -86,6 +86,7 @@
                                 <a href="/admin/readmissions/<%= reg._id %>/view" class="btn btn-sm btn-outline-info" title="View"><i class="bi bi-eye-fill"></i></a>
                                 <a href="/admin/readmissions/<%= reg._id %>/edit" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil-fill"></i></a>
                                 <form action="/admin/readmissions/<%= reg._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                                     <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash-fill"></i></button>
                                 </form>
                             </div>
@@ -103,11 +104,22 @@
     <div class="card-footer bg-white border-0 py-3 no-print">
         <div class="d-flex justify-content-between align-items-center">
             <div class="text-muted small">
-                Showing <span id="showingCount">0</span> of <strong id="filterTotalCount"><%= readmissions.length %></strong> entries
+                Showing <span id="showingCount"><%= readmissions.length %></span> of <strong id="filterTotalCount"><%= totalReadmissions %></strong> entries
             </div>
             <nav>
                 <ul class="pagination pagination-sm mb-0" id="paginationControls">
-                    </ul>
+                    <li class="page-item <%= currentPageNumber <= 1 ? 'disabled' : '' %>">
+                        <a class="page-link" href="/admin/readmissions?page=<%= currentPageNumber - 1 %>">Previous</a>
+                    </li>
+                    <% for (let page = 1; page <= totalPages; page++) { %>
+                        <li class="page-item <%= page === currentPageNumber ? 'active' : '' %>">
+                            <a class="page-link" href="/admin/readmissions?page=<%= page %>"><%= page %></a>
+                        </li>
+                    <% } %>
+                    <li class="page-item <%= currentPageNumber >= totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="/admin/readmissions?page=<%= currentPageNumber + 1 %>">Next</a>
+                    </li>
+                </ul>
             </nav>
         </div>
     </div>
@@ -124,70 +136,32 @@
 <script>
     const searchInput = document.getElementById('tableSearch');
     const classFilter = document.getElementById('classFilter');
-    const tableBody = document.getElementById('readmissionTableBody');
     const tableRows = Array.from(document.querySelectorAll('.student-row'));
-    const paginationControls = document.getElementById('paginationControls');
     const showingCountLabel = document.getElementById('showingCount');
     const filterTotalLabel = document.getElementById('filterTotalCount');
     const noResultsRow = document.getElementById('noResultsRow');
-
-    let filteredRows = [...tableRows];
-    let currentPage = 1;
-    const rowsPerPage = 10;
+    const totalEntriesOnPage = <%= readmissions.length %>;
 
     function filterData() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedClass = classFilter.value.toLowerCase();
 
-        filteredRows = tableRows.filter(row => {
+        let visibleCount = 0;
+
+        tableRows.forEach(row => {
             const rowText = row.innerText.toLowerCase();
             const classText = row.querySelector('.class-badge').innerText.toLowerCase();
 
             const matchesSearch = rowText.includes(searchTerm);
             const matchesClass = (selectedClass === "all") || (classText === selectedClass) || (classText.includes(selectedClass));
 
-            return matchesSearch && matchesClass;
+            row.style.display = matchesSearch && matchesClass ? '' : 'none';
+            if (matchesSearch && matchesClass) visibleCount += 1;
         });
 
-        currentPage = 1; // Reset to first page on filter
-        renderTable();
-    }
-
-    function renderTable() {
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-
-        // Hide all rows first
-        tableRows.forEach(row => row.style.display = 'none');
-
-        // Show only rows for current page
-        const pageRows = filteredRows.slice(start, end);
-        pageRows.forEach(row => row.style.display = '');
-
-        // Update labels
-        showingCountLabel.innerText = pageRows.length;
-        filterTotalLabel.innerText = filteredRows.length;
-        noResultsRow.style.display = (filteredRows.length === 0) ? '' : 'none';
-
-        renderPagination();
-    }
-
-    function renderPagination() {
-        const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-        paginationControls.innerHTML = '';
-
-        if (pageCount <= 1) return;
-
-        for (let i = 1; i <= pageCount; i++) {
-            const li = document.createElement('li');
-            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-            li.innerHTML = `<a class="page-link" href="javascript:void(0)">${i}</a>`;
-            li.addEventListener('click', () => {
-                currentPage = i;
-                renderTable();
-            });
-            paginationControls.appendChild(li);
-        }
+        showingCountLabel.innerText = visibleCount;
+        filterTotalLabel.innerText = totalEntriesOnPage;
+        noResultsRow.style.display = visibleCount === 0 ? '' : 'none';
     }
 
     searchInput.addEventListener('keyup', filterData);

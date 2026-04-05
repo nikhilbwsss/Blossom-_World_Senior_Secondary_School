@@ -44,7 +44,7 @@
             </a>
         </li>
         <li>
-            <a href="/admin/students" class="nav-link text-white">
+            <a href="/admin/students" class="nav-link text-white <%= currentPage === 'students' ? 'active bg-primary' : '' %>">
                 <i class="bi bi-people me-2"></i> All Students
             </a>
         </li>
@@ -57,7 +57,12 @@
             <strong>Principal</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="/admin/logout">Sign out</a></li>
+            <li>
+                <form action="/admin/logout" method="POST" class="px-2 py-1">
+                    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+                    <button type="submit" class="dropdown-item">Sign out</button>
+                </form>
+            </li>
         </ul>
     </div>
 </div>

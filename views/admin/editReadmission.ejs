@@ -16,6 +16,7 @@
 </div>
 
 <form id="editReadmissionForm" action="/admin/readmissions/<%= student._id %>?_method=PUT" method="POST">
+    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <div class="row g-3">
@@ -77,7 +78,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label small fw-bold">PAN</label>
+                    <label class="form-label small fw-bold">PEN</label>
                     <input type="text" name="data[panNo]" class="form-control" value="<%= student.panNo || '' %>">
                 </div>
                 <div class="col-md-6">

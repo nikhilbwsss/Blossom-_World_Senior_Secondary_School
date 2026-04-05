@@ -56,6 +56,7 @@
                                 </td>
                                 <td class="text-center">
                                     <form action="/admin/notices/<%= notice._id %>/toggle-pin" method="POST" style="display:inline;">
+                                        <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                                         <button type="submit" class="btn btn-sm <%= notice.isPinned ? 'btn-orange' : 'btn-outline-secondary' %> rounded-pill px-3">
                                             <i class="bi <%= notice.isPinned ? 'bi-pin-angle-fill' : 'bi-pin-angle' %> me-1"></i>
                                             <%= notice.isPinned ? 'Pinned' : 'Pin' %>
@@ -73,6 +74,7 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <form action="/admin/notices/<%= notice._id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this notice and its file?');">
+                                        <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                                         <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
                                             <i class="bi bi-trash me-1"></i> Delete
                                         </button>

@@ -34,10 +34,16 @@ const shapes = [
 
 let i = 0;
 function animateBlob(){
-  blob.setAttribute("d", shapes[i]);
-  i = (i + 1) % shapes.length;
+  // Only animate if blob element exists (not on every page)
+  if (blob) {
+    blob.setAttribute("d", shapes[i]);
+    i = (i + 1) % shapes.length;
+  }
 }
-setInterval(animateBlob, 2500);
+// Only set interval if blob exists
+if (blob) {
+  setInterval(animateBlob, 2500);
+}
 
 // Testimonial Carousel
     document.addEventListener('DOMContentLoaded', function () {

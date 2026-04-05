@@ -25,25 +25,25 @@
     <div class="col-md-3">
         <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #001f3f !important;">
             <small class="text-muted fw-bold">TOTAL APPLICATIONS</small>
-            <h3 class="fw-bold mb-0 mt-2"><%= registrations.length %></h3>
+            <h3 class="fw-bold mb-0 mt-2"><%= totalApplications %></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #ffc107 !important;">
             <small class="text-muted fw-bold">PENDING</small>
-            <h3 class="fw-bold mb-0 mt-2 text-warning"><%= registrations.filter(r=> r.status === 'Pending').length %></h3>
+            <h3 class="fw-bold mb-0 mt-2 text-warning"><%= pendingCount %></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #28a745 !important;">
             <small class="text-muted fw-bold">APPROVED</small>
-            <h3 class="fw-bold mb-0 mt-2 text-success"><%= registrations.filter(r=> r.status === 'Approved').length %></h3>
+            <h3 class="fw-bold mb-0 mt-2 text-success"><%= approvedCount %></h3>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #dc3545 !important;">
             <small class="text-muted fw-bold">FEE OVERDUE</small>
-            <h3 class="fw-bold mb-0 mt-2 text-danger"><%= registrations.filter(r=> r.overdueAmount > 0).length %></h3>
+            <h3 class="fw-bold mb-0 mt-2 text-danger"><%= overdueCount %></h3>
         </div>
     </div>
 </div>
@@ -123,6 +123,7 @@
                                 </a>
                                 <a href="/admin/edit/<%= reg._id %>" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                                 <form action="/admin/delete/<%= reg._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                                     <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete record permanently?')">
                                         <i class="bi bi-trash"></i>
                                     </button>
@@ -136,10 +137,39 @@
     </div>
 </div>
 
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-3 no-print">
+    <div class="text-muted small">
+        Showing
+        <strong><%= registrations.length ? (((currentPageNumber - 1) * perPage) + 1) : 0 %></strong>
+        to
+        <strong><%= ((currentPageNumber - 1) * perPage) + registrations.length %></strong>
+        of
+        <strong><%= totalApplications %></strong>
+        applications
+    </div>
+
+    <nav aria-label="Dashboard pagination">
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item <%= currentPageNumber <= 1 ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/dashboard?page=<%= currentPageNumber - 1 %>">Previous</a>
+            </li>
+            <% for (let page = 1; page <= totalPages; page++) { %>
+                <li class="page-item <%= page === currentPageNumber ? 'active' : '' %>">
+                    <a class="page-link" href="/admin/dashboard?page=<%= page %>"><%= page %></a>
+                </li>
+            <% } %>
+            <li class="page-item <%= currentPageNumber >= totalPages ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/dashboard?page=<%= currentPageNumber + 1 %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 <style>
     .text-navy { color: #001f3f; }
     .text-orange { color: #f37021; }
     .x-small { font-size: 0.75rem; }
+    @media print { .no-print { display: none !important; } }
 </style>
 
 <script>

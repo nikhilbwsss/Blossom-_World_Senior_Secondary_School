@@ -1,0 +1,177 @@
+<% layout("layouts/admin-layout") %>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
+    <div>
+        <h2 class="h4 fw-bold mb-0" style="color: #001f3f;">All Students</h2>
+        <p class="text-muted small mb-0">Complete student list from admission records.</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-sm btn-outline-secondary shadow-sm" onclick="window.print()">
+            <i class="bi bi-printer me-1"></i> Print Page
+        </button>
+    </div>
+</div>
+
+<div class="row mb-4 g-3">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #001f3f !important;">
+            <small class="text-muted fw-bold">TOTAL STUDENTS</small>
+            <h3 class="fw-bold mb-0 mt-2"><%= totalStudents %></h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #ffc107 !important;">
+            <small class="text-muted fw-bold">PENDING</small>
+            <h3 class="fw-bold mb-0 mt-2 text-warning"><%= pendingCount %></h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100" style="border-left: 5px solid #28a745 !important;">
+            <small class="text-muted fw-bold">APPROVED</small>
+            <h3 class="fw-bold mb-0 mt-2 text-success"><%= approvedCount %></h3>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-0">
+        <div class="row align-items-center g-3">
+            <div class="col-md-4">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                    <input type="text" id="studentSearch" class="form-control border-start-0 ps-0" placeholder="Search by student, parent, class or phone">
+                </div>
+            </div>
+            <div class="col-md-3 ms-auto">
+                <div class="input-group input-group-sm">
+                    <label class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></label>
+                    <select id="studentStatusFilter" class="form-select border-start-0 ps-0 fw-semibold">
+                        <option value="All">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Contacted">Contacted</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-3">Student</th>
+                    <th>Parent</th>
+                    <th>Class</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th class="text-end pe-3 no-print">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+                <% students.forEach((student) => { %>
+                    <tr>
+                        <td class="ps-3">
+                            <div class="d-flex align-items-center">
+                                <img src="<%= student.studentPhoto?.url || '/img/default-avatar.png' %>"
+                                     alt="<%= student.firstName %> <%= student.lastName %>"
+                                     class="rounded-circle border me-2 shadow-sm"
+                                     style="width: 44px; height: 44px; object-fit: cover;">
+                                <div>
+                                    <div class="fw-bold text-dark"><%= student.firstName %> <%= student.lastName %></div>
+                                    <div class="x-small text-muted">ID: #<%= student._id.toString().slice(-6).toUpperCase() %></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="fw-semibold"><%= student.fatherName || student.motherName || 'N/A' %></div>
+                            <div class="x-small text-muted"><%= student.motherName || '' %></div>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-navy border"><%= student.requiredClass || 'N/A' %></span>
+                            <% if (student.stream && student.stream !== 'None') { %>
+                                <div class="x-small fw-bold text-orange mt-1"><%= student.stream %></div>
+                            <% } %>
+                        </td>
+                        <td>
+                            <div class="small"><%= student.mobile || 'N/A' %></div>
+                            <div class="x-small text-muted"><%= student.email || '' %></div>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill <%= student.status === 'Approved' ? 'bg-success' : (student.status === 'Rejected' ? 'bg-danger' : (student.status === 'Contacted' ? 'bg-info text-dark' : 'bg-warning text-dark')) %>">
+                                <%= student.status %>
+                            </span>
+                        </td>
+                        <td class="text-end pe-3 no-print">
+                            <div class="btn-group shadow-sm rounded-pill overflow-hidden">
+                                <a href="/admin/admissions/<%= student._id %>/view" class="btn btn-sm btn-outline-info" title="View">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <a href="/admin/edit/<%= student._id %>" class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-3 no-print">
+    <div class="text-muted small">
+        Showing
+        <strong><%= students.length ? (((currentPageNumber - 1) * perPage) + 1) : 0 %></strong>
+        to
+        <strong><%= ((currentPageNumber - 1) * perPage) + students.length %></strong>
+        of
+        <strong><%= totalStudents %></strong>
+        students
+    </div>
+
+    <nav aria-label="Students pagination">
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item <%= currentPageNumber <= 1 ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/students?page=<%= currentPageNumber - 1 %>">Previous</a>
+            </li>
+            <% for (let page = 1; page <= totalPages; page++) { %>
+                <li class="page-item <%= page === currentPageNumber ? 'active' : '' %>">
+                    <a class="page-link" href="/admin/students?page=<%= page %>"><%= page %></a>
+                </li>
+            <% } %>
+            <li class="page-item <%= currentPageNumber >= totalPages ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/students?page=<%= currentPageNumber + 1 %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<style>
+    .text-navy { color: #001f3f; }
+    .text-orange { color: #f37021; }
+    .x-small { font-size: 0.75rem; }
+    @media print { .no-print { display: none !important; } }
+</style>
+
+<script>
+    const studentSearch = document.getElementById('studentSearch');
+    const studentStatusFilter = document.getElementById('studentStatusFilter');
+    const studentRows = document.querySelectorAll('#studentsTableBody tr');
+
+    function filterStudentsTable() {
+        const searchTerm = studentSearch.value.toLowerCase().trim();
+        const selectedStatus = studentStatusFilter.value.toLowerCase();
+
+        studentRows.forEach((row) => {
+            const rowText = row.innerText.toLowerCase();
+            const matchesSearch = !searchTerm || rowText.includes(searchTerm);
+            const matchesStatus = selectedStatus === 'all' || rowText.includes(selectedStatus);
+            row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+        });
+    }
+
+    studentSearch.addEventListener('input', filterStudentsTable);
+    studentStatusFilter.addEventListener('change', filterStudentsTable);
+</script>

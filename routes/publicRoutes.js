@@ -85,25 +85,61 @@ router.post("/submit-admission",
     validateAdmission,
     wrapAsync
         (async (req, res) => {
-            if (req.body && req.body.data && (req.body.data.stream === '' || req.body.data.stream == null)) {
-                req.body.data.stream = 'None';
-            }
-            if (!req.file) {
-                return res.status(400).json({
+            try {
+                if (req.body && req.body.data && (req.body.data.stream === '' || req.body.data.stream == null)) {
+                    req.body.data.stream = 'None';
+                }
+
+                if (!req.file) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "Student photo is required."
+                    });
+                }
+
+                let NewAdmission = new Admission(req.body.data);
+                let url = req.file.path;
+                let filename = req.file.filename;
+                NewAdmission.studentPhoto = { url, filename };
+
+                const saved = await NewAdmission.save();
+
+                res.status(200).json({
+                    success: true,
+                    message: "Application submitted successfully!",
+                    applicationId: saved._id
+                });
+            } catch (err) {
+                console.error('\n╔════════════════════════════════════════╗');
+                console.error('║  ❌ SUBMISSION ERROR                  ║');
+                console.error('╚════════════════════════════════════════╝');
+                console.error('\n📛 ERROR TYPE:', err.name);
+                console.error('📌 ERROR MESSAGE:', err.message);
+                console.error('📍 ERROR DETAILS:');
+                
+                if (err.errors) {
+                    console.error('  Validation Errors:');
+                    for (const [key, value] of Object.entries(err.errors)) {
+                        console.error(`    - ${key}: ${value.message}`);
+                    }
+                }
+                
+                if (err.details) {
+                    console.error('  Validation Details:');
+                    err.details.forEach(d => {
+                        console.error(`    - ${d.message}`);
+                    });
+                }
+                
+                console.error('\n📜 STACK TRACE:');
+                console.error(err.stack);
+                console.error('\n');
+                
+                res.status(500).json({
                     success: false,
-                    message: "Student photo is required."
+                    message: err.message || 'Server error: Could not save admission.'
                 });
             }
-            let NewAdmission = new Admission(req.body.data);
-            let url = req.file.path;
-            let filename = req.file.filename;
-            NewAdmission.studentPhoto = { url, filename };
-            const saved = await NewAdmission.save();
-            res.status(200).json({
-                success: true,
-                message: "Application submitted successfully!",
-                applicationId: saved._id
-            });
         }));
 
 

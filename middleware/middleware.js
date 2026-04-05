@@ -6,38 +6,66 @@ const allowed = new Set(['image/jpeg', 'image/png', 'image/webp']);
  // Your provided code
 
 const validateAdmission = (req, res, next) => {
-    let payload = req.body && req.body.data ? req.body.data : null;
-    if (!payload && req.body) {
-        const extracted = {};
-        let hasDataKeys = false;
-        for (const [key, value] of Object.entries(req.body)) {
-            const match = key.match(/^data\[(.+)\]$/);
-            if (match) {
-                extracted[match[1]] = value;
-                hasDataKeys = true;
+    try {
+        let payload = req.body && req.body.data ? req.body.data : null;
+        if (!payload && req.body) {
+            const extracted = {};
+            let hasDataKeys = false;
+            for (const [key, value] of Object.entries(req.body)) {
+                const match = key.match(/^data\[(.+)\]$/);
+                if (match) {
+                    extracted[match[1]] = value;
+                    hasDataKeys = true;
+                }
+            }
+            if (hasDataKeys) {
+                req.body.data = extracted;
+                payload = extracted;
+            } else {
+                payload = req.body;
             }
         }
-        if (hasDataKeys) {
-            req.body.data = extracted;
-            payload = extracted;
-        } else {
-            payload = req.body;
+        if (payload) {
+            if (payload.documentsSubmitted && !Array.isArray(payload.documentsSubmitted)) {
+                payload.documentsSubmitted = [payload.documentsSubmitted];
+            }
+            if (payload.selectedSubjects && !Array.isArray(payload.selectedSubjects)) {
+                payload.selectedSubjects = [payload.selectedSubjects];
+            }
+
+            const toStr = (v) => (v == null ? '' : String(v));
+            const digitsOnly = (v) => toStr(v).replace(/\D+/g, '');
+
+            const digitOnlyFields = [
+                'aadhaarNumber',
+                'fatherAadhaar',
+                'motherAadhaar',
+                'mobile',
+                'altMobile',
+                'fatherWhatsApp',
+                'motherContact',
+                'motherWhatsApp'
+            ];
+
+            digitOnlyFields.forEach((field) => {
+                if (payload[field] != null) {
+                    payload[field] = digitsOnly(payload[field]);
+                }
+            });
         }
-    }
-    if (payload) {
-        if (payload.documentsSubmitted && !Array.isArray(payload.documentsSubmitted)) {
-            payload.documentsSubmitted = [payload.documentsSubmitted];
+        
+        
+        const { error } = admissionSchema(payload);
+        if (error) {
+            const msg = error.details.map(el => el.message).join(', ');
+            console.error('❌ Validation Error:', msg);
+            throw new ExpressError(400, msg);
         }
-        if (payload.selectedSubjects && !Array.isArray(payload.selectedSubjects)) {
-            payload.selectedSubjects = [payload.selectedSubjects];
-        }
+        next();
+    } catch (err) {
+        console.error('❌ Validation middleware error:', err.message);
+        next(err);
     }
-    const { error } = admissionSchema(payload); // Calling it as a function is correct here!
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(400, msg);
-    }
-    next();
 };
 
 const validateContact = (req, res, next) => {
@@ -143,7 +171,13 @@ const uploadStudent = multer({
 // Notice PDF Gatekeeper (10MB)
 const uploadNotice = multer({ 
     storage: storagePdf,
-    limits: { fileSize: 10 * 1024 * 1024 } 
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype !== 'application/pdf') {
+            return cb(new Error('Only PDF files are allowed'), false);
+        }
+        cb(null, true);
+    }
 });
 
 // CRITICAL: Export both as an object

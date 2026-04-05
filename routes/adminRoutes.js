@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const ExcelJS = require('exceljs');
-const methodOverride = require('method-override');
+const rateLimit = require('express-rate-limit');
 
 // Models
 const Admission = require('../models/Admission'); 
@@ -10,19 +10,118 @@ const ReAdmission = require('../models/ReAdmission');
 const Admin = require("../models/Admin");
 const Notice = require("../models/notice");
 const FeeStructure = require("../models/FeeStructure");
+const { admissionSchema, reAdmissionSchema } = require("../models/schema");
 
 // Helpers & Middleware
 const wrapAsync = require("../utils/wrapAsync");
 const { cloudinary } = require('../cloudConfig'); 
 const { uploadNotice, uploadStudent, isLoggedIn, saveRedirectUrl } = require("../middleware/middleware"); 
 
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: "Too many authentication attempts. Please try again later."
+});
+
+const ensureValidCsrf = (req, res, next) => {
+    if (req.body && req.body.csrfToken && req.session && req.body.csrfToken === req.session.csrfToken) {
+        return next();
+    }
+    req.flash("error", "Your session expired. Please try again.");
+    return res.redirect("back");
+};
+
+const ensureSignupAllowed = wrapAsync(async (req, res, next) => {
+    const adminCount = await Admin.countDocuments();
+    const signupEnabled = process.env.ENABLE_ADMIN_SIGNUP === "true";
+
+    if (adminCount === 0 || signupEnabled || req.isAuthenticated()) {
+        return next();
+    }
+
+    req.flash("error", "Admin signup is disabled.");
+    return res.redirect("/admin/login");
+});
+
+const pick = (source, allowedKeys) => {
+    const result = {};
+    allowedKeys.forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+            result[key] = source[key];
+        }
+    });
+    return result;
+};
+
+const admissionEditableFields = [
+    "firstName", "middleName", "lastName", "aadhaarNumber", "apaarId", "requiredClass", "dob", "gender",
+    "stream", "selectedSubjects", "bloodGroup", "identificationMark", "religion", "caste", "nationality",
+    "fatherName", "fatherOccupation", "fatherIncome", "fatherEducation", "fatherAadhaar", "fatherWhatsApp",
+    "motherName", "motherOccupation", "motherIncome", "motherEducation", "motherAadhaar", "motherContact",
+    "motherWhatsApp", "mobile", "altMobile", "permanentAddress", "presentAddress", "localGuardianName",
+    "siblingsInSchool", "isHandicapped", "handicapDetails", "height", "weight", "distanceFromSchool",
+    "previousSchool", "previousSchoolDise", "previousSchoolPen", "previousSchoolResult",
+    "previousSchoolAttendance", "previousSchoolClass", "previousSchoolAddress", "documentsSubmitted",
+    "status", "adminNotes", "applicationPlace"
+];
+
+const readmissionEditableFields = [
+    "className", "admissionDate", "classToBeAdmitted", "studentName", "previousMarksPercentage",
+    "previousAttendancePercentage", "fatherName", "motherName", "parentWhatsapp", "studentAadhaar",
+    "parentAadhaar", "height", "weight", "panNo", "parentQualification", "distanceFromSchool",
+    "admissionNo", "permanentAddress"
+];
+
+const allowedAdmissionStatuses = new Set(["Pending", "Contacted", "Approved", "Rejected"]);
+const toStr = (v) => (v == null ? "" : String(v));
+const digitsOnly = (v) => toStr(v).replace(/\D+/g, "");
+const sanitizeLooseNumber = (v) => toStr(v).replace(/[^0-9 .]/g, "");
+
+const validateAdmissionUpdatePayload = (payload) => {
+    const validationPayload = {
+        ...payload,
+        aadhaarNumber: payload.aadhaarNumber ? digitsOnly(payload.aadhaarNumber) : payload.aadhaarNumber,
+        fatherAadhaar: payload.fatherAadhaar ? digitsOnly(payload.fatherAadhaar) : payload.fatherAadhaar,
+        motherAadhaar: payload.motherAadhaar ? digitsOnly(payload.motherAadhaar) : payload.motherAadhaar,
+        mobile: payload.mobile ? digitsOnly(payload.mobile) : payload.mobile,
+        altMobile: payload.altMobile ? digitsOnly(payload.altMobile) : payload.altMobile,
+        fatherWhatsApp: payload.fatherWhatsApp ? digitsOnly(payload.fatherWhatsApp) : payload.fatherWhatsApp,
+        motherContact: payload.motherContact ? digitsOnly(payload.motherContact) : payload.motherContact,
+        motherWhatsApp: payload.motherWhatsApp ? digitsOnly(payload.motherWhatsApp) : payload.motherWhatsApp,
+        previousResult: payload.previousSchoolResult,
+        prevAttendance: payload.previousSchoolAttendance,
+        prevClass: payload.previousSchoolClass,
+        prevPenNo: payload.previousSchoolPen,
+        prevSchoolAddress: payload.previousSchoolAddress
+    };
+
+    return admissionSchema(validationPayload);
+};
+
+const validateReadmissionUpdatePayload = (payload) => {
+    const validationPayload = {
+        ...payload,
+        parentWhatsapp: payload.parentWhatsapp ? sanitizeLooseNumber(payload.parentWhatsapp) : payload.parentWhatsapp,
+        previousMarksPercentage: payload.previousMarksPercentage ? sanitizeLooseNumber(payload.previousMarksPercentage) : payload.previousMarksPercentage,
+        previousAttendancePercentage: payload.previousAttendancePercentage ? sanitizeLooseNumber(payload.previousAttendancePercentage) : payload.previousAttendancePercentage,
+        height: payload.height ? sanitizeLooseNumber(payload.height) : payload.height,
+        weight: payload.weight ? sanitizeLooseNumber(payload.weight) : payload.weight,
+        studentAadhaar: payload.studentAadhaar ? digitsOnly(payload.studentAadhaar) : payload.studentAadhaar,
+        parentAadhaar: payload.parentAadhaar ? digitsOnly(payload.parentAadhaar) : payload.parentAadhaar
+    };
+
+    return reAdmissionSchema(validationPayload);
+};
+
 // --- 1. AUTHENTICATION ROUTES ---
 
-router.get("/signup", (req, res) => {
+router.get("/signup", ensureSignupAllowed, (req, res) => {
     res.render("admin/signup");
 });
 
-router.post("/signup", wrapAsync(async (req, res, next) => {
+router.post("/signup", authLimiter, ensureValidCsrf, ensureSignupAllowed, wrapAsync(async (req, res, next) => {
     try {
         let { username, email, password, confirmPassword, secretCode } = req.body;
         if (secretCode !== process.env.ADMIN_SIGNUP_CODE) {
@@ -51,6 +150,8 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", 
+    authLimiter,
+    ensureValidCsrf,
     saveRedirectUrl, 
     passport.authenticate("local", {
         failureRedirect: "/admin/login",
@@ -64,7 +165,7 @@ router.post("/login",
     }
 );
 
-router.get("/logout", (req, res, next) => {
+router.post("/logout", isLoggedIn, ensureValidCsrf, (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
         req.flash("success", "Logged out successfully!");
@@ -74,26 +175,95 @@ router.get("/logout", (req, res, next) => {
 
 
 router.get('/dashboard', isLoggedIn, wrapAsync(async (req, res) => {
-    const registrations = await Admission.find().sort({ createdAt: -1 });
-    const pendingCount = registrations.filter(r => r.status === 'Pending').length;
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const perPage = 10;
+    const totalApplications = await Admission.countDocuments();
+    const totalPages = Math.max(Math.ceil(totalApplications / perPage), 1);
+    const currentPageNumber = Math.min(page, totalPages);
+
+    const registrations = await Admission.find()
+        .sort({ createdAt: -1 })
+        .skip((currentPageNumber - 1) * perPage)
+        .limit(perPage);
+
+    const pendingCount = await Admission.countDocuments({ status: 'Pending' });
+    const approvedCount = await Admission.countDocuments({ status: 'Approved' });
+    const overdueCount = await Admission.countDocuments({
+        'fees.dueDate': { $lt: new Date() },
+        $expr: { $gt: ['$fees.totalAnnualFee', '$fees.amountPaid'] }
+    });
 
     res.render('admin/dashboard', {
         registrations,
         pendingCount,
+        approvedCount,
+        overdueCount,
+        totalApplications,
+        totalPages,
+        currentPageNumber,
+        perPage,
         currentPage: 'dashboard'
     });
 }));
 
 router.get("/admissions", isLoggedIn, wrapAsync(async (req, res) => {
-    const registrations = await Admission.find().sort({ createdAt: -1 });
-    const pendingCount = registrations.filter(r => r.status === 'Pending').length;
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const perPage = 10;
+    const totalApplications = await Admission.countDocuments();
+    const totalPages = Math.max(Math.ceil(totalApplications / perPage), 1);
+    const currentPageNumber = Math.min(page, totalPages);
+
+    const registrations = await Admission.find()
+        .sort({ createdAt: -1 })
+        .skip((currentPageNumber - 1) * perPage)
+        .limit(perPage);
+
+    const pendingCount = await Admission.countDocuments({ status: 'Pending' });
+    const approvedCount = await Admission.countDocuments({ status: 'Approved' });
+    const overdueCount = await Admission.countDocuments({
+        'fees.dueDate': { $lt: new Date() },
+        $expr: { $gt: ['$fees.totalAnnualFee', '$fees.amountPaid'] }
+    });
 
     res.render('admin/dashboard', {
         registrations,
         pendingCount,
+        approvedCount,
+        overdueCount,
+        totalApplications,
+        totalPages,
+        currentPageNumber,
+        perPage,
         currentPage: 'dashboard'
     });
 })); 
+
+router.get("/students", isLoggedIn, wrapAsync(async (req, res) => {
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const perPage = 10;
+    const totalStudents = await Admission.countDocuments();
+    const totalPages = Math.max(Math.ceil(totalStudents / perPage), 1);
+    const currentPageNumber = Math.min(page, totalPages);
+
+    const students = await Admission.find()
+        .sort({ createdAt: -1 })
+        .skip((currentPageNumber - 1) * perPage)
+        .limit(perPage);
+
+    const pendingCount = await Admission.countDocuments({ status: 'Pending' });
+    const approvedCount = await Admission.countDocuments({ status: 'Approved' });
+
+    res.render("admin/students", {
+        students,
+        pendingCount,
+        approvedCount,
+        totalStudents,
+        totalPages,
+        currentPageNumber,
+        perPage,
+        currentPage: "students"
+    });
+}));
 
 // Correct way to define the route
 router.get("/admissions/:id/view", isLoggedIn, wrapAsync(async (req, res) => {
@@ -115,9 +285,23 @@ router.get("/admissions/:id/view", isLoggedIn, wrapAsync(async (req, res) => {
 
 // Re-admission list (used by the sidebar)
 router.get("/readmissions", isLoggedIn, wrapAsync(async (req, res) => {
-    const readmissions = await ReAdmission.find({}).sort({ createdAt: -1 });
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const perPage = 10;
+    const totalReadmissions = await ReAdmission.countDocuments();
+    const totalPages = Math.max(Math.ceil(totalReadmissions / perPage), 1);
+    const currentPageNumber = Math.min(page, totalPages);
+
+    const readmissions = await ReAdmission.find({})
+        .sort({ createdAt: -1 })
+        .skip((currentPageNumber - 1) * perPage)
+        .limit(perPage);
+
     res.render("admin/readmissions", {
         readmissions,
+        totalReadmissions,
+        totalPages,
+        currentPageNumber,
+        perPage,
         currentPage: 'readmissions'
     });
 }));
@@ -150,16 +334,28 @@ router.get("/readmissions/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
 }));
 
 // Re-admission form update (PUT)
-router.put("/readmissions/:id", isLoggedIn, wrapAsync(async (req, res) => {
-    const { id } = req.params
-    await ReAdmission.findByIdAndUpdate(id, { ...req.body.data });
+router.put("/readmissions/:id", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const existingRecord = await ReAdmission.findById(id);
+    if (!existingRecord) {
+        req.flash("error", "Re-admission record not found");
+        return res.redirect("/admin/readmissions");
+    }
+    const safeUpdate = pick(req.body.data || {}, readmissionEditableFields);
+    const mergedPayload = { ...existingRecord.toObject(), ...safeUpdate };
+    const { error } = validateReadmissionUpdatePayload(mergedPayload);
+    if (error) {
+        req.flash("error", error.details.map((detail) => detail.message).join(", "));
+        return res.redirect(`/admin/readmissions/${id}/edit`);
+    }
+    await ReAdmission.findByIdAndUpdate(id, safeUpdate, { runValidators: true });
     
     req.flash("success", "Re-admission details updated successfully!");
     res.redirect(`/admin/readmissions/${id}/view`);
 }));
 
 //Re-admission Delete
-router.delete("/readmissions/:id", isLoggedIn, wrapAsync(async (req, res) => {
+router.delete("/readmissions/:id", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const record = await ReAdmission.findById(id);
     if (!record) {
@@ -191,18 +387,28 @@ router.delete("/readmissions/:id", isLoggedIn, wrapAsync(async (req, res) => {
 }));
 
 // POST: Update Application Status (Approved/Rejected/Pending)
-router.post("/admissions/:id/status", isLoggedIn, wrapAsync(async (req, res) => {
+router.post("/admissions/:id/status", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
-    
+
+    if (!allowedAdmissionStatuses.has(status)) {
+        req.flash("error", "Invalid application status.");
+        return res.redirect(`/admin/admissions/${id}/view`);
+    }
+
     await Admission.findByIdAndUpdate(id, { status });
     req.flash("success", `Application status updated to ${status}`);
-    res.redirect(`/admin/admissions/${id}`);
+    res.redirect(`/admin/admissions/${id}/view`);
 }));
 
 // // UPDATE SUBMISSION
-router.post('/update/:id', isLoggedIn, wrapAsync(async (req, res) => {
+router.post('/update/:id', isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const { id } = req.params;
+    const existingAdmission = await Admission.findById(id);
+    if (!existingAdmission) {
+        req.flash("error", "Application not found!");
+        return res.redirect("/admin/dashboard");
+    }
 
     // Normalize checkbox inputs which can arrive as a string when only one item is checked.
     if (req.body.documentsSubmitted && !Array.isArray(req.body.documentsSubmitted)) {
@@ -219,7 +425,14 @@ router.post('/update/:id', isLoggedIn, wrapAsync(async (req, res) => {
     }
     delete req.body.selectedSubjectsText;
 
-    await Admission.findByIdAndUpdate(id, { ...req.body });
+    const safeUpdate = pick(req.body, admissionEditableFields);
+    const mergedPayload = { ...existingAdmission.toObject(), ...safeUpdate };
+    const { error } = validateAdmissionUpdatePayload(mergedPayload);
+    if (error) {
+        req.flash("error", error.details.map((detail) => detail.message).join(", "));
+        return res.redirect(`/admin/edit/${id}`);
+    }
+    await Admission.findByIdAndUpdate(id, safeUpdate, { runValidators: true });
     req.flash("success", "Application updated successfully!");
     res.redirect('/admin/dashboard');
 }));
@@ -237,7 +450,7 @@ router.get("/edit/:id", isLoggedIn, wrapAsync(async (req, res) => {
 
 // DELETE SUBMISSION
 // Change .post to .delete to match your ?_method=DELETE
-router.delete('/delete/:id', isLoggedIn, wrapAsync(async (req, res) => {
+router.delete('/delete/:id', isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const admission = await Admission.findById(req.params.id);
     if (!admission) {
         req.flash("error", "Application not found!");
@@ -325,7 +538,7 @@ router.get("/fee-settings", isLoggedIn, wrapAsync(async (req, res) => {
     });
 }));
 
-router.post("/fee-settings/update", isLoggedIn, wrapAsync(async (req, res) => {
+router.post("/fee-settings/update", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const { fees } = req.body; 
     for (let className in fees) {
         await FeeStructure.findOneAndUpdate(
@@ -341,7 +554,7 @@ router.post("/fee-settings/update", isLoggedIn, wrapAsync(async (req, res) => {
     res.redirect("/admin/fee-settings");
 }));
 
-router.post("/fee-settings/sync", isLoggedIn, wrapAsync(async (req, res) => {
+router.post("/fee-settings/sync", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const structures = await FeeStructure.find({});
     for (let structure of structures) {
         await Admission.updateMany(
@@ -375,7 +588,7 @@ router.get("/notices/new", isLoggedIn, (req, res) => {
 });
 
 // POST: Save New Notice
-router.post("/notices/add", isLoggedIn, uploadNotice.single('noticePdf'), wrapAsync(async (req, res) => {
+router.post("/notices/add", isLoggedIn, ensureValidCsrf, uploadNotice.single('noticePdf'), wrapAsync(async (req, res) => {
     const { title, category, description, isPinned } = req.body;
     const pdfUrl = req.file ? req.file.path : null;
 
@@ -393,7 +606,7 @@ router.post("/notices/add", isLoggedIn, uploadNotice.single('noticePdf'), wrapAs
 }));
 
 // POST: Toggle Pin Status
-router.post("/notices/:id/toggle-pin", isLoggedIn, wrapAsync(async (req, res) => {
+router.post("/notices/:id/toggle-pin", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const notice = await Notice.findById(req.params.id);
     if (!notice) {
         req.flash("error", "Notice not found.");
@@ -409,8 +622,7 @@ router.post("/notices/:id/toggle-pin", isLoggedIn, wrapAsync(async (req, res) =>
 
 
 // DELETE: Remove Notice & Cloudinary File
-router.delete("/notices/:id", isLoggedIn, wrapAsync(async (req, res) => {
-    console.log("request")
+router.delete("/notices/:id", isLoggedIn, ensureValidCsrf, wrapAsync(async (req, res) => {
     const notice = await Notice.findById(req.params.id);
     if (!notice) return res.redirect("/admin/notices");
 

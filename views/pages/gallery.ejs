@@ -38,7 +38,7 @@
         <div class="row g-4">
 
             <div class="col-md-4" data-aos="fade-up">
-                <a href="/gallery/school" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/mainBanner.jpeg" data-title="School">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/mainBanner.jpeg" alt="School" class="img-fluid">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                <a href="/gallery/sports" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/caltural.jpeg" data-title="Cultural Program">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/caltural.jpeg" alt="All Sports" class="img-fluid">
@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                <a href="/gallery/equestrian" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/LABO.jpeg" data-title="Laboratory">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/LABO.jpeg" alt="Equestrian" class="img-fluid">
@@ -77,7 +77,7 @@
             </div>
 
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                <a href="/gallery/campus" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/fasality1.png" data-title="Classroom Activities">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/fasality1.png" alt="Campus Life" class="Classroom Activities">
@@ -90,7 +90,7 @@
             </div>
 
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-                <a href="/gallery/events" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/banner5.jpeg" data-title="Republic Day Celebration">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/banner5.jpeg" alt="Republic Day Celebration" class="img-fluid">
@@ -103,7 +103,7 @@
             </div>
 
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-                <a href="/gallery/infrastructure" class="gallery-link">
+                <a href="#" class="gallery-link gallery-lightbox-trigger" data-image="/img/gallary4.jpeg" data-title="Achievements">
                     <div class="gallery-card">
                         <div class="gallery-img-container">
                             <img src="/img/gallary4.jpeg" alt="Achievements" class="img-fluid">
@@ -118,3 +118,113 @@
         </div>
     </div>
 </section>
+
+<div id="galleryLightbox" class="gallery-lightbox" aria-hidden="true">
+    <button type="button" class="gallery-lightbox-close" aria-label="Close image view">&times;</button>
+    <div class="gallery-lightbox-content">
+        <img id="galleryLightboxImage" src="" alt="Gallery preview">
+        <p id="galleryLightboxTitle" class="gallery-lightbox-title"></p>
+    </div>
+</div>
+
+<style>
+    .gallery-lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+        z-index: 2000;
+    }
+
+    .gallery-lightbox.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .gallery-lightbox-content {
+        max-width: min(92vw, 1200px);
+        max-height: 90vh;
+        text-align: center;
+    }
+
+    .gallery-lightbox-content img {
+        max-width: 100%;
+        max-height: calc(90vh - 56px);
+        border-radius: 16px;
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+        background: #fff;
+    }
+
+    .gallery-lightbox-title {
+        margin: 14px 0 0;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+
+    .gallery-lightbox-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 48px;
+        height: 48px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+        font-size: 34px;
+        line-height: 1;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    (() => {
+        const lightbox = document.getElementById('galleryLightbox');
+        const lightboxImage = document.getElementById('galleryLightboxImage');
+        const lightboxTitle = document.getElementById('galleryLightboxTitle');
+        const closeBtn = lightbox.querySelector('.gallery-lightbox-close');
+        const triggers = document.querySelectorAll('.gallery-lightbox-trigger');
+
+        function openLightbox(imageSrc, title) {
+            lightboxImage.src = imageSrc;
+            lightboxImage.alt = title || 'Gallery image';
+            lightboxTitle.textContent = title || '';
+            lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('is-open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightboxImage.src = '';
+            document.body.style.overflow = '';
+        }
+
+        triggers.forEach((trigger) => {
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                openLightbox(trigger.dataset.image, trigger.dataset.title);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+                closeLightbox();
+            }
+        });
+    })();
+</script>

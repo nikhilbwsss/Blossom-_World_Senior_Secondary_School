@@ -1,0 +1,336 @@
+/* Professional Admission Form Styles */
+
+/* Form Container */
+.admission-form-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.form-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 31, 63, 0.1);
+}
+
+/* Header Section */
+.form-header {
+    background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+    padding: 2rem;
+    color: white;
+    position: relative;
+}
+
+.form-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.03"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.03"/><circle cx="50" cy="50" r="1" fill="white" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+}
+
+.school-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.school-navy {
+    color: #ffffff !important;
+    font-weight: 800;
+}
+
+.application-title h3 {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.section-title {
+    color: #001f3f;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    margin-right: 0.5rem;
+    color: #f37021;
+}
+
+/* Form Content */
+.form-content {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Photo Upload */
+.upload-area {
+    border: 2px dashed #dee2e6 !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    border-color: #f37021 !important;
+    background-color: #fff5f0 !important;
+}
+
+.upload-label {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-label:hover {
+    color: #f37021 !important;
+}
+
+.photo-preview {
+    border: 2px solid #dee2e6 !important;
+    border-radius: 12px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Application Intro */
+.application-intro {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Parent Cards */
+.parent-card {
+    border: 1px solid #e9ecef !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.parent-card:hover {
+    border-color: #f37021 !important;
+    box-shadow: 0 8px 25px rgba(243, 112, 33, 0.1);
+}
+
+.parent-card h5 {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Subject Selection */
+.subject-selection {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+}
+
+/* Documents Grid */
+.documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.document-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.document-item:hover {
+    background: #ffffff;
+    border-color: #f37021;
+    border-shadow: 0 4px 12px rgba(243, 112, 33, 0.1);
+}
+
+.document-item .form-check-label {
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Declaration Card */
+.declaration-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.declaration-text {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.declaration-text ul {
+    padding-left: 1.5rem;
+}
+
+.declaration-text li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* Form Controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: #f37021;
+    box-shadow: 0 0 0 0.25rem rgba(243, 112, 33, 0.15);
+    background-color: #ffffff;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.form-control:hover,
+.form-select:hover {
+    border-color: #f37021;
+}
+
+.form-control-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #001f3f;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Submit Button */
+.btn-navy {
+    background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    box-shadow: 0 8px 25px rgba(0, 31, 63, 0.3);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-navy:hover {
+    background: linear-gradient(135deg, #003366 0%, #001f3f 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 31, 63, 0.4);
+    color: white;
+}
+
+.btn-navy:active {
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-header {
+        padding: 1.5rem;
+    }
+
+    .application-title h3 {
+        font-size: 1.2rem;
+    }
+
+    .documents-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-navy {
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+    }
+
+    .parent-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .admission-form-section {
+        padding: 1rem 0;
+    }
+
+    .form-card {
+        border-radius: 12px;
+    }
+
+    .form-header {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Loading States */
+.btn-navy:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Focus States */
+.form-check-input:focus {
+    border-color: #f37021;
+    box-shadow: 0 0 0 0.25rem rgba(243, 112, 33, 0.15);
+}
+
+/* Custom Scrollbar */
+.form-content::-webkit-scrollbar,
+.documents-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-content::-webkit-scrollbar-track,
+.documents-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.form-content::-webkit-scrollbar-thumb,
+.documents-grid::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.form-content::-webkit-scrollbar-thumb:hover,
+.documents-grid::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
