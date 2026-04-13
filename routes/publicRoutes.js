@@ -15,8 +15,8 @@ const {
 const rateLimit = require('express-rate-limit');
 
 const admissionLimiter = rateLimit({
-    windowMs: 3 * 60 * 1000, // 15 min
-    max: 20,                  // 20 requests per IP per window
+    windowMs: 10 * 60 * 1000,
+    max: 5,
     standardHeaders: true,
     legacyHeaders: false,
 });
