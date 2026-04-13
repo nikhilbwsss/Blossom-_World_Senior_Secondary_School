@@ -45,7 +45,7 @@
                                                 <p class="small text-muted mb-0">PNG, JPG up to 1MB</p>
                                             </label>
                                         </div>
-                                        <div id="photoError" class="text-danger small mt-2 fw-bold d-none">
+                                        <div id="photoError" class="text-danger small mt-2 fw-bold d-none field-error-message">
                                             <i class="bi bi-exclamation-triangle-fill me-1"></i>
                                             PHOTO SIZE SHOULD BE MAXIMUM 1MB. PLEASE COMPRESS AND TRY AGAIN.
                                         </div>
@@ -840,9 +840,9 @@
             'permanentAddress': 'Permanent Address is required - provide complete address',
             'presentAddress': 'Present Address is required - provide complete address',
             'requiredClass': 'Please select the Class you want to be admitted to',
-            'aadhaar_format': 'Aadhaar card must be 12 digits',
-            'mobile_format': 'Phone must contain exactly 10 digits',
-            'studentPhoto': 'Student Photo is required (JPG, PNG, WEBP max 1MB)',
+            'aadhaar_format': 'Aadhaar must be 12 digits',
+            'mobile_format': 'Mobile must be 10 digits',
+            'studentPhoto': 'Photo is required',
             'email': 'Email must be in valid format (e.g., student@gmail.com)'
         };
 
@@ -903,6 +903,34 @@
             `;
         }
 
+        function revealField(field) {
+            if (!field) return;
+
+            const fieldType = (field.getAttribute('type') || '').toLowerCase();
+
+            if (fieldType === 'file') {
+                const formSection = field.closest('.form-section');
+                const uploadArea = field.closest('.upload-area');
+                const uploadLabel = document.querySelector(`label[for="${field.id}"]`);
+
+                if (formSection) {
+                    formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (uploadArea) {
+                    uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                if (uploadLabel) {
+                    uploadLabel.setAttribute('tabindex', '-1');
+                    uploadLabel.focus({ preventScroll: true });
+                }
+
+                return;
+            }
+
+            field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            field.focus({ preventScroll: true });
+        }
+
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
             
@@ -928,8 +956,7 @@
                 // Focus on the first empty required field
                 if (validationResult.firstEmptyField) {
                     setTimeout(() => {
-                        validationResult.firstEmptyField.focus();
-                        validationResult.firstEmptyField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        revealField(validationResult.firstEmptyField);
                         // Add red highlight
                         validationResult.firstEmptyField.classList.add('is-invalid');
                         validationResult.firstEmptyField.style.borderColor = '#dc3545';
@@ -1096,7 +1123,7 @@
                 if (fieldType === 'file') {
                     const fileInput = document.getElementById(fieldId);
                     if (!fileInput.files || fileInput.files.length === 0) {
-                        reason = 'No file selected. JPG, PNG, or WEBP required (max 1MB)';
+                        reason = 'Photo is required';
                         error = { field, label, reason, type: 'file' };
                     } else {
                         const file = fileInput.files[0];
@@ -1125,12 +1152,12 @@
                 }
                 // Aadhaar validation
                 else if (fieldName && fieldName.toLowerCase().includes('aadhaar') && value && !/^\d{12}$/.test(value.replace(/\D/g, ''))) {
-                    reason = 'Aadhaar card must be 12 digits';
+                    reason = 'Aadhaar must be 12 digits';
                     error = { field, label, reason, type: 'aadhaar' };
                 }
                 // Phone/Tel validation
                 else if ((fieldType === 'tel' || fieldName.includes('obile')) && value && !/^\d{10}$/.test(value.replace(/\D/g, ''))) {
-                    reason = 'Invalid phone: Must be exactly 10 digits (e.g., 9876543210)';
+                    reason = 'Mobile must be 10 digits';
                     error = { field, label, reason, type: 'tel' };
                 }
                 // Select/Dropdown validation
@@ -1223,43 +1250,75 @@
             });
         });
 
-        form.querySelectorAll('input[name*="[aadhaar]"], input[type="tel"]').forEach(field => {
+        function getDigitValidationMessage(field) {
+            const value = String(field.value || '').trim();
+            if (!value) return '';
+
+            const fieldName = (field.getAttribute('name') || '').toLowerCase();
+            const digits = value.replace(/\D/g, '');
+            const isAadhaarField = fieldName.includes('aadhaar');
+            const isPhoneField = field.getAttribute('type') === 'tel' || fieldName.includes('mobile') || fieldName.includes('whatsapp');
+
+            if (isAadhaarField && digits.length !== 12) {
+                return VALIDATION_REASON_MAP['aadhaar_format'] || 'Aadhaar must be 12 digits';
+            }
+
+            if (isPhoneField && digits.length !== 10) {
+                return VALIDATION_REASON_MAP['mobile_format'] || 'Mobile must be 10 digits';
+            }
+
+            return '';
+        }
+
+        function syncDigitValidation(field) {
+            const validationMessage = getDigitValidationMessage(field);
+            field.setCustomValidity(validationMessage);
+
+            if (validationMessage) {
+                showFieldError(field);
+            } else {
+                clearFieldError(field);
+            }
+        }
+
+        form.querySelectorAll('input').forEach(field => {
+            const fieldName = (field.getAttribute('name') || '').toLowerCase();
+            const isAadhaarField = fieldName.includes('aadhaar');
+            const isPhoneField = field.getAttribute('type') === 'tel' || fieldName.includes('mobile') || fieldName.includes('whatsapp');
+
+            if (!isAadhaarField && !isPhoneField) {
+                return;
+            }
+
             field.addEventListener('blur', function() {
-                const value = String(this.value || '').trim();
-                if (!value) {
-                    clearFieldError(this);
-                    return;
-                }
-
-                const fieldName = (this.getAttribute('name') || '').toLowerCase();
-                const digits = value.replace(/\D/g, '');
-                const isAadhaarField = fieldName.includes('aadhaar');
-                const isPhoneField = this.getAttribute('type') === 'tel';
-
-                if ((isAadhaarField && digits.length !== 12) || (isPhoneField && digits.length !== 10)) {
-                    showFieldError(this);
-                } else {
-                    clearFieldError(this);
-                }
+                syncDigitValidation(this);
             });
 
             field.addEventListener('input', function() {
-                const value = String(this.value || '').trim();
-                if (!value) {
+                const sanitizedDigits = String(this.value || '').replace(/\D/g, '');
+                const fieldName = (this.getAttribute('name') || '').toLowerCase();
+                const maxDigits = fieldName.includes('aadhaar') ? 12 : 10;
+                const clippedDigits = sanitizedDigits.slice(0, maxDigits);
+
+                if (this.value !== clippedDigits) {
+                    this.value = clippedDigits;
+                }
+
+                if (!this.value) {
+                    this.setCustomValidity('');
                     clearFieldError(this);
                     return;
                 }
 
-                const fieldName = (this.getAttribute('name') || '').toLowerCase();
-                const digits = value.replace(/\D/g, '');
-                const isAadhaarField = fieldName.includes('aadhaar');
-                const isPhoneField = this.getAttribute('type') === 'tel';
+                syncDigitValidation(this);
+            });
 
-                if ((isAadhaarField && digits.length !== 12) || (isPhoneField && digits.length !== 10)) {
-                    showFieldError(this);
-                } else {
-                    clearFieldError(this);
-                }
+            field.addEventListener('invalid', function() {
+                syncDigitValidation(this);
+            });
+
+            field.addEventListener('change', function() {
+                syncDigitValidation(this);
             });
         });
 
@@ -1287,7 +1346,7 @@
             if (fieldType === 'file') {
                 const fileInput = document.getElementById(fieldId);
                 if (!fileInput.files || fileInput.files.length === 0) {
-                    errorMessage = VALIDATION_REASON_MAP['studentPhoto'] || 'Student Photo is required';
+                    errorMessage = VALIDATION_REASON_MAP['studentPhoto'] || 'Photo is required';
                 } else {
                     const file = fileInput.files[0];
                     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
@@ -1307,13 +1366,13 @@
             // Aadhaar field errors
             else if (fieldName && fieldName.toLowerCase().includes('aadhaar')) {
                 if (value && !/^\d{12}$/.test(value.replace(/\D/g, ''))) {
-                    errorMessage = VALIDATION_REASON_MAP['aadhaar_format'] || 'Aadhaar card must be 12 digits';
+                    errorMessage = VALIDATION_REASON_MAP['aadhaar_format'] || 'Aadhaar must be 12 digits';
                 }
             }
             // Phone/Tel field errors
             else if (fieldType === 'tel' || (fieldName && fieldName.includes('mobile'))) {
                 if (value && !/^\d{10}$/.test(value.replace(/\D/g, ''))) {
-                    errorMessage = VALIDATION_REASON_MAP['mobile_format'] || 'Phone must be exactly 10 digits';
+                    errorMessage = VALIDATION_REASON_MAP['mobile_format'] || 'Mobile must be 10 digits';
                 }
             }
             // Select/Dropdown errors
@@ -1325,6 +1384,14 @@
             field.classList.add('is-invalid');
             field.style.borderColor = '#dc3545';
             field.style.boxShadow = '0 0 8px rgba(220, 53, 69, 0.4)';
+
+            if (fieldType === 'file') {
+                const uploadArea = field.closest('.upload-area');
+                if (uploadArea) {
+                    uploadArea.style.borderColor = '#dc3545';
+                    uploadArea.style.boxShadow = '0 0 8px rgba(220, 53, 69, 0.25)';
+                }
+            }
 
             let errorMsg = field.parentNode.querySelector('.field-error-message');
             if (!errorMsg) {
@@ -1344,6 +1411,14 @@
             field.classList.remove('is-invalid');
             field.style.borderColor = '';
             field.style.boxShadow = '';
+
+            if ((field.getAttribute('type') || '').toLowerCase() === 'file') {
+                const uploadArea = field.closest('.upload-area');
+                if (uploadArea) {
+                    uploadArea.style.borderColor = '';
+                    uploadArea.style.boxShadow = '';
+                }
+            }
 
             // Remove error message if exists
             const errorMsg = field.parentNode.querySelector('.field-error-message');
