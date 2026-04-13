@@ -11,8 +11,11 @@ const admissionSchema = new mongoose.Schema({
          }, 
     aadhaarNumber: { type: String, trim: true },
     apaarId: { type: String, trim: true },
+    email: { type: String, trim: true },
     dob: { type: Date, required: true },
     gender: { type: String, required: true, enum: ['Male', 'Female', 'Other'] },
+    admissionType: { type: String, trim: true },
+    lastClassPassed: { type: String, trim: true },
     bloodGroup: { type: String },
     identificationMark: { type: String },
     religion: { type: String },
@@ -42,6 +45,7 @@ const admissionSchema = new mongoose.Schema({
     permanentAddress: { type: String, required: true },
     presentAddress: { type: String, required: true },
     applicationPlace: { type: String },
+    applicationDate: { type: String },
     localGuardianName: { type: String },
     siblingsInSchool: { type: String }, // Name and Class of brother/sister
 

@@ -21,6 +21,36 @@ const admissionLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+const normalizeAdmissionPayload = (payload = {}) => {
+    const normalized = { ...payload };
+
+    if (normalized.stream === '' || normalized.stream == null) {
+        normalized.stream = 'None';
+    }
+
+    if (normalized.previousResult && !normalized.previousSchoolResult) {
+        normalized.previousSchoolResult = normalized.previousResult;
+    }
+
+    if (normalized.prevAttendance && !normalized.previousSchoolAttendance) {
+        normalized.previousSchoolAttendance = normalized.prevAttendance;
+    }
+
+    if (normalized.prevClass && !normalized.previousSchoolClass) {
+        normalized.previousSchoolClass = normalized.prevClass;
+    }
+
+    if (normalized.prevPenNo && !normalized.previousSchoolPen) {
+        normalized.previousSchoolPen = normalized.prevPenNo;
+    }
+
+    if (normalized.prevSchoolAddress && !normalized.previousSchoolAddress) {
+        normalized.previousSchoolAddress = normalized.prevSchoolAddress;
+    }
+
+    return normalized;
+};
+
 
 
 // --- GET ROUTES ---
@@ -86,10 +116,6 @@ router.post("/submit-admission",
     wrapAsync
         (async (req, res) => {
             try {
-                if (req.body && req.body.data && (req.body.data.stream === '' || req.body.data.stream == null)) {
-                    req.body.data.stream = 'None';
-                }
-
                 if (!req.file) {
                     return res.status(400).json({
                         success: false,
@@ -97,9 +123,16 @@ router.post("/submit-admission",
                     });
                 }
 
-                let NewAdmission = new Admission(req.body.data);
+                const payload = normalizeAdmissionPayload(req.body.data || {});
+                let NewAdmission = new Admission(payload);
                 let url = req.file.path;
                 let filename = req.file.filename;
+
+                if (url && !/^https?:\/\//i.test(url)) {
+                    const relativePath = url.replace(/^.*[\\\/]public[\\\/]/i, '').replace(/\\/g, '/');
+                    url = `/${relativePath}`;
+                }
+
                 NewAdmission.studentPhoto = { url, filename };
 
                 const saved = await NewAdmission.save();

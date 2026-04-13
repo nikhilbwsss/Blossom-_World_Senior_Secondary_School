@@ -14,6 +14,7 @@ const MongoStore = require("connect-mongo").default;
 const passport = require("passport");
 const methodOverride = require("method-override");
 const LocalStrategy = require("passport-local");
+const multer = require("multer");
 
 const Admin = require("./models/Admin");
 const deleteRoute = require("./routes/del");
@@ -139,7 +140,19 @@ async function startServer() {
 
         // 11. Error handler
         app.use((err, req, res, next) => {
-            const { statusCode = 500 } = err;
+            let statusCode = err.statusCode || err.status || 500;
+
+            if (err instanceof multer.MulterError) {
+                statusCode = err.code === "LIMIT_FILE_SIZE" ? 400 : 400;
+                err.message = err.code === "LIMIT_FILE_SIZE"
+                    ? "Student photo must be 1MB or smaller."
+                    : err.message;
+            }
+
+            if (/Only JPG, PNG, or WEBP images are allowed|Only PDF files are allowed/i.test(err.message || "")) {
+                statusCode = 400;
+            }
+
             if (!err.message) err.message = "Something Went Wrong!";
 
             console.error(err);

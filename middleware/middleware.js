@@ -162,7 +162,7 @@ const uploadStudent = multer({
   limits: { fileSize: 1 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!allowed.has(file.mimetype)) {
-      return cb(new Error('Only JPG, PNG, WEBP images are allowed'), false);
+      return cb(new ExpressError(400, 'Only JPG, PNG, or WEBP images are allowed'), false);
     }
     cb(null, true);
   }
@@ -174,7 +174,7 @@ const uploadNotice = multer({
     limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
         if (file.mimetype !== 'application/pdf') {
-            return cb(new Error('Only PDF files are allowed'), false);
+            return cb(new ExpressError(400, 'Only PDF files are allowed'), false);
         }
         cb(null, true);
     }
